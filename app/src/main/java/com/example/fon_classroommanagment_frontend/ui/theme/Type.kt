@@ -1,28 +1,37 @@
 package com.example.fon_classroommanagment_frontend.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.fon_classroommanagment_frontend.R
 
 // Set of Material typography styles to start with
+val merriweather=FontFamily(Font(R.font.merriweather_regular),Font(R.font.merriweather_light),Font(R.font.merriweather_bold))
 val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
+    bodyMedium = TextStyle(
+        fontFamily = merriweather,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
+,
+    bodyLarge = TextStyle(
+        fontFamily = merriweather,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
+        fontSize = 25.sp
+    ),
+
+    displayMedium = TextStyle(
+        fontFamily = merriweather,
+        fontWeight = FontWeight.Bold,
+        fontSize = 40.sp
+    ),
+            displayLarge = TextStyle(
+            fontFamily = merriweather,
+    fontWeight = FontWeight.Bold,
+    fontSize = 48.sp
+)
+
 )
