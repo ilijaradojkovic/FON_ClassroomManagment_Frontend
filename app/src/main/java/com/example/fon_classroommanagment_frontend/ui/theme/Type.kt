@@ -11,12 +11,19 @@ import com.example.fon_classroommanagment_frontend.R
 // Set of Material typography styles to start with
 val merriweather=FontFamily(Font(R.font.merriweather_regular),Font(R.font.merriweather_light),Font(R.font.merriweather_bold))
 val Typography = Typography(
+    bodySmall = TextStyle(
+        fontFamily = merriweather,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+
     bodyMedium = TextStyle(
         fontFamily = merriweather,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
 ,
+
     bodyLarge = TextStyle(
         fontFamily = merriweather,
         fontWeight = FontWeight.Normal,
@@ -32,6 +39,23 @@ val Typography = Typography(
             fontFamily = merriweather,
     fontWeight = FontWeight.Bold,
     fontSize = 48.sp
-)
+),
+    headlineSmall = TextStyle(
+        fontFamily = merriweather,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
+    ),
 
-)
+    headlineMedium = TextStyle(
+        fontFamily = merriweather,
+        fontWeight = FontWeight.Bold,
+        fontSize = 25.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = merriweather,
+        fontWeight = FontWeight.Bold,
+        fontSize = 31.sp
+    ),
+
+
+    )

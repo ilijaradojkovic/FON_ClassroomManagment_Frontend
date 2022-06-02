@@ -28,7 +28,7 @@ primary = Blue80,
     errorContainer = Red30,
     onErrorContainer = Red90,
     onError = Red20,
-    background = Gray10,
+    background = Gray20,
     onBackground = Gray90,
     surface = BlueGray30,
     onSurface = BlueGray80,
@@ -77,7 +77,7 @@ private val LightColorPallete = lightColorScheme(
     errorContainer = Red30,
     onErrorContainer = Red90,
     onError = Red20,
-    background = Gray10,
+    background = Gray20,
     onBackground = Gray90,
     surface = BlueGray30,
     onSurface = BlueGray80,
@@ -95,7 +95,7 @@ fun FON_ClassroomManagment_FrontendTheme(
     content: @Composable () -> Unit
 ) {
 
-   var colors= DarkColorPalette
+   val colors= DarkColorPalette
 
 
     MaterialTheme(
