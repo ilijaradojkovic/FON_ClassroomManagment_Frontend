@@ -40,7 +40,7 @@ import com.example.fon_classroommanagment_frontend.Components.Text.Text_Field
         }
         Column(
             modifier = Modifier
-                .clip(MaterialTheme.shapes.medium)
+                //.clip(MaterialTheme.shapes.medium)
                 .weight(3f)
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
