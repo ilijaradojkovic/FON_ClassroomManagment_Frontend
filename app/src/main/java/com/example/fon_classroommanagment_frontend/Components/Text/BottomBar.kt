@@ -27,7 +27,7 @@ fun BottonBar(){
         Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
 
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(painter = painterResource(id = R.drawable.calendar), contentDescription = "all  classrooms", modifier = Modifier.size(24.dp))
+                Icon(painter = painterResource(id = R.drawable.callendar), contentDescription = "all  classrooms", modifier = Modifier.size(24.dp))
             }
         }
         Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {

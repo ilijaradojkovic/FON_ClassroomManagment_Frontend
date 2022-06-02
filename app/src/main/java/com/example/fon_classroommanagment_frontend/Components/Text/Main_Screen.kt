@@ -19,7 +19,7 @@ import com.example.fon_classroommanagment_frontend.Profile_Screen
 fun Main_Screen(){
    Scaffold(topBar = { TopBar()}, bottomBar = { BottonBar()}) {
         Column(modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth().fillMaxHeight(0.9f)
             .padding(20.dp)){
             Profile_Screen()
 //            LazyColumn(){
