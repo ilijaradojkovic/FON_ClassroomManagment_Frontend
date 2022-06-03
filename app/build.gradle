@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.fon_classroommanagment_frontend"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         compose true
@@ -38,12 +38,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
 }
+
 
 dependencies {
 
@@ -68,4 +70,6 @@ dependencies {
     implementation "io.coil-kt:coil:2.0.0"
 
     implementation "io.coil-kt:coil-compose:2.0.0"
+
+    implementation "com.github.Rafsanjani:datepickertimeline:0.5.0"
 }
