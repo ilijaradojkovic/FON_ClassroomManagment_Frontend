@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.Bottom_Sheet_Content
+import com.example.fon_classroommanagment_frontend.myClassroomRequests_Screen
 import kotlinx.coroutines.launch
 
 
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 fun Main_Screen(){
 
     val coroutineScope = rememberCoroutineScope()
-    val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
+    val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,
 
@@ -38,7 +39,7 @@ fun Main_Screen(){
 
                     .padding(it)
             ) {
-
+                myClassroomRequests_Screen()
                 //AdminsRequestScreen()
                 //Profile_Screen(true,"Adam Smith")
                 //Main_Screen()
