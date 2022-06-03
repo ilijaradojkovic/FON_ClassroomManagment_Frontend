@@ -1,8 +1,7 @@
-package com.example.fon_classroommanagment_frontend.Components.Text
+package com.example.fon_classroommanagment_frontend.Components.input
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,6 +20,7 @@ import com.example.fon_classroommanagment_frontend.R
 fun ClassroomCard(){
     Card(modifier = Modifier
         .fillMaxWidth()
+
         .height(150.dp)
        ) {
         Row(Modifier.fillMaxSize()){

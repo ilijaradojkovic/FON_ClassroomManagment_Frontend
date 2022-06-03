@@ -1,23 +1,19 @@
-package com.example.fon_classroommanagment_frontend.Components.Text
+package com.example.fon_classroommanagment_frontend.Components.input
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
-@OptIn(ExperimentalMaterialApi::class)
+
 @Composable
 fun TopBar(
     souldHide: Boolean,

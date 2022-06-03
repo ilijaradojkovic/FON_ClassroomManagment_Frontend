@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.Components.Text
+package com.example.fon_classroommanagment_frontend.Components.input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

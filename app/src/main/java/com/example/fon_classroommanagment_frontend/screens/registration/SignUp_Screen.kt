@@ -1,6 +1,5 @@
 package com.example.fon_classroommanagment_frontend
 
-import android.widget.ImageButton
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.example.fon_classroommanagment_frontend.Components.Text.Text_Field
+import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
 
 @Composable
  fun SignUp_Screen(){

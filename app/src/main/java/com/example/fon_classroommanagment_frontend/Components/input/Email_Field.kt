@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.Components.Text
+package com.example.fon_classroommanagment_frontend.Components.input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,10 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.fon_classroommanagment_frontend.R
 
 @Composable
 fun Text_Field(idIcon:Int,hint:String,  visualTransformation: VisualTransformation= VisualTransformation.None){

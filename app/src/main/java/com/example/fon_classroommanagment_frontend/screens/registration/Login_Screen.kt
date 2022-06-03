@@ -17,10 +17,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.example.fon_classroommanagment_frontend.Components.Text.Text_Field
+import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
 
 
 
