@@ -1,28 +1,25 @@
 package com.example.fon_classroommanagment_frontend
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Profile_Screen(){
-    Column(modifier = Modifier.fillMaxWidth()) {
+fun Profile_Screen(isAdmin:Boolean,fullName:String){
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(0.dp, 10.dp, 0.dp, 0.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .weight(2f), horizontalArrangement = Arrangement.Center) {
@@ -35,9 +32,10 @@ fun Profile_Screen(){
 
         Column(modifier = Modifier
             .fillMaxWidth()
-            .weight(1f), horizontalAlignment = Alignment.CenterHorizontally){
+            .weight(1f)
+            .padding(0.dp, 10.dp), horizontalAlignment = Alignment.CenterHorizontally){
 
-            Text("Adam Smith", style = MaterialTheme.typography.headlineMedium)
+            Text(fullName, style = MaterialTheme.typography.headlineMedium)
             Text("Professor", style = MaterialTheme.typography.bodyMedium)
 
         }
@@ -45,24 +43,31 @@ fun Profile_Screen(){
         Column(modifier = Modifier
             .fillMaxWidth()
             .weight(4f)
+            .padding(5.dp)
             , verticalArrangement = Arrangement.Bottom){
 
            Column(
                Modifier
-                   .fillMaxHeight(0.35f)
+                   .fillMaxHeight(0.5f)
                    .fillMaxWidth()
                    , verticalArrangement = Arrangement.SpaceAround){
-               Item(R.drawable.callendar,"Appointments",true,5)
+               if(isAdmin){
+                   Item(R.drawable.callendar,"Requests",true,5,R.drawable.refresh)
+                   Divider(modifier = Modifier
+                       .fillMaxWidth()
+                       .border(1.dp, MaterialTheme.colorScheme.onBackground))
+               }
+               Item(R.drawable.callendar, "Appointments", true, 5)
 
                Divider(modifier = Modifier
                    .fillMaxWidth()
                    .border(1.dp, MaterialTheme.colorScheme.onBackground))
-               Item(R.drawable.settings,"Settings",false)
+               Item(R.drawable.settings, "Settings", false )
 
                Divider(modifier = Modifier
                    .fillMaxWidth()
                    .border(1.dp, MaterialTheme.colorScheme.onBackground))
-               Item(R.drawable.logout,"Logout",false)
+               Item(R.drawable.logout, "Logout", false )
 
 
             }
@@ -71,7 +76,13 @@ fun Profile_Screen(){
     }
 }
 @Composable
-fun Item(icon:Int,name:String,hasCircleText:Boolean,circleTextNumber:Int?=null){
+fun Item(
+    icon: Int,
+    name: String,
+    hasCircleText: Boolean,
+    circleTextNumber: Int? = null,
+    refresh: Int?=null
+){
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment =Alignment.CenterVertically) {
 
         Row(modifier = Modifier) {
@@ -90,13 +101,18 @@ fun Item(icon:Int,name:String,hasCircleText:Boolean,circleTextNumber:Int?=null){
             Text(name, style = MaterialTheme.typography.bodyMedium)
 
         }
-        if(hasCircleText && circleTextNumber!=null)
+        if(hasCircleText && circleTextNumber!=null  )
             Row(modifier = Modifier
                 .weight(1f)
-                .padding(10.dp, 0.dp)) {
+
+                .width(IntrinsicSize.Min)
+                .padding(10.dp, 0.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
 
                 Text_Circle(MaterialTheme.colorScheme.tertiary,circleTextNumber)
 
+                if(refresh!=null)
+
+                    Icon(painter = painterResource(id = refresh), contentDescription = "Refres Icon", modifier = Modifier.size(24.dp))
 
             }
     }

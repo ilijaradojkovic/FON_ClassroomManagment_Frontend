@@ -33,9 +33,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FON_ClassroomManagment_FrontendTheme {
-               // Main_Screen()
+                Main_Screen()
 
-              Main_Screen()
+
+              //Main_Screen()
             }
         }
     }

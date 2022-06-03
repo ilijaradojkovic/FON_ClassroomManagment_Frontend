@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.fon_classroommanagment_frontend.AdminsRequestScreen
 import com.example.fon_classroommanagment_frontend.Profile_Screen
 
 
@@ -18,12 +19,14 @@ import com.example.fon_classroommanagment_frontend.Profile_Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Main_Screen(){
-   Scaffold(topBar = { TopBar()}, bottomBar = { BottonBar()}) {
+   Scaffold(topBar = { TopBar(false)}, bottomBar = { BottonBar()}) {
         Column(modifier = Modifier
             .fillMaxWidth()
 
             .padding(it)){
-            Profile_Screen()
+
+            AdminsRequestScreen()
+            //Profile_Screen(true,"Adam Smith")
             //Main_Screen()
             //Text("c")
 //            LazyColumn(){
