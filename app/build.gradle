@@ -26,6 +26,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
@@ -62,14 +63,23 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
 
+    //material 3
     implementation "androidx.compose.material3:material3:1.0.0-alpha13"
     implementation "androidx.compose.material3:material3-window-size-class:1.0.0-alpha13"
+
+    //flow layout
     implementation "com.google.accompanist:accompanist-flowlayout:0.24.9-beta"
 
+    //lottie
+    implementation 'com.airbnb.android:lottie-compose:4.1.0'
 
+    //coil
     implementation "io.coil-kt:coil:2.0.0"
-
     implementation "io.coil-kt:coil-compose:2.0.0"
 
+    //scrollable callendar
     implementation "com.github.Rafsanjani:datepickertimeline:0.5.0"
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
 }

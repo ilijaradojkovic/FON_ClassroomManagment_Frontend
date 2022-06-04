@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.fon_classroommanagment_frontend.*
+import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
 import kotlinx.coroutines.launch
 
@@ -44,7 +45,7 @@ fun Main_Screen(){
             ) {
              // AdminsRequestScreen()
 
-              Appointment_Screen()
+                AllReservations_Screen()
             }
         }
     }
