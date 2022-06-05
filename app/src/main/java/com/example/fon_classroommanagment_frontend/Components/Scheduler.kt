@@ -33,12 +33,12 @@ fun Schedule(
     val dividerColor = MaterialTheme.colorScheme.onBackground
 
     val hourHeight = 64.dp
-    val verticalScrollState = rememberScrollState()
+
     Row(modifier = Modifier.fillMaxWidth()) {
         ScheduleSidebar(
             hourHeight = hourHeight,
             modifier = Modifier.background(Color.Transparent)
-                .verticalScroll(verticalScrollState)
+
         )
         Layout(
             content = {
@@ -48,7 +48,8 @@ fun Schedule(
                     }
                 }
             },
-            modifier = modifier.verticalScroll(verticalScrollState)
+            modifier = modifier
+
                 .drawBehind {
                     repeat(13) {
                         drawLine(
@@ -62,7 +63,7 @@ fun Schedule(
                 },
         ) { measureables, constraints ->
 
-            val height = hourHeight.roundToPx() * 24
+            val height = hourHeight.roundToPx() * 14
             val placeablesWithEvents = measureables.map { measurable ->
                 val event = measurable.parentData as Event
                 val eventDurationMinutes = ChronoUnit.MINUTES.between(event.start, event.end)
@@ -105,7 +106,9 @@ fun BasicSidebarLabel(
         text = time.format(HourFormatter),
         modifier = modifier
             .fillMaxHeight()
-            .padding(4.dp)
+            .padding(4.dp),
+        color = MaterialTheme.colorScheme.onBackground,
+        style = MaterialTheme.typography.bodyMedium
     )
 }
 @Composable

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.Components.input
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 @Composable
-fun RoundIconButton(icon:Int,size:Dp){
+fun RoundIconButton(@DrawableRes icon:Int, size:Dp){
 
     IconButton(onClick = { /*TODO*/ }) {
         Icon(painter = painterResource(id = icon),

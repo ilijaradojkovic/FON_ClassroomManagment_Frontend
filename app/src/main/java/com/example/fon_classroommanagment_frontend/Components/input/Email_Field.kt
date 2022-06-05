@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.Components.input
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.height
@@ -18,7 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Text_Field(idIcon:Int,hint:String,  visualTransformation: VisualTransformation= VisualTransformation.None){
+fun Text_Field(@DrawableRes idIcon:Int, hint:String, visualTransformation: VisualTransformation= VisualTransformation.None){
     TextField(value = "",
         modifier= Modifier
             .height(50.dp)

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.Components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -13,7 +14,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun TextIconButton(actionName:String,icon:Int){
+fun TextIconButton(actionName:String,@DrawableRes icon:Int){
     Button(onClick = { /*TODO*/ }, modifier = Modifier.height(50.dp)) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround) {
             Text(text = actionName, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.background)

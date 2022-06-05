@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.Components.input
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.size
@@ -12,7 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 @Composable
-fun RoundImage(image:Int){
+fun RoundImage(@DrawableRes image:Int){
     Image(painter = painterResource(id = image),
         contentDescription = "Profile_Image",
 

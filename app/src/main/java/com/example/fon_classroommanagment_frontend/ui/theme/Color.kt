@@ -38,6 +38,7 @@ var Red90=Color(0xffffcccc)
 
 
 var Gray10=Color(0xff131221)
+var Gray40=Color(0xff4c4a82)
 var Gray20=Color(0xff262541)
 var Gray90=Color(0xffdfdeed)
 var Gray95=Color(0xffefeff6)

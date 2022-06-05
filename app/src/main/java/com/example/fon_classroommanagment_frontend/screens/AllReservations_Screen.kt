@@ -3,10 +3,13 @@ package com.example.fon_classroommanagment_frontend.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -29,15 +32,17 @@ fun AllReservations_Screen(){
 
 
 
-    Column(modifier=Modifier.fillMaxSize()) {
+    Column(modifier= Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
 
         Row(modifier = Modifier
-            .weight(1f)
+
          , horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
             CallendarPicker()
         }
 
-        Row(modifier = Modifier.weight(3f)){
+        Row(modifier = Modifier){
             Schedule(listOf(
                 Event(
                     type = "Predavanje",

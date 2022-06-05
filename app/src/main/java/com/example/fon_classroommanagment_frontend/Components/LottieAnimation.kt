@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.Components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -10,7 +11,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.fon_classroommanagment_frontend.R
 @Composable
-fun LottieAnimation(lottieAnim:Int,opacity:Float=0f){
+fun LottieAnimation(@DrawableRes lottieAnim:Int, opacity:Float=0f){
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(lottieAnim))
 
     LottieAnimation(

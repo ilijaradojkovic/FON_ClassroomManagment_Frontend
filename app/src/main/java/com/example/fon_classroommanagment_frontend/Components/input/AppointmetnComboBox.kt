@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.Components.input
 
 import android.util.Size
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
 @Composable
-fun AppointmetnComboBox(trailingIcon: Int) {
+fun AppointmetnComboBox( @DrawableRes trailingIcon: Int) {
 
     AppointmentInput(hint = "Select",trailingIcon=trailingIcon, enabled = false)
     DropdownMenu(expanded = false, onDismissRequest = { }) {
