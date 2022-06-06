@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
-import com.example.fon_classroommanagment_frontend.Components.BottomNavGraph
 import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
 import com.example.fon_classroommanagment_frontend.screens.All_Classrooms
 import kotlinx.coroutines.launch
@@ -48,10 +47,10 @@ fun Main_Screen(navHostController: NavHostController, Title: String){
 
                 when(Title){
                     "Classrooms"->{
-                        All_Classrooms()
+                        All_Classrooms(navHostController)
                     }
                     "Reservations"->{
-                        AllReservations_Screen()
+                        AllReservations_Screen(navHostController)
                     }
                     "Profile"->{
                         Profile_Screen(isAdmin = false, fullName ="Ilija Radojkovic" )

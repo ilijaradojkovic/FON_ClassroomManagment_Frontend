@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.Components.input
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,12 +17,15 @@ import com.example.fon_classroommanagment_frontend.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(showBackground = true)
-fun ClassroomCard(){
+
+fun ClassroomCard(navigateToDetailsScreen: () -> Unit,
+
+) {
     Card(modifier = Modifier
         .fillMaxWidth()
 
         .height(150.dp)
+        .clickable { navigateToDetailsScreen() }
        ) {
         Row(Modifier.fillMaxSize()){
             Row(modifier= Modifier

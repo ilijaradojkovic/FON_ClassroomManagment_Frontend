@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.data.Event
@@ -33,8 +34,8 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailsClassroom_Screen(){
-    Scaffold(floatingActionButton = { FloatingActionButton(onClick = { /*TODO*/ }) {
+fun DetailsClassroom_Screen(navController: NavHostController) {
+    Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
 

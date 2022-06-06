@@ -26,6 +26,7 @@ fun AppointmentInput(hint:String,modifier:Modifier=Modifier,keyboardType:Keyboar
         TextField(value ="",
             enabled=enabled,
             modifier= modifier.padding(10.dp)
+
                         .height(50.dp)
 
 
@@ -54,7 +55,7 @@ fun AppointmentInput(hint:String,modifier:Modifier=Modifier,keyboardType:Keyboar
                ,
             colors = TextFieldDefaults.outlinedTextFieldColors(textColor = MaterialTheme.colorScheme.onBackground,containerColor = Color.Transparent),
 
-            placeholder = {Text(hint, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)},
+            placeholder = {Text(hint, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier)},
             onValueChange ={} )
 
 
