@@ -19,7 +19,7 @@ import androidx.compose.ui.zIndex
 import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
 
 @Composable
- fun SignUp_Screen(){
+ fun SignUp_Screen(navigateToLogin: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier= Modifier
             .fillMaxWidth()
@@ -27,7 +27,7 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
             Row(modifier = Modifier
                 .weight(1f)
               , ){
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { navigateToLogin() }) {
                     Icon(painter = painterResource(id = R.drawable.back), contentDescription ="Back", modifier = Modifier.size(24.dp))
                 }
             }

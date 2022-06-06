@@ -7,7 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.*
+import androidx.navigation.compose.rememberNavController
 import com.example.fon_classroommanagment_frontend.Components.DetailsClassroom_Screen
+import com.example.fon_classroommanagment_frontend.Components.Navigation
 
 import com.example.fon_classroommanagment_frontend.Components.input.Main_Screen
 import com.example.fon_classroommanagment_frontend.ui.theme.FON_ClassroomManagment_FrontendTheme
@@ -21,8 +23,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             FON_ClassroomManagment_FrontendTheme {
 
-             //   DetailsClassroom_Screen()
-                Main_Screen()
+             Navigation()
+
             }
         }
     }

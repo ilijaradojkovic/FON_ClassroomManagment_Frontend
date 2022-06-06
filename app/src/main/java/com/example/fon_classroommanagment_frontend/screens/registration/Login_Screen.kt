@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
@@ -25,7 +26,7 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
 
 
 @Composable
- fun Login_Screen(){
+ fun Login_Screen(navigateToSignin: () -> Unit, navigateToMainScreen: () -> Unit) {
     Column() {
         //naslov
         Row(
@@ -116,7 +117,7 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                        Button(onClick = { /*TODO*/ },modifier= Modifier
+                        Button(onClick = {navigateToMainScreen() },modifier= Modifier
                             .fillMaxWidth(0.5f)
                             .height(50.dp)) {
                             Text("Login", style = MaterialTheme.typography.bodyMedium)
@@ -139,7 +140,7 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
                             "Sign in",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.secondary
-                        )
+                        , modifier = Modifier.clickable { navigateToSignin() })
 
                     }
 

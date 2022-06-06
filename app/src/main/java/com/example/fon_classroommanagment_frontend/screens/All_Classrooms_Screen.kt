@@ -13,12 +13,12 @@ import com.example.fon_classroommanagment_frontend.Components.input.ClassroomCar
 @Composable
 fun All_Classrooms(){
 
-    Column(modifier = Modifier.fillMaxWidth(0.9f), horizontalAlignment = Alignment.CenterHorizontally) {
-        LazyColumn(modifier=Modifier.background(Color.White).background(Color.Red)){
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyColumn(modifier=Modifier, contentPadding = PaddingValues(15.dp), verticalArrangement = Arrangement.spacedBy(15.dp)){
             items(count = 10){
-                if(it==0)  Spacer(modifier = Modifier.height(15.dp))
+
                 ClassroomCard()
-                Spacer(modifier = Modifier.height(15.dp))
+
             }
 
         }
