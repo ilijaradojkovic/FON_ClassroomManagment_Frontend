@@ -17,10 +17,11 @@ fun RoundImage(@DrawableRes image:Int){
     Image(painter = painterResource(id = image),
         contentDescription = "Profile_Image",
 
+
         modifier = Modifier
 
             .clip(CircleShape)
-            .border(2.dp, MaterialTheme.colorScheme.tertiary, CircleShape)
+            .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
             .size(120.dp)
         ,
         contentScale = ContentScale.Crop

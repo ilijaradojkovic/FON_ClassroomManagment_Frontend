@@ -1,42 +1,38 @@
 package com.example.fon_classroommanagment_frontend
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.example.fon_classroommanagment_frontend.Components.IconRoundBorder
 import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
 
 
-
-
 @Composable
- fun Login_Screen(navigateToSignin: () -> Unit, navigateToMainScreen: () -> Unit) {
+ fun Login_Screen(
+    navigateToSignin: () -> Unit,
+    navigateToMainScreen: () -> Unit
+) {
+
+    var emailText by remember{ mutableStateOf("")}
+    var passwordText by remember{ mutableStateOf("")}
+
     Column() {
         //naslov
         Row(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
+                .fillMaxWidth().background(MaterialTheme.colorScheme.secondaryContainer),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Login", style = MaterialTheme.typography.displayLarge)
+            Text("Login", style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onSecondaryContainer)
         }
         Column(
             modifier = Modifier
@@ -58,23 +54,13 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
 
 
 
+
                    ,
                 horizontalArrangement = Arrangement.Center
             ) {
 
-                    Icon(painter = painterResource(id = R.drawable.avatar) ,
-                        contentDescription ="Avatar",
-                        tint = Color.White,
-                        modifier = Modifier
+                IconRoundBorder(R.drawable.avatar)
 
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.background)
-                            .border(
-                                BorderStroke(7.dp, Color.White), shape = CircleShape
-                            )
-                            .padding(7.dp)
-                            .shadow(0.dp)
-                        )
 
 
             }
@@ -110,8 +96,8 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
                         .weight(4f)
                         .padding(0.dp, 30.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround) {
 
-                        Text_Field(R.drawable.email,"Email")
-                        Text_Field(idIcon = R.drawable.padlock,"Password", PasswordVisualTransformation())
+                        Text_Field(emailText,{emailText=it},R.drawable.email,"Email")
+                        Text_Field(passwordText,{passwordText=it},idIcon = R.drawable.padlock,"Password", PasswordVisualTransformation())
                        
                     }
                     Row(modifier = Modifier
@@ -120,7 +106,7 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
                         Button(onClick = {navigateToMainScreen() },modifier= Modifier
                             .fillMaxWidth(0.5f)
                             .height(50.dp)) {
-                            Text("Login", style = MaterialTheme.typography.bodyMedium)
+                            Text("Login", style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                 }
@@ -128,20 +114,24 @@ import com.example.fon_classroommanagment_frontend.Components.input.Text_Field
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(2f)
+                            .weight(2f).padding(0.dp,20.dp)
                             , horizontalArrangement = Arrangement.Center
                     ) {
-                        Text(
-                            "Dont have an account?",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            "Sign in",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.secondary
-                        , modifier = Modifier.clickable { navigateToSignin() })
-
+//                        Text(
+//                            "Dont have an account?",
+//                            style = MaterialTheme.typography.bodyMedium,
+//                            color = MaterialTheme.colorScheme.onBackground
+//                        )
+//                        Text(
+//                            "Sign in",
+//                            style = MaterialTheme.typography.bodyMedium,
+//                            color = MaterialTheme.colorScheme.tertiary
+//                        , modifier = Modifier.clickable { navigateToSignin() })
+                        OutlinedButton(onClick = {navigateToSignin() },modifier= Modifier
+                            .fillMaxWidth(0.5f)
+                            .height(50.dp)) {
+                            Text("Sign ip", style = MaterialTheme.typography.bodyLarge)
+                        }
                     }
 
 

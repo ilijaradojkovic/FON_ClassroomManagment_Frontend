@@ -1,5 +1,7 @@
 package com.example.fon_classroommanagment_frontend.Components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -7,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -24,6 +27,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Schedule(
     events: List<Event>,
@@ -95,8 +99,10 @@ private class EventDataModifier(
 
 
 }
+@RequiresApi(Build.VERSION_CODES.O)
 private val HourFormatter = DateTimeFormatter.ofPattern("h a")
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BasicSidebarLabel(
     time: LocalTime,
@@ -105,12 +111,13 @@ fun BasicSidebarLabel(
     Text(
         text = time.format(HourFormatter),
         modifier = modifier
-            .fillMaxHeight()
+
             .padding(4.dp),
         color = MaterialTheme.colorScheme.onBackground,
         style = MaterialTheme.typography.bodyMedium
     )
 }
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ScheduleSidebar(
     hourHeight: Dp,
@@ -120,7 +127,7 @@ fun ScheduleSidebar(
     Column(modifier =modifier ) {
         val startTime = LocalTime.of(8,0)
         repeat(14) { i ->
-            Box(modifier = Modifier.height(hourHeight)) {
+            Column(modifier = Modifier.height(hourHeight), verticalArrangement =Arrangement.Center) {
                 label(startTime.plusHours(i.toLong()))
             }
         }

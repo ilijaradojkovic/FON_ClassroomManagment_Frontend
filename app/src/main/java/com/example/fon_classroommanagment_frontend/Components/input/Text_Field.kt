@@ -19,18 +19,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Text_Field(@DrawableRes idIcon:Int, hint:String, visualTransformation: VisualTransformation= VisualTransformation.None){
-    TextField(value = "",
+fun Text_Field(text:String,changeText:(String)->Unit,@DrawableRes idIcon:Int, hint:String, visualTransformation: VisualTransformation= VisualTransformation.None){
+    TextField(value = text,
         modifier= Modifier
             .height(50.dp)
-            .border(
-                1.dp,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                shape = MaterialTheme.shapes.extraLarge
-            ),
+           ,
 
         shape = MaterialTheme.shapes.extraLarge,
-        onValueChange = {},
+        onValueChange = { it -> changeText(it)},
         placeholder = { Text(hint, style = MaterialTheme.typography.bodyMedium) },
         leadingIcon = {
             Icon( modifier = Modifier
@@ -43,7 +39,8 @@ fun Text_Field(@DrawableRes idIcon:Int, hint:String, visualTransformation: Visua
         colors = TextFieldDefaults.textFieldColors(disabledIndicatorColor = Color.Transparent, errorIndicatorColor = Color.Transparent, focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent),
         maxLines = 1,
         keyboardOptions = KeyboardOptions(autoCorrect = true, keyboardType = KeyboardType.Email),
-        visualTransformation =visualTransformation
+        visualTransformation =visualTransformation,
+        textStyle = MaterialTheme.typography.bodyMedium
 
     )
 }

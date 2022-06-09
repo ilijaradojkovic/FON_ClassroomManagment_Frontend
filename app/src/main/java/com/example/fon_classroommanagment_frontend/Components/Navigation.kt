@@ -17,16 +17,18 @@ import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(){
+fun Navigation() {
     val navController=rememberNavController()
+
 
     NavHost(navController = navController, startDestination =Screen.LoginScreen.route){
         composable(route = Screen.LoginScreen.route){
-            Login_Screen( { navController.navigate(route = Screen.RegisterScreen.route) }) {
+            Login_Screen(
+                navigateToMainScreen =  { navController.navigate(route = Screen.MainScreen.route) }, navigateToSignin =  {
                 navController.navigate(
-                    route = Screen.MainScreen.route
+                    route = Screen.RegisterScreen.route
                 )
-            }
+            })
         }
         composable(route = Screen.RegisterScreen.route){
             SignUp_Screen { navController.navigate(route = Screen.LoginScreen.route) }

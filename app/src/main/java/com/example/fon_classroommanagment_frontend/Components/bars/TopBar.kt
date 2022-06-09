@@ -43,15 +43,19 @@ fun TopBar(
                         Icon(
                             painter = painterResource(id = R.drawable.search_icon),
                             contentDescription = "Search icon",
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
 
                          //TextField(modifier = Modifier.width(0.dp),value = "", onValueChange ={}, )
                     BasicTextField(textStyle = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.animateContentSize()
-                            .height(40.dp).fillMaxWidth(widthOfSearchInput)
-                            .clip(MaterialTheme.shapes.medium).background(Color.Gray),
+                        modifier = Modifier
+                            .animateContentSize()
+                            .height(40.dp)
+                            .fillMaxWidth(widthOfSearchInput)
+                            .clip(MaterialTheme.shapes.medium)
+                            .background(Color.Gray),
                        // shape = MaterialTheme.shapes.medium,
                         value = searchText,
                         onValueChange = {searchText="tewt"},
@@ -59,7 +63,8 @@ fun TopBar(
                             Row(
                                 Modifier
 
-                                    .fillMaxSize().padding(10.dp,0.dp), verticalAlignment = Alignment.CenterVertically
+                                    .fillMaxSize()
+                                    .padding(10.dp, 0.dp), verticalAlignment = Alignment.CenterVertically
 
                             ) {
 
@@ -77,13 +82,14 @@ fun TopBar(
                         Icon(
                             painter = painterResource(id = R.drawable.filter_icon),
                             contentDescription = "Filter icon",
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
 
             }
         }
-    })
+    }, colors =TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceVariant))
 
 }
