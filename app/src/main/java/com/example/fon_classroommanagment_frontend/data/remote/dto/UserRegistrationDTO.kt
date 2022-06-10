@@ -11,9 +11,9 @@ data class UserRegistrationDTO(
     val password:String="",
     val firstName:String="",
     val lastName:String="",
-    val department: EmployeeDepartment?=null,
-    val title: EducationTitle?=null,
-    val type: EmployeeType?=null
+    var department: EmployeeDepartment?=null,
+    var title: EducationTitle?=null,
+    var type: EmployeeType?=null
 
 
 ) : Parcelable

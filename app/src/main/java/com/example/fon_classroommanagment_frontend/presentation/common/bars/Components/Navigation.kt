@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
@@ -11,6 +12,7 @@ import com.example.fon_classroommanagment_frontend.presentation.main_screen.comp
 import com.example.fon_classroommanagment_frontend.Login_Screen
 import com.example.fon_classroommanagment_frontend.SignUp_Screen
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
@@ -31,12 +33,18 @@ fun Navigation() {
         }
         composable(route = Screen.AditionalInfoScreen.route)
         {
-            val registerObject=it.arguments?.getInt("registerObject")
 
-            Aditional_Info_Screen(navController,registerObject)
+            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<UserRegistrationDTO>("registerObject")
+            if (registerObject != null) {
+                Aditional_Info_Screen(navController,registerObject)
+            }
         }
         composable(route = Screen.TypeEMPEducationEMPScreen.route){
-            TypeEMP_EducationEMP_Screen { navController.navigate(route =Screen.LoginScreen.route) }
+            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<UserRegistrationDTO>("registerObject")
+
+            if (registerObject != null) {
+                TypeEMP_EducationEMP_Screen(registerObject, navHostController = navController)
+            }
         }
 
         composable(route= Screen.DetailsClassroomScreen.route){

@@ -20,7 +20,7 @@ fun ChoiseItem(text: String, selectedItem: Boolean, onChangeState: () -> Unit) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .border(1.dp, MaterialTheme.colorScheme.outline)
-        .padding(10.dp), horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
+        , horizontalArrangement = Arrangement.SpaceAround, verticalAlignment = Alignment.CenterVertically){
         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center){
             Text(text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
 

@@ -44,7 +44,9 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun Register(registrationDTO: UserRegistrationDTO) {
         try{
+            Log.i("cao",registrationDTO.toString())
             val callResponse=api.Register(registrationDTO)
+
             Log.i("cao",callResponse.awaitResponse().code().toString())
 
         }catch (e:Exception){

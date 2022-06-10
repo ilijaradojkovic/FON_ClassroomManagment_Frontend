@@ -9,12 +9,11 @@ import com.example.fon_classroommanagment_frontend.data.repository.AuthRepositor
 import com.example.fon_classroommanagment_frontend.data.repository.CommonDataRepositoryImpl
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
 import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllDepartmentsUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.LoginUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.RegisterUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen.AditionalInfoViewModel
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen.TypeEducationViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -98,4 +97,20 @@ class AppModule {
     @Singleton
     @Provides
     fun provideAditionalInfoViewModel(getAllDepartmentsUseCase: GetAllDepartmentsUseCase)=AditionalInfoViewModel(getAllDepartmentsUseCase)
+
+
+@Singleton
+@Provides
+fun provideGetAllEducationTitlesUseCase(commonDataRepository: CommonDataRepository):GetAllEducationTitlesUseCase= GetAllEducationTitlesUseCase(commonDataRepository)
+
+
+    @Singleton
+    @Provides
+    fun provideGetAllEmployeeTypesUseCase(commonDataRepository: CommonDataRepository):GetAllEmployeeTypesUseCase= GetAllEmployeeTypesUseCase(commonDataRepository)
+
+@Singleton
+@Provides
+fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase,getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase,registerUseCase: RegisterUseCase)=TypeEducationViewModel(getAllEmployeeTypesUseCase,getAllEducationTitlesUseCase,registerUseCase)
+
+
 }

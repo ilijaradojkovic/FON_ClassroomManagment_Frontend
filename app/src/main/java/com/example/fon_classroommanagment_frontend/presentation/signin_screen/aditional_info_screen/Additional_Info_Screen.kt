@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,12 +12,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.buttons.ButtonWithIcon
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen.AditionalInfoViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.components.ChoiseItem
@@ -24,19 +25,21 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.co
 @Composable
 fun  Aditional_Info_Screen(
 
-    navController: NavHostController, registerObject: Int?,
+    navController: NavHostController,
+    registerObject: UserRegistrationDTO,
     aditionalInfoViewModel: AditionalInfoViewModel = hiltViewModel()
 ) {
 
-    val selectedValue = remember { mutableStateOf(-1) }
-
+    val selectedValue = remember { mutableStateOf(1) }
     val isSelectedItem: (Int) -> Boolean = { selectedValue.value == it }
     val onChangeState: (Int) -> Unit = { selectedValue.value = it }
-
-    val items = aditionalInfoViewModel.departments
-    LaunchedEffect( true  ){
-        aditionalInfoViewModel.getAllData()
+    val departments = aditionalInfoViewModel.departments
+    LaunchedEffect(true){
+        aditionalInfoViewModel.registerObject=registerObject
     }
+
+
+
 
 
     Column(modifier = Modifier
@@ -47,7 +50,7 @@ fun  Aditional_Info_Screen(
             .weight(8f)
 
             ){
-            itemsIndexed(items){index,item->
+            itemsIndexed(departments){ index, item->
                 ChoiseItem(item.name, isSelectedItem(item.id)) { onChangeState(item.id) }
             }
 
@@ -57,7 +60,13 @@ fun  Aditional_Info_Screen(
             .fillMaxWidth()
             .padding(10.dp), contentAlignment = Alignment.Center){
             ButtonWithIcon(text = "Advance", icon =R.drawable.advance ) {
-                navController.navigate(route = Screen.TypeEMPEducationEMPScreen.route)
+                    aditionalInfoViewModel.registerObject.department =departments[selectedValue.value-1]
+                Log.i("cao",aditionalInfoViewModel.toString())
+                    aditionalInfoViewModel.registerObject.let {
+                        navController.currentBackStackEntry?.arguments?.putParcelable("registerObject", it)
+                        navController.navigate(route = Screen.TypeEMPEducationEMPScreen.route)
+                    }
+                }
             }
         }
 
@@ -68,5 +77,5 @@ fun  Aditional_Info_Screen(
 
 
 
-}
+
 
