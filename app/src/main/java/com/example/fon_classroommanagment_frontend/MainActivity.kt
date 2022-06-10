@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import com.example.compose.FON_ClassroomManagment_FrontendTheme
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Navigation
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 //import com.example.fon_classroommanagment_frontend.ui.theme.FON_ClassroomManagment_FrontendTheme
@@ -25,6 +27,7 @@ class MainActivity :  ComponentActivity() {
             setContent {
                 FON_ClassroomManagment_FrontendTheme() {
                     Navigation()
+
 
                 }
             }

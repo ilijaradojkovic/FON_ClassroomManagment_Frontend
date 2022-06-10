@@ -3,36 +3,40 @@ package com.example.fon_classroommanagment_frontend.presentation.common.bars.Com
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.example.fon_classroommanagment_frontend.presentation.main_screen.components.Main_Screen
 import com.example.fon_classroommanagment_frontend.Login_Screen
 import com.example.fon_classroommanagment_frontend.SignUp_Screen
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation() {
     val navController=rememberNavController()
-
+    //Aditional_Info_Screen()
+    //TypeEMP_EducationEMP_Screen()
 
     NavHost(navController = navController, startDestination = Screen.LoginScreen.route){
         composable(route = Screen.LoginScreen.route){
-            Login_Screen(
-                navigateToMainScreen =  { navController.navigate(route = Screen.MainScreen.route) }, navigateToSignin =  {
-                navController.navigate(
-                    route = Screen.RegisterScreen.route
-                )
-            })
+            Login_Screen(navController)
         }
         composable(route = Screen.RegisterScreen.route){
-            SignUp_Screen { navController.navigate(route = Screen.LoginScreen.route) }
+            SignUp_Screen(navController)
+        }
+        composable(route = Screen.AditionalInfoScreen.route)
+        {
+            val registerObject=it.arguments?.getInt("registerObject")
+
+            Aditional_Info_Screen(navController,registerObject)
+        }
+        composable(route = Screen.TypeEMPEducationEMPScreen.route){
+            TypeEMP_EducationEMP_Screen { navController.navigate(route =Screen.LoginScreen.route) }
         }
 
         composable(route= Screen.DetailsClassroomScreen.route){

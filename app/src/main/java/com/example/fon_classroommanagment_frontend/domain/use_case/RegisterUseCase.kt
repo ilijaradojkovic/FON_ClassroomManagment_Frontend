@@ -9,12 +9,13 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class RegisterUseCase @Inject constructor(authRepository: AuthRepository) {
+class RegisterUseCase @Inject constructor(private val authRepository: AuthRepository) {
 
-    operator  fun invoke(registrationDTO: UserRegistrationDTO):Flow<Response<UserRegistrationDTO>> = flow {
+    operator  fun invoke(registrationDTO: UserRegistrationDTO):Flow<Response<Unit>> = flow {
         try{
             emit(Response.Loading())
-            // authRepository.Register (userLoginDTO)
+             authRepository.Register(registrationDTO)
+            emit(Response.Success())
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod
             emit(Response.Error(httpException.localizedMessage ?:"neocekivana greska"))
         }

@@ -11,17 +11,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.IconRoundBorder
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.buttons.ButtonWithIcon
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundImage
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.Text_Field
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
 
 @Composable
- fun SignUp_Screen(navigateToLogin: () -> Unit) {
+ fun SignUp_Screen(
+    navController: NavHostController,
+    registerViewModel: RegisterViewModel = hiltViewModel(),
+    ) {
     var emailText by remember{ mutableStateOf("") }
     var passwordText by remember{ mutableStateOf("") }
     var passwordRepeatText by remember{ mutableStateOf("")}
     var fullNameText by remember{ mutableStateOf("")}
 
+    LaunchedEffect(key1 = registerViewModel.canNavigate){
+        if(registerViewModel.canNavigate){
+            registerViewModel.userRegistrationDTO.let {
+                navController.currentBackStackEntry?.arguments?.putParcelable("registerObject", registerViewModel.userRegistrationDTO)
+                navController.navigate(route = Screen.AditionalInfoScreen.route)
+            }
+        }
+    }
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier= Modifier
             .fillMaxWidth()
@@ -30,7 +48,7 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
             Row(modifier = Modifier
                 .weight(1f)
               , ){
-                IconButton(onClick = { navigateToLogin() }) {
+                IconButton(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
                     Icon(painter = painterResource(id = R.drawable.back), contentDescription ="Back", modifier = Modifier.size(24.dp))
                 }
             }
@@ -71,10 +89,10 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceAround
                     ) {
-                        Text_Field(emailText,{emailText=it},R.drawable.email,"Email")
-                        Text_Field(passwordText,{passwordText=it},idIcon = R.drawable.padlock,"Password", PasswordVisualTransformation())
-                        Text_Field(passwordRepeatText,{passwordRepeatText=it},idIcon = R.drawable.padlock,"Password Repeat", PasswordVisualTransformation())
-                        Text_Field(fullNameText,{fullNameText=it},idIcon = R.drawable.avatar,"Full Name", PasswordVisualTransformation())
+                        Text_Field(emailText,{emailText=it},R.drawable.email,"Email", errorMessage = registerViewModel.errorMessageEmail)
+                        Text_Field(passwordText,{passwordText=it},idIcon = R.drawable.padlock,"Password", PasswordVisualTransformation(), errorMessage = registerViewModel.errorMessagePassword)
+                        Text_Field(passwordRepeatText,{passwordRepeatText=it},idIcon = R.drawable.padlock,"Password Repeat", PasswordVisualTransformation(), errorMessage = registerViewModel.errorMessagePassword)
+                        Text_Field(fullNameText,{fullNameText=it},idIcon = R.drawable.avatar,"Full Name", errorMessage = registerViewModel.errorFullName)
                         Row(
                             Modifier
                                 .fillMaxWidth(0.7f)
@@ -89,10 +107,9 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
                         .fillMaxWidth()
                         .weight(1f)
                       , horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                        Button(onClick = {navigateToLogin() },modifier= Modifier
-                            .fillMaxWidth(0.5f)
-                            .height(50.dp)) {
-                            Text("Sign in", style = MaterialTheme.typography.bodyLarge)
+                        ButtonWithIcon(text = "Advance", icon =R.drawable.advance ) {
+                            registerViewModel.Register(emailText,passwordText,passwordRepeatText,fullNameText)
+                            //navigateToLogin()
                         }
                     }
                 }

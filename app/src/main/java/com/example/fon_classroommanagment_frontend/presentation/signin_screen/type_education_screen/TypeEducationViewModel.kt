@@ -1,0 +1,4 @@
+package com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen
+
+class TypeEducationViewModel {
+}

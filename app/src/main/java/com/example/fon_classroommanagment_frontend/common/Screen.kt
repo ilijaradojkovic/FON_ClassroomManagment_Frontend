@@ -10,6 +10,11 @@ sealed class Screen(val route:String) {
     object MainScreen: Screen("Main_Screen")
     object DetailsClassroomScreen: Screen("DetailsClassroom_Screen")
     object AppointmentScreen: Screen("Appointment_Screen")
+    object AditionalInfoScreen: Screen("Aditional_Info_Screen")
+    object TypeEMPEducationEMPScreen: Screen("TypeEMP_EducationEMP_Screen")
+
+
+
     sealed class BottomBarScreens(  route:String,@DrawableRes val icon:Int,@DrawableRes val iconFilled:Int,val title:String):
         Screen(route){
         object  AllClassroomsScreen: BottomBarScreens("AllClassrooms_Screen", R.drawable.classrooms,R.drawable.classrooms_filled,"Classrooms")
