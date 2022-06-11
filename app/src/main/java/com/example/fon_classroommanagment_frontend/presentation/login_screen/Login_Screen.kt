@@ -2,12 +2,18 @@ package com.example.fon_classroommanagment_frontend
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -28,10 +34,9 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
 
 
     ) {
-
+    val colorBcg=MaterialTheme.colorScheme.background
     var emailText by remember{ mutableStateOf("")}
     var passwordText by remember{ mutableStateOf("")}
-    val state= loginViewModel.state
     LaunchedEffect(loginViewModel){
         loginViewModel.authResult.collect{result->
             when(result){
@@ -58,9 +63,27 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
         Column(
             modifier = Modifier
                 //=.clip(MaterialTheme.shapes.medium)
-                .weight(4f)
+
+                .weight(8f)
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .drawBehind {
+                    val cornerRadius = CornerRadius(80f, 80f)
+                    val path = Path().apply {
+                        addRoundRect(
+                            RoundRect(
+                                rect = Rect(
+                                    offset = Offset(0f, 0f),
+                                    size = Size(size.width, size.height),
+                                ),
+                                topLeft = cornerRadius,
+                                topRight = cornerRadius,
+                            )
+                        )
+                    }
+                    drawPath(path, color = colorBcg)
+                }
+
 
 
         ) {
@@ -71,6 +94,7 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                     .absoluteOffset(0.dp, -45.dp)
                     .fillMaxWidth()
                     .weight(1f)
+
                     .clip(MaterialTheme.shapes.medium)
 
 
@@ -119,15 +143,16 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
 
                         Text_Field(emailText,{emailText=it},R.drawable.email,hint="Email", errorMessage = loginViewModel.errorMessageEmail)
                         Password_Text_Field(passwordText,{passwordText=it},leadingIcon = R.drawable.padlock, trailingIcon = R.drawable.hide_password, trailingIconToggle = R.drawable.show_password,hint="Password", visualTransformation = PasswordVisualTransformation(), errorMessage =loginViewModel.errorMessagePassword)
-                       
+
                     }
 
                 }
 
 
                         Row(
-                           modifier= Modifier.fillMaxWidth()
-                            .weight(1f),
+                           modifier= Modifier
+                               .fillMaxWidth()
+                               .weight(1f),
                             horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                          ){
 
@@ -140,7 +165,8 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
 
 
                 Row(
-                    modifier= Modifier.fillMaxWidth()
+                    modifier= Modifier
+                        .fillMaxWidth()
                         .weight(2f),
                     horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top
                 ){
