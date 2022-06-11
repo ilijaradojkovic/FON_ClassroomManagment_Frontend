@@ -24,7 +24,7 @@ fun Text_Field(text:String,changeText:(String)->Unit,@DrawableRes idIcon:Int, hi
         TextField(
             value = text,
             modifier = Modifier
-                .height(50.dp).border(1.dp,if(errorMessage.isEmpty()) Color.Transparent else MaterialTheme.colorScheme.error,MaterialTheme.shapes.extraLarge),
+                .border(1.dp,if(errorMessage.isEmpty()) Color.Transparent else MaterialTheme.colorScheme.error,MaterialTheme.shapes.extraLarge),
             isError = errorMessage.isEmpty(),
 
             shape = MaterialTheme.shapes.extraLarge,

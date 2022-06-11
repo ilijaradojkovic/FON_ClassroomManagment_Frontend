@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -54,12 +55,12 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.Log
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Login", style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onSecondaryContainer)
+            //Text("Login", style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onSecondaryContainer)
         }
         Column(
             modifier = Modifier
                 //=.clip(MaterialTheme.shapes.medium)
-                .weight(3f)
+                .weight(4f)
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
 
@@ -93,24 +94,24 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.Log
 
                     .weight(6f)
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                       , horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Welcome!",
-                        style = MaterialTheme.typography.displayMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .weight(1f)
+//                       , horizontalArrangement = Arrangement.Center
+//                ) {
+//                    Text(
+//                        text = "Welcome!",
+//                        style = MaterialTheme.typography.displayMedium,
+//                        color = MaterialTheme.colorScheme.onBackground
+//                    )
+//                }
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(5f)
-                        , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround
+                        .weight(3f)
+                        , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Top
                 ) {
 
                     Column(modifier = Modifier
@@ -122,25 +123,29 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.Log
                         Text_Field(passwordText,{passwordText=it},idIcon = R.drawable.padlock,"Password", PasswordVisualTransformation(), errorMessage =loginViewModel.errorMessagePassword)
                        
                     }
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                        Button(onClick = { loginViewModel.Login(emailText,passwordText)},modifier= Modifier
-                            .fillMaxWidth(0.5f)
-                            .height(50.dp)) {
-                            Text("Login", style = MaterialTheme.typography.bodyLarge)
-                        }
-                    }
+
                 }
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(2f)
-                            .padding(0.dp, 20.dp)
-                            , horizontalArrangement = Arrangement.Center
-                    ) {
 
+                        Row(
+                           modifier= Modifier.fillMaxWidth()
+                            .weight(1f),
+                            horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+                         ){
+
+                            Button(onClick = { loginViewModel.Login(emailText,passwordText)},modifier= Modifier
+                                .fillMaxWidth(0.5f)
+                                .height(50.dp)) {
+                                Text("Login", style = MaterialTheme.typography.bodyLarge)
+                            }
+                        }
+
+
+                Row(
+                    modifier= Modifier.fillMaxWidth()
+                        .weight(2f),
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top
+                ){
                         OutlinedButton(onClick = {
                             navController.navigate(
                                 route = Screen.RegisterScreen.route
