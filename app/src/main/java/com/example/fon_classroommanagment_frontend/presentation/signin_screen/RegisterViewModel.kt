@@ -1,31 +1,25 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
+import android.R.attr.scaleHeight
+import android.R.attr.scaleWidth
+import android.graphics.Bitmap
 import android.util.Log
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants.EMAIL_REGEX
-import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.EducationTitle
-import com.example.fon_classroommanagment_frontend.data.EmployeeDepartment
-import com.example.fon_classroommanagment_frontend.data.EmployeeType
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.RegisterUseCase
-import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) :ViewModel(){
 
-    private val _state= mutableStateOf(RegisterState())
-    val state: State<RegisterState> = _state
+
 
    private   var UserRegistrationDTO = mutableStateOf(UserRegistrationDTO())
     val userRegistrationDTO by UserRegistrationDTO
@@ -36,37 +30,55 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
     private var _canNavigate =mutableStateOf(false)
     val canNavigate by _canNavigate
 
+init {
 
-    fun Register(email: String,password: String,passwordRepeat: String,fullName: String){
+    _canNavigate.value=false
+}
+    fun Register(
+        email: String,
+        password: String,
+        passwordRepeat: String,
+        fullName: String,
+        asImageBitmap: Bitmap?
+    ){
 
-      //  if(Validate(email,password,passwordRepeat,fullName)){
-            UserRegistrationDTO.value=CreateUserRegisterDTO(email,password,fullName)
+        if(Validate(email,password,passwordRepeat,fullName)){
+            UserRegistrationDTO.value=CreateUserRegisterDTO(email,password,fullName,asImageBitmap)
             _canNavigate.value=true
-       // }
+        }
 
 
 
-//        registerUseCase(registerDTO).onEach {result->
-//            when(result){
-//
-//                is Response.Success->{_state.value= RegisterState(success = result.data.toString())
-//                }
-//                is Response.Error->{_state.value= RegisterState(isError = result.message ?: "Nepoznati error")
-//                }
-//                is Response.Loading->{_state.value= RegisterState(isLoading = true)
-//                }
-//            }
-//        }.launchIn(viewModelScope)
+
     }
     fun CreateUserRegisterDTO(
         email: String,
         password: String,
-        fullName: String
+        fullName: String,
+        asImageBitmap: Bitmap?
     ): UserRegistrationDTO {
         val fullNameStrs=fullName.split(" ")
-        return UserRegistrationDTO(email, password,fullNameStrs[0],fullNameStrs[1])
+        return UserRegistrationDTO(email, password,fullNameStrs[0],fullNameStrs[1],transformBitpamToBtye(asImageBitmap))
     }
 
+    fun transformBitpamToBtye(bitmapimg: Bitmap?): ByteArray {
+
+
+
+
+        var image= byteArrayOf()
+        if(bitmapimg!=null) {
+            val scaledBitmap = Bitmap.createScaledBitmap(bitmapimg, 1, 1, true)
+
+            val stream = ByteArrayOutputStream()
+
+            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 10, stream)
+            image = stream.toByteArray()
+        }
+    //    Log.i("cao",image.size.toString())
+        return image
+
+    }
      fun Validate(email:String,password:String,passwordRepeat: String,fullName: String): Boolean {
          var isError=false
          if(EmaiLValidation(email)) {
@@ -114,6 +126,14 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
 
     private fun EmaiLValidation(email: String): Boolean {
         return email.isEmpty() || email.isBlank() || !Regex(EMAIL_REGEX).matches(email)
+    }
+
+    fun restart() {
+
+        _canNavigate.value=false
+        errorFullName=""
+        errorMessageEmail=""
+        errorMessagePassword=""
     }
 
 }

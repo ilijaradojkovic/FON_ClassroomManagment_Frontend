@@ -1,5 +1,13 @@
 package com.example.fon_classroommanagment_frontend
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -7,20 +15,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.IconRoundBorder
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.buttons.ButtonWithIcon
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundImage
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.Text_Field
+import com.example.fon_classroommanagment_frontend.presentation.login_screen.components.Password_Text_Field
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
+
 
 @Composable
  fun SignUp_Screen(
@@ -32,6 +41,23 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
     var passwordRepeatText by remember{ mutableStateOf("")}
     var fullNameText by remember{ mutableStateOf("")}
 
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val launcher = rememberLauncherForActivityResult(contract =
+    ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageUri = uri
+    }
+    val context = LocalContext.current
+    val bitmap =  remember {
+        mutableStateOf<Bitmap?>(null)
+    }
+
+    LaunchedEffect(key1 = true ){
+        registerViewModel.restart()
+
+    }
     LaunchedEffect(key1 = registerViewModel.canNavigate){
         if(registerViewModel.canNavigate){
             registerViewModel.userRegistrationDTO.let {
@@ -45,9 +71,10 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
             .fillMaxWidth()
             .weight(1f)
             .background(MaterialTheme.colorScheme.secondaryContainer), verticalAlignment = Alignment.CenterVertically) {
-            Row(modifier = Modifier
-                .weight(1f)
-              , ){
+            Row(
+                modifier = Modifier
+                    .weight(1f),
+            ){
                 IconButton(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
                     Icon(painter = painterResource(id = R.drawable.back), contentDescription ="Back", modifier = Modifier.size(24.dp))
                 }
@@ -89,18 +116,46 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceAround
                     ) {
-                        Text_Field(emailText,{emailText=it},R.drawable.email,"Email", errorMessage = registerViewModel.errorMessageEmail)
-                        Text_Field(passwordText,{passwordText=it},idIcon = R.drawable.padlock,"Password", PasswordVisualTransformation(), errorMessage = registerViewModel.errorMessagePassword)
-                        Text_Field(passwordRepeatText,{passwordRepeatText=it},idIcon = R.drawable.padlock,"Password Repeat", PasswordVisualTransformation(), errorMessage = registerViewModel.errorMessagePassword)
-                        Text_Field(fullNameText,{fullNameText=it},idIcon = R.drawable.avatar,"Full Name", errorMessage = registerViewModel.errorFullName)
+                        Text_Field(emailText,{emailText=it},R.drawable.email,hint="Email", errorMessage = registerViewModel.errorMessageEmail)
+                        Password_Text_Field(passwordText,{passwordText=it},leadingIcon = R.drawable.padlock, trailingIcon = R.drawable.hide_password, trailingIconToggle = R.drawable.show_password,hint="Password", errorMessage = registerViewModel.errorMessagePassword)
+                        Password_Text_Field(passwordRepeatText,{passwordRepeatText=it},leadingIcon = R.drawable.padlock,trailingIcon = R.drawable.hide_password,trailingIconToggle=R.drawable.show_password,hint="Password Repeat", errorMessage = registerViewModel.errorMessagePassword)
+                        Text_Field(fullNameText,{fullNameText=it},leadingIcon = R.drawable.avatar,hint="Full Name", errorMessage = registerViewModel.errorFullName)
                         Row(
                             Modifier
                                 .fillMaxWidth(0.7f)
                                 , horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
 
-                               RoundImage(image = R.drawable.default_user_image)
+                            if(imageUri!=null){
 
-                            Text("Choose Image", style = MaterialTheme.typography.bodyMedium,color=MaterialTheme.colorScheme.onBackground)
+                                if (Build.VERSION.SDK_INT < 28) {
+                                    bitmap.value = MediaStore.Images
+                                        .Media.getBitmap(context.contentResolver,imageUri)
+
+                                } else {
+                                    val source = ImageDecoder
+                                        .createSource(context.contentResolver, imageUri!!)
+                                    bitmap.value = ImageDecoder.decodeBitmap(source)
+                                }
+
+                                bitmap.value?.let {  btm ->
+                                    RoundImage(image = btm.asImageBitmap())
+
+                                }
+                            }else{
+                                val bm =
+                                    BitmapFactory.decodeResource( context.resources,R.drawable.default_user_image)
+
+                                RoundImage(image = bm.asImageBitmap())
+                            }
+
+
+
+                            TextButton( onClick = {
+                                launcher.launch("image/*")
+                            }) {
+                                Text(text = "Choose Image",style = MaterialTheme.typography.bodyMedium,color=MaterialTheme.colorScheme.onBackground)
+
+                            }
                         }
                     }
                     Row(modifier= Modifier
@@ -108,8 +163,8 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                         .weight(1f)
                       , horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                         ButtonWithIcon(text = "Advance", icon =R.drawable.advance ) {
-                            registerViewModel.Register(emailText,passwordText,passwordRepeatText,fullNameText)
-                            //navigateToLogin()
+                            registerViewModel.Register(emailText,passwordText,passwordRepeatText,fullNameText,bitmap.value)
+
                         }
                     }
                 }

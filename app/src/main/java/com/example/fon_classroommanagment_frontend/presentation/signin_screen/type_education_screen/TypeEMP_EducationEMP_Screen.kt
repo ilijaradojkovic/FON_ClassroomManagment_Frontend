@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -15,6 +16,8 @@ import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.buttons.ButtonWithIcon
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.ErrorDialog
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessDialog
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.components.ChoiseItem
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen.TypeEducationViewModel
 
@@ -41,8 +44,12 @@ fun TypeEMP_EducationEMP_Screen(
 
     val dialog by typeEducationViewModel.dialog
 
+    val registerState by typeEducationViewModel.state
+
     LaunchedEffect(true){
+        Log.i("cao",registerObject.toString())
         typeEducationViewModel.registerObject=registerObject
+
     }
 
 
@@ -55,36 +62,53 @@ fun TypeEMP_EducationEMP_Screen(
                 .weight(1f)
 
         ) {
+
             if (dialog) {
-                AlertDialog(
-                    onDismissRequest = {
-                        //openDialog.value = false
-                    },
-                    title = {
-                        Text(text = "Registration Successful!")
-                    },
-                    text = {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                if(registerState.success){
 
-                            Text("Confirmation email has been send,please check your email and complete registration", textAlign = TextAlign.Center)
-
-                        }
-                    },
-
-                dismissButton = {
+                    SuccessDialog(registerState.isLoading,toNavigate = {}, title ="Registration Successful!" , body ="Confirmation email has been send,please check your email and complete registration", dismissButton = {
                         Row(
                             modifier = Modifier.padding(all = 8.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Button(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { navHostController.navigate(Screen.LoginScreen.route) }
+                                onClick = {
+                                    typeEducationViewModel.restert()
+                                    navHostController.navigate(Screen.LoginScreen.route) }
                             ) {
                                 Text("Sure!", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
                             }
-                        }
-                    }
-                , confirmButton = {})
+                        }} )
+
+                }
+                else if(registerState.isLoading){
+                    SuccessDialog(registerState.isLoading,toNavigate = {}, title ="Registration Successful!" , body ="Confirmation email has been send,please check your email and complete registration", dismissButton = {
+                        Row(
+                            modifier = Modifier.padding(all = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    typeEducationViewModel.restert()
+                                    navHostController.navigate(Screen.LoginScreen.route) }
+                            ) {
+                                Text("Sure!", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
+                            }
+                        }} )
+                }
+                else{
+
+
+                ErrorDialog("Error","Error occured please try again") {
+                    typeEducationViewModel.restert()
+                    navHostController.navigate(
+                        Screen.LoginScreen.route
+                    )
+                }
+                }
+
             }
                 Text(
                     "Education",

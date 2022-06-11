@@ -1,9 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen
 
-import android.util.Log
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response

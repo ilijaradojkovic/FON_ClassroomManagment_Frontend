@@ -1,0 +1,68 @@
+package com.example.fon_classroommanagment_frontend.presentation.common.bars
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import com.airbnb.lottie.compose.LottieConstants
+import com.example.fon_classroommanagment_frontend.R
+import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
+
+@Composable
+fun SuccessDialog(isLoading:Boolean,toNavigate :()->Unit,title:String,body:String,confirmButton:()->Unit={},dismissButton: @Composable  ()->Unit={}){
+    AlertDialog(
+        onDismissRequest = {
+            //openDialog.value = false
+        },
+        title = {
+            if(isLoading) Text("Loading")
+            else Text(text = title)
+        },
+        text = {
+            Column(modifier = Modifier.height(100.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+               if(isLoading)  LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations =  LottieConstants.IterateForever)
+               else Text(body, textAlign = TextAlign.Center)
+
+            }
+        },
+
+        dismissButton = {
+            if(!isLoading)
+                 dismissButton()
+        }
+        , confirmButton = {})
+}
+@Composable
+fun ErrorDialog(title:String,body:String,navigation:()->Unit){
+
+    AlertDialog(
+        containerColor = MaterialTheme.colorScheme.errorContainer,
+        onDismissRequest = {
+
+         },
+        title = {
+
+          Text(text = title)
+        },
+        text = {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                   Text(body, textAlign = TextAlign.Center)
+
+            }
+        },
+
+        dismissButton = {
+
+               Button(onClick = {  navigation() },colors=ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onSecondaryContainer),modifier = Modifier.fillMaxWidth(),) {
+                   Text("Try Again")
+               }
+        }
+        , confirmButton = {})
+}

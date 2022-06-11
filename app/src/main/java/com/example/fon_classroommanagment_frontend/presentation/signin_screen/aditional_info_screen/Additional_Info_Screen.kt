@@ -61,7 +61,7 @@ fun  Aditional_Info_Screen(
             .padding(10.dp), contentAlignment = Alignment.Center){
             ButtonWithIcon(text = "Advance", icon =R.drawable.advance ) {
                     aditionalInfoViewModel.registerObject.department =departments[selectedValue.value-1]
-                Log.i("cao",aditionalInfoViewModel.toString())
+
                     aditionalInfoViewModel.registerObject.let {
                         navController.currentBackStackEntry?.arguments?.putParcelable("registerObject", it)
                         navController.navigate(route = Screen.TypeEMPEducationEMPScreen.route)

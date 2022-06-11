@@ -80,7 +80,7 @@ fun FON_ClassroomManagment_FrontendTheme(
       useDarkTheme && !dynamic->{ DarkColors}
       else->{ LightColors}
   }
-    Log.i("cao",colors.toString())
+
 
 
 

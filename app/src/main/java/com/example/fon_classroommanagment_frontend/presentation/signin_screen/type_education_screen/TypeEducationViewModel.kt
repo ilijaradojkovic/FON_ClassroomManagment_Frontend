@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen
 
 import android.util.Log
-import android.view.View
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -14,14 +13,17 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrat
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllEducationTitlesUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllEmployeeTypesUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.RegisterUseCase
+import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class TypeEducationViewModel  @Inject constructor(private val getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase,private val getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase,private val registerUseCase: RegisterUseCase):ViewModel(){
+
+    private val _state= mutableStateOf(RegisterState())
+    val state: State<RegisterState> = _state
 
     var registerObject:UserRegistrationDTO= UserRegistrationDTO()
 
@@ -35,19 +37,23 @@ class TypeEducationViewModel  @Inject constructor(private val getAllEmployeeType
     val dialog: State<Boolean> =_dialog
 
 init {
+
     getAllEducationTitles()
     getAllEmployeTypes()
 }
 
     fun Register(){
+        _dialog.value=true
         registerUseCase(registerObject).onEach { response ->
             when (response) {
-                //prikazi vise dialoga u zavisnosti
-                is Response.Success -> {_dialog.value=true}
-                is Response.Loading->{_dialog.value=false}
-                else->{ _dialog.value=false}
+
+                is Response.Success->{_state.value= RegisterState(success = true)
+                }
+                is Response.Error->{_state.value= RegisterState(isError = true)
+                }
+                is Response.Loading->{_state.value= RegisterState(isLoading = true)
+                }
             }
-            Log.i("cao",response.toString())
         }.launchIn(viewModelScope)
     }
 
@@ -75,5 +81,10 @@ init {
         }
 
     }.launchIn(viewModelScope)
+    }
+
+    fun restert() {
+        _state.value= RegisterState()
+        _dialog.value=false
     }
 }

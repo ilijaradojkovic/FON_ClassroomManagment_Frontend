@@ -27,7 +27,7 @@ Column(modifier=Modifier.fillMaxSize()) {
 
             .fillMaxHeight()
            , verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-            RoundImage(R.drawable.user_img)
+            //RoundImage(R.drawable.user_img)
 
         }
         Row(modifier= Modifier

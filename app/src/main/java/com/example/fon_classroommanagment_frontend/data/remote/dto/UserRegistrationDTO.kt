@@ -1,4 +1,5 @@
 package com.example.fon_classroommanagment_frontend.data.remote.dto
+import android.graphics.Bitmap
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import com.example.fon_classroommanagment_frontend.data.EducationTitle
@@ -11,7 +12,8 @@ data class UserRegistrationDTO(
     val password:String="",
     val firstName:String="",
     val lastName:String="",
-    var department: EmployeeDepartment?=null,
+    var image:ByteArray?=ByteArray(0),
+    var department: EmployeeDepartment? =null,
     var title: EducationTitle?=null,
     var type: EmployeeType?=null
 

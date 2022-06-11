@@ -9,12 +9,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 @Composable
-fun RoundImage(@DrawableRes image:Int){
-    Image(painter = painterResource(id = image),
+fun RoundImage( image: ImageBitmap){
+
+    Image(bitmap = image,
         contentDescription = "Profile_Image",
 
 
