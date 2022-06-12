@@ -5,6 +5,7 @@ import com.example.fon_classroommanagment_frontend.R
 
 sealed class Screen(val route:String) {
 
+    object SplashScreen:Screen("Splash_Screen")
     object LoginScreen: Screen("Login_Screen")
     object RegisterScreen: Screen("Register_Screen")
     object MainScreen: Screen("Main_Screen")

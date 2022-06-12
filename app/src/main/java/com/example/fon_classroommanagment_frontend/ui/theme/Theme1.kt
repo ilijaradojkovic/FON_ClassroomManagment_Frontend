@@ -5,8 +5,12 @@ import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import com.example.fon_classroommanagment_frontend.R
 import com.example.ui.theme.AppTypography
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 private val LightColors = lightColorScheme(
@@ -74,11 +78,24 @@ fun FON_ClassroomManagment_FrontendTheme(
   content: @Composable() () -> Unit
 ) {
     val dynamic=Build.VERSION.SDK_INT>=Build.VERSION_CODES.S
-  val colors = when{
-      useDarkTheme && dynamic ->{ dynamicDarkColorScheme(LocalContext.current)}
-      !useDarkTheme && dynamic->{ dynamicLightColorScheme(LocalContext.current)}
-      useDarkTheme && !dynamic->{ DarkColors}
-      else->{ LightColors}
+    val systemUiController = rememberSystemUiController()
+
+    val colors = when{
+
+     // useDarkTheme && dynamic ->{ dynamicDarkColorScheme(LocalContext.current)}
+     // !useDarkTheme && dynamic->{ dynamicLightColorScheme(LocalContext.current)}
+      useDarkTheme ->{
+          systemUiController.setSystemBarsColor(
+              color = DarkColors.secondaryContainer
+          )
+          DarkColors
+      }
+      else->{
+          systemUiController.setSystemBarsColor(
+              color = LightColors.secondaryContainer
+          )
+          LightColors
+      }
   }
 
 

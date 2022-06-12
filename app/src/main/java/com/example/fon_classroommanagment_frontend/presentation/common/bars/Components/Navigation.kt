@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
@@ -11,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fon_classroommanagment_frontend.presentation.main_screen.components.Main_Screen
 import com.example.fon_classroommanagment_frontend.Login_Screen
 import com.example.fon_classroommanagment_frontend.SignUp_Screen
+import com.example.fon_classroommanagment_frontend.Splash_Screen
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
@@ -24,7 +24,10 @@ fun Navigation() {
     //Aditional_Info_Screen()
     //TypeEMP_EducationEMP_Screen()
 
-    NavHost(navController = navController, startDestination = Screen.LoginScreen.route){
+    NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
+        composable(route = Screen.SplashScreen.route){
+            Splash_Screen(navController)
+        }
         composable(route = Screen.LoginScreen.route){
             Login_Screen(navController)
         }
