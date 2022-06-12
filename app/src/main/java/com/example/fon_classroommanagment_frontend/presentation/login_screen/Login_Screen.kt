@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -13,8 +14,11 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -58,13 +62,14 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            //Text("Login", style = MaterialTheme.typography.displayLarge, color = MaterialTheme.colorScheme.onSecondaryContainer)
+
+            Image(painter = painterResource(id = R.drawable.bcg_login), contentScale = ContentScale.Crop, alignment = Alignment.TopCenter, contentDescription = "", modifier = Modifier.fillMaxWidth())
         }
         Column(
             modifier = Modifier
                 //=.clip(MaterialTheme.shapes.medium)
 
-                .weight(8f)
+                .weight(3f)
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.secondaryContainer)
                 .drawBehind {
@@ -116,30 +121,42 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
 
                     .weight(6f)
             ) {
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .weight(1f)
-//                       , horizontalArrangement = Arrangement.Center
-//                ) {
-//                    Text(
-//                        text = "Welcome!",
-//                        style = MaterialTheme.typography.displayMedium,
-//                        color = MaterialTheme.colorScheme.onBackground
-//                    )
-//                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                       , horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    Text(
+                        text = "Hello Again!",
+                        style = MaterialTheme.typography.displaySmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.offset(0.dp,-10.dp)
+                    )
+
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = "Login to your account",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+
+                    )
+                }
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(3f)
-                        , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Top
+
+
+                        , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
                 ) {
 
                     Column(modifier = Modifier
                         .fillMaxWidth()
-                        .weight(4f)
-                        .padding(0.dp, 30.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround) {
+
+                        , horizontalAlignment = Alignment.CenterHorizontally) {
 
                         Text_Field(emailText,{emailText=it},R.drawable.email,hint="Email", errorMessage = loginViewModel.errorMessageEmail)
                         Password_Text_Field(passwordText,{passwordText=it},leadingIcon = R.drawable.padlock, trailingIcon = R.drawable.hide_password, trailingIconToggle = R.drawable.show_password,hint="Password", visualTransformation = PasswordVisualTransformation(), errorMessage =loginViewModel.errorMessagePassword)
@@ -149,36 +166,35 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                 }
 
 
-                        Row(
+                        Column(
                            modifier= Modifier
                                .fillMaxWidth()
-                               .weight(1f),
-                            horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
+                               .weight(3f)
+
+                               .padding(30.dp),
+                           horizontalAlignment = Alignment.CenterHorizontally
                          ){
 
-                            Button(onClick = { loginViewModel.Login(emailText,passwordText)},modifier= Modifier
-                                .fillMaxWidth(0.5f)
-                                .height(50.dp)) {
-                                Text("Login", style = MaterialTheme.typography.bodyLarge)
+                            Column(modifier=Modifier.fillMaxHeight(0.7f), verticalArrangement = Arrangement.SpaceBetween) {
+                                Button(onClick = { loginViewModel.Login(emailText,passwordText)},modifier= Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .height(50.dp)) {
+                                    Text("Login", style = MaterialTheme.typography.bodyLarge)
+                                }
+                                OutlinedButton(onClick = {
+                                    navController.navigate(
+                                        route = Screen.RegisterScreen.route
+                                    ) },modifier= Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .height(50.dp)) {
+                                    Text("Sign ip", style = MaterialTheme.typography.bodyLarge)
+                                }
                             }
+
                         }
 
 
-                Row(
-                    modifier= Modifier
-                        .fillMaxWidth()
-                        .weight(2f),
-                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top
-                ){
-                        OutlinedButton(onClick = {
-                            navController.navigate(
-                                route = Screen.RegisterScreen.route
-                            ) },modifier= Modifier
-                            .fillMaxWidth(0.5f)
-                            .height(50.dp)) {
-                            Text("Sign ip", style = MaterialTheme.typography.bodyLarge)
-                        }
-                    }
+
 
 
                 }

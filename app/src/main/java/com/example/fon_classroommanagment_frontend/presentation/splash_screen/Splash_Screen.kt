@@ -30,7 +30,7 @@ fun Splash_Screen(navController: NavHostController) {
 
     Box() {
         Image(
-            painterResource(id = if (isSystemInDarkTheme()) R.drawable.bcg_spash_dark else R.drawable.bch_splash_light),
+            painterResource(id = if (isSystemInDarkTheme()) R.drawable.bcg_splash_dark_1 else R.drawable.bcg_splash_light_1),
             "",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

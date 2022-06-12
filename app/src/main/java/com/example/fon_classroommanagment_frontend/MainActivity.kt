@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.compose.FON_ClassroomManagment_FrontendTheme
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Navigation
@@ -51,33 +52,7 @@ class MainActivity :  ComponentActivity() {
                 }
             }
     }
-    @Composable
-    fun RequestContentPermission() {
-        var imageUri by remember {
-            mutableStateOf<Uri?>(null)
-        }
-        val context = LocalContext.current
-        val bitmap =  remember {
-            mutableStateOf<Bitmap?>(null)
-        }
 
-        val launcher = rememberLauncherForActivityResult(contract =
-        ActivityResultContracts.GetContent()) { uri: Uri? ->
-            imageUri = uri
-        }
-        Column() {
-            Button(onClick = {
-                launcher.launch("image/*")
-            }) {
-                Text(text = "Pick image")
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-
-
-        }
-    }
 }
 
 

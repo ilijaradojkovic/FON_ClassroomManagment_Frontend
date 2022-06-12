@@ -31,7 +31,7 @@ fun IconRoundBorder(@DrawableRes icon:Int){
             )
             .background(MaterialTheme.colorScheme.background)
 
-            .padding(23.dp)
+            .padding(24.dp)
             .shadow(0.dp)
 
     )

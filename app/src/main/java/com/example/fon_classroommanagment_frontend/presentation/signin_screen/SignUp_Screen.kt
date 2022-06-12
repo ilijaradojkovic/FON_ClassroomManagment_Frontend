@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -120,10 +121,11 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                         Password_Text_Field(passwordText,{passwordText=it},leadingIcon = R.drawable.padlock, trailingIcon = R.drawable.hide_password, trailingIconToggle = R.drawable.show_password,hint="Password", errorMessage = registerViewModel.errorMessagePassword)
                         Password_Text_Field(passwordRepeatText,{passwordRepeatText=it},leadingIcon = R.drawable.padlock,trailingIcon = R.drawable.hide_password,trailingIconToggle=R.drawable.show_password,hint="Password Repeat", errorMessage = registerViewModel.errorMessagePassword)
                         Text_Field(fullNameText,{fullNameText=it},leadingIcon = R.drawable.avatar,hint="Full Name", errorMessage = registerViewModel.errorFullName)
-                        Row(
+                        Box(
                             Modifier
-                                .fillMaxWidth(0.7f)
-                                , horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                                //.fillMaxWidth(0.7f)
+                                , contentAlignment = Alignment.Center) {
+
 
                             if(imageUri!=null){
 
@@ -149,13 +151,10 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                             }
 
 
-
-                            TextButton( onClick = {
-                                launcher.launch("image/*")
-                            }) {
-                                Text(text = "Choose Image",style = MaterialTheme.typography.bodyMedium,color=MaterialTheme.colorScheme.onBackground)
-
+                            IconButton(onClick = {  launcher.launch("image/*")}) {
+                                Icon(painter = painterResource(id = R.drawable.camera), modifier = Modifier.size(24.dp), contentDescription = "")
                             }
+
                         }
                     }
                     Row(modifier= Modifier
