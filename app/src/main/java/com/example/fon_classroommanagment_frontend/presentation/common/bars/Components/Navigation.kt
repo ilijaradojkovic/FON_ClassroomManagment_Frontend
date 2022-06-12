@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
 
 import android.os.Build
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
@@ -26,9 +27,13 @@ fun Navigation() {
 
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
         composable(route = Screen.SplashScreen.route){
+
             Splash_Screen(navController)
         }
         composable(route = Screen.LoginScreen.route){
+            BackHandler(true) {
+
+            }
             Login_Screen(navController)
         }
         composable(route = Screen.RegisterScreen.route){
