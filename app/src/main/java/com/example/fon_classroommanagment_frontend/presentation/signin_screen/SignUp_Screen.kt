@@ -15,7 +15,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,10 +40,12 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
     navController: NavHostController,
     registerViewModel: RegisterViewModel = hiltViewModel(),
     ) {
-    var emailText by remember{ mutableStateOf("") }
-    var passwordText by remember{ mutableStateOf("") }
-    var passwordRepeatText by remember{ mutableStateOf("")}
-    var fullNameText by remember{ mutableStateOf("")}
+    val colorBcg=MaterialTheme.colorScheme.background
+
+    var emailText by registerViewModel._emailText
+    var passwordText by registerViewModel._passwordText
+    var passwordRepeatText by registerViewModel._passwordRepeatText
+    var fullNameText by registerViewModel._fullNameText
 
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
@@ -51,9 +56,7 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
         imageUri = uri
     }
     val context = LocalContext.current
-    val bitmap =  remember {
-        mutableStateOf<Bitmap?>(null)
-    }
+    val bitmap = registerViewModel._image
 
     LaunchedEffect(key1 = true ){
         registerViewModel.restart()
@@ -67,14 +70,20 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
             }
         }
     }
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth()
+
+    ) {
         Row(modifier= Modifier
             .fillMaxWidth()
             .weight(1f)
-            .background(MaterialTheme.colorScheme.secondaryContainer), verticalAlignment = Alignment.CenterVertically) {
+            .background(MaterialTheme.colorScheme.secondaryContainer )
+
+
+            , verticalAlignment = Alignment.CenterVertically) {
             Row(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(1f)
+                ,
             ){
                 IconButton(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
                     Icon(painter = painterResource(id = R.drawable.back), contentDescription ="Back", modifier = Modifier.size(24.dp))
@@ -85,7 +94,24 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
         Column(modifier= Modifier
             .fillMaxWidth()
             .weight(9f)
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .drawBehind {
+                val cornerRadius = CornerRadius(80f, 80f)
+                val path = Path().apply {
+                    addRoundRect(
+                        RoundRect(
+                            rect = Rect(
+                                offset = Offset(0f, 0f),
+                                size = Size(size.width, size.height),
+                            ),
+                            topLeft = cornerRadius,
+                            topRight = cornerRadius,
+                        )
+                    )
+                }
+                drawPath(path, color = colorBcg)
+            }
+
         ) {
             Row(
                 modifier = Modifier
@@ -162,7 +188,7 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                         .weight(1f)
                       , horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                         ButtonWithIcon(text = "Advance", icon =R.drawable.advance ) {
-                            registerViewModel.Register(emailText,passwordText,passwordRepeatText,fullNameText,bitmap.value)
+                            registerViewModel.Register()
 
                         }
                     }

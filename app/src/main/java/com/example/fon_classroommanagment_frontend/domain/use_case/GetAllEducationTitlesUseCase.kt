@@ -28,7 +28,7 @@ class GetAllEducationTitlesUseCase @Inject constructor(private val commonDataRep
             //ako nemamo net ne moze da prica sa api
             emit(Response.Error("Nema neta"))
         }catch (e:Exception){
-            Log.i("cao",e.toString())
+
             emit(Response.Error(e.localizedMessage ?:"neocekivana greska"))
         }
     }

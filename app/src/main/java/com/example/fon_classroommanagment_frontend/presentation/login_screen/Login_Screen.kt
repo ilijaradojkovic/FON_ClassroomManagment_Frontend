@@ -89,8 +89,6 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                     drawPath(path, color = colorBcg)
                 }
 
-
-
         ) {
 
             Row(
@@ -99,18 +97,12 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                     .absoluteOffset(0.dp, -45.dp)
                     .fillMaxWidth()
                     .weight(1f)
-
                     .clip(MaterialTheme.shapes.medium)
-
-
-
-
                    ,
                 horizontalArrangement = Arrangement.Center
             ) {
 
                 IconRoundBorder(R.drawable.avatar)
-
 
 
             }

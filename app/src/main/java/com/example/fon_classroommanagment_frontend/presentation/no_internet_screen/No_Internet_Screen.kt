@@ -33,7 +33,7 @@ Column(modifier = Modifier
         Spacer(modifier = Modifier.fillMaxHeight(0.1f))
         
         Text("You are not connected to the internet." +
-                "Make sure your Wi-Fi is on,Airplane mode id off" +
+                "Make sure your Wi-Fi is on,Airplane mode is off " +
                 "and try again",color=MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
     }
 }

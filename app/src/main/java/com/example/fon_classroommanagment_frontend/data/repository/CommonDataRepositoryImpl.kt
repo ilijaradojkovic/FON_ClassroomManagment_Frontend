@@ -11,13 +11,10 @@ import javax.inject.Inject
 class CommonDataRepositoryImpl @Inject constructor(
     private val api: API) : CommonDataRepository {
     override suspend fun getAllDepartments(): List<EmployeeDepartment> {
-        try {
+
 
             return api.GetAllDepartments()
-        } catch (e: Exception) {
-            Log.i("cao", e.toString())
-        }
-        return emptyList()
+
     }
 
     override suspend fun getAllEmployeeTypes(): List<EmployeeType> {

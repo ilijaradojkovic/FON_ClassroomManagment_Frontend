@@ -1,9 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response
@@ -21,6 +19,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TypeEducationViewModel  @Inject constructor(private val getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase,private val getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase,private val registerUseCase: RegisterUseCase):ViewModel(){
+
+    private val _registerDataTitleState = mutableStateOf(RegisterState())
+    val registerDataTitleState=_registerDataTitleState
+
+    private val _registerDataTypeState = mutableStateOf(RegisterState())
+    val registerDataTypeState=_registerDataTypeState
+
+
 
     private val _state= mutableStateOf(RegisterState())
     val state: State<RegisterState> = _state
@@ -57,28 +63,48 @@ init {
         }.launchIn(viewModelScope)
     }
 
-    fun getAllEmployeTypes(){
+    private fun getAllEmployeTypes(){
         getAllEmployeeTypesUseCase().onEach {
             response->
             when(response){
-                is Response.Loading->{}
+                is Response.Loading->{
+                    Log.i("cao","types se load")
+                    _registerDataTypeState.value= RegisterState(isLoading = true)
+                }
                 is Response.Success->{
+                    Log.i("cao","types success")
+                    _registerDataTypeState.value=RegisterState(success = true)
                     response.data?.let { _types.addAll(it) }
                 }
-                else -> {}
+                is Response.Error -> {
+                    Log.i("cao","types error")
+                    _registerDataTypeState.value=RegisterState(isError = true)
+                }
+
+
             }
+
         }.launchIn(viewModelScope)
     }
-    fun getAllEducationTitles(){
+    private fun getAllEducationTitles(){
     getAllEducationTitlesUseCase().onEach {
         response->
         when(response){
-            is Response.Loading->{}
+            is Response.Loading->{
+                Log.i("cao","titles se load")
+                _registerDataTitleState.value= RegisterState(isLoading = true)
+            }
             is Response.Success->{
+                Log.i("cao","titles usccess")
+                _registerDataTitleState.value=RegisterState(success = true)
                 response.data?.let { _titles.addAll(it) }
             }
-            else -> {}
+            is Response.Error -> {
+                Log.i("cao","titles error")
+                _registerDataTitleState.value=RegisterState(isError = true)
+            }
         }
+
 
     }.launchIn(viewModelScope)
     }

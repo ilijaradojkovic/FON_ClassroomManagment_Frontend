@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.FON_ClassroomManagment_FrontendTheme
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Navigation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessDialog
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
@@ -47,8 +48,9 @@ class MainActivity :  ComponentActivity() {
             setContent {
                 FON_ClassroomManagment_FrontendTheme() {
                     Navigation()
-                   // RequestContentPermission()
-
+                  // RequestContentPermission()
+                    //TypeEMP_EducationEMP_Screen(UserRegistrationDTO(), navHostController = rememberNavController(
+                   // ))
                 }
             }
     }

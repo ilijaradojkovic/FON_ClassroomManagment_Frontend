@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.fon_classroommanagment_frontend.common.Constants.EMAIL_REGEX
@@ -19,6 +20,12 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) :ViewModel(){
 
+
+    var _emailText = mutableStateOf("")
+    var _passwordText = mutableStateOf("")
+    var _passwordRepeatText = mutableStateOf("")
+    var _fullNameText = mutableStateOf("")
+    var _image= mutableStateOf<Bitmap?>(null)
 
 
    private   var UserRegistrationDTO = mutableStateOf(UserRegistrationDTO())
@@ -34,16 +41,12 @@ init {
 
     _canNavigate.value=false
 }
-    fun Register(
-        email: String,
-        password: String,
-        passwordRepeat: String,
-        fullName: String,
-        asImageBitmap: Bitmap?
-    ){
+    fun Register(){
 
-        if(Validate(email,password,passwordRepeat,fullName)){
-            UserRegistrationDTO.value=CreateUserRegisterDTO(email,password,fullName,asImageBitmap)
+
+        if(Validate(_emailText.value,_passwordText.value,_passwordRepeatText.value,_fullNameText.value)){
+            UserRegistrationDTO.value=CreateUserRegisterDTO()
+            restartCoreData()
             _canNavigate.value=true
         }
 
@@ -52,13 +55,9 @@ init {
 
     }
     fun CreateUserRegisterDTO(
-        email: String,
-        password: String,
-        fullName: String,
-        asImageBitmap: Bitmap?
     ): UserRegistrationDTO {
-        val fullNameStrs=fullName.split(" ")
-        return UserRegistrationDTO(email, password,fullNameStrs[0],fullNameStrs[1],transformBitpamToBtye(asImageBitmap))
+        val fullNameStrs=_fullNameText.value.split(" ")
+        return UserRegistrationDTO(_emailText.value, _passwordText.value,fullNameStrs[0],fullNameStrs[1],transformBitpamToBtye(_image.value))
     }
 
     fun transformBitpamToBtye(bitmapimg: Bitmap?): ByteArray {
@@ -126,6 +125,14 @@ init {
 
     private fun EmaiLValidation(email: String): Boolean {
         return email.isEmpty() || email.isBlank() || !Regex(EMAIL_REGEX).matches(email)
+    }
+
+    fun restartCoreData(){
+        _fullNameText.value=""
+        _image.value=null
+        _passwordText.value=""
+        _emailText.value=""
+        _passwordRepeatText.value=""
     }
 
     fun restart() {
