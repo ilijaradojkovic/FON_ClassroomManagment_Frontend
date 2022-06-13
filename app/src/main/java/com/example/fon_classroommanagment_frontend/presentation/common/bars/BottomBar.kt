@@ -21,7 +21,7 @@ fun BottonBar(navHostController: NavHostController) {
 
     val stackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination=stackEntry?.destination
-BottomNavigation(backgroundColor = MaterialTheme.colorScheme.surface) {
+BottomNavigation(backgroundColor = MaterialTheme.colorScheme.surface, elevation = 2.dp) {
     if (currentDestination != null) {
         BottomNavigationItem(Screen.BottomBarScreens.AllClassroomsScreen,currentDestination,navHostController)
         BottomNavigationItem(Screen.BottomBarScreens.ReservationScreen,currentDestination,navHostController)

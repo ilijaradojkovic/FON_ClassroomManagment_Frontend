@@ -24,7 +24,7 @@ fun ClassroomCard(navigateToDetailsScreen: () -> Unit,
         .fillMaxWidth()
 
         .height(150.dp)
-        .clickable { navigateToDetailsScreen() }
+        .clickable { navigateToDetailsScreen() }, colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant), elevation = CardDefaults.elevatedCardElevation(15.dp)
        ) {
         Row(Modifier.fillMaxSize()){
             Row(modifier= Modifier
@@ -50,18 +50,21 @@ fun ClassroomCard(navigateToDetailsScreen: () -> Unit,
 
                     Row(modifier = Modifier
 
-                        .weight(1f).fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+                        .weight(1f)
+                        .fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                         Ui(R.drawable.monitoricon)
                     }
 
                     Row(modifier = Modifier
 
-                        .weight(1f).fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+                        .weight(1f)
+                        .fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                         Ui(R.drawable.projector)
                     }
                     Row(modifier = Modifier
 
-                        .weight(1f).fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+                        .weight(1f)
+                        .fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
                         Ui(R.drawable.people)
                     }
 

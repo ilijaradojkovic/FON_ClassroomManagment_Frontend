@@ -28,7 +28,7 @@ fun Bottom_Sheet_Content(){
             .fillMaxWidth()
             .fillMaxHeight(0.8f)
             .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
-            .background(Color(0XFF0F9D58))
+            .background(MaterialTheme.colorScheme.surface)
             .scrollable(scrollstate, orientation = Orientation.Vertical)
             .padding(20.dp)) {
         Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {

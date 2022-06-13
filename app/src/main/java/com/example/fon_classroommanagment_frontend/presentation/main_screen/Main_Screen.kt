@@ -29,7 +29,7 @@ fun Main_Screen(navHostController: NavHostController, Title: String){
 
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
+    var searchText by remember{ mutableStateOf("")}
     var displayTopBarElements by remember{mutableStateOf(false)}
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,
 
@@ -40,7 +40,7 @@ fun Main_Screen(navHostController: NavHostController, Title: String){
        sheetBackgroundColor = Color.Transparent,
 
     ) {
-        Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch { if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded) modalBottomSheetState.hide() else modalBottomSheetState.show()}}) },
+        Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch { if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded) modalBottomSheetState.hide() else modalBottomSheetState.show()}},searchText,{searchText=it}) },
             bottomBar = { BottonBar(navHostController) }) {
             Column(
                 modifier = Modifier

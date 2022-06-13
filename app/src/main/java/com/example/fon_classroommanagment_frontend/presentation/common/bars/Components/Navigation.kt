@@ -25,7 +25,7 @@ fun Navigation() {
     //Aditional_Info_Screen()
     //TypeEMP_EducationEMP_Screen()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
+    NavHost(navController = navController, startDestination = Screen.MainScreen.route){
         composable(route = Screen.SplashScreen.route){
 
             Splash_Screen(navController)
