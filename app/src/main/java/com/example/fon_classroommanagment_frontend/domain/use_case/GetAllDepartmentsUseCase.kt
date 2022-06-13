@@ -1,9 +1,7 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
-import android.util.Log
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.EmployeeDepartment
-import com.example.fon_classroommanagment_frontend.data.repository.CommonDataRepositoryImpl
+import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
 import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

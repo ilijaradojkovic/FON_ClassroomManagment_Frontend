@@ -11,7 +11,11 @@ import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.ClassroomCard
 
 @Composable
-fun All_Classrooms(navHostController: NavHostController) {
+fun All_Classrooms(
+    navHostController: NavHostController,
+    searchText:String,
+
+    ) {
 
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         LazyColumn(modifier=Modifier, contentPadding = PaddingValues(15.dp), verticalArrangement = Arrangement.spacedBy(15.dp)){

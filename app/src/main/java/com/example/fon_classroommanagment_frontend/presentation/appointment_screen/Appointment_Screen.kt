@@ -74,9 +74,9 @@ fun Appointment_Screen(classroom:Int) {
                         Modifier.height(100.dp).fillMaxWidth(),
                         mainAxisAlignment = FlowMainAxisAlignment.Center
                     ) {
-                        CategoryChip("C001", false, {}, {})
-                        CategoryChip("B103", false, {}, {})
-                        CategoryChip("101", false, {}, {})
+//                        CategoryChip("C001")
+//                        CategoryChip("B103")
+//                        CategoryChip("101")
 
 
                     }

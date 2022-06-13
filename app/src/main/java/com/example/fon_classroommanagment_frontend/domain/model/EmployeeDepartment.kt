@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.data
+package com.example.fon_classroommanagment_frontend.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

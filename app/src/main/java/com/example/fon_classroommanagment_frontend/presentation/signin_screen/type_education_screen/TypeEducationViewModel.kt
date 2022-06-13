@@ -5,8 +5,8 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.EducationTitle
-import com.example.fon_classroommanagment_frontend.data.EmployeeType
+import com.example.fon_classroommanagment_frontend.domain.model.EducationTitle
+import com.example.fon_classroommanagment_frontend.domain.model.EmployeeType
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllEducationTitlesUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllEmployeeTypesUseCase

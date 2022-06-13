@@ -10,6 +10,7 @@ import com.example.fon_classroommanagment_frontend.data.repository.CommonDataRep
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
 import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen.AditionalInfoViewModel
@@ -112,5 +113,12 @@ fun provideGetAllEducationTitlesUseCase(commonDataRepository: CommonDataReposito
 @Provides
 fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase,getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase,registerUseCase: RegisterUseCase)=TypeEducationViewModel(getAllEmployeeTypesUseCase,getAllEducationTitlesUseCase,registerUseCase)
 
+
+    @Singleton
+    @Provides
+    fun provideGetAllClassroomTypesUserCase(commonDataRepositoryImpl:CommonDataRepository):GetAllClassroomTypesUserCase=GetAllClassroomTypesUserCase(commonDataRepositoryImpl )
+    @Singleton
+    @Provides
+    fun provideFilterViewModel(getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase):FilterViewModel=FilterViewModel(getAllClassroomTypesUserCase)
 
 }

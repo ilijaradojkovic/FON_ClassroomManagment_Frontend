@@ -12,8 +12,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
+import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
+import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
+import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
 import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
@@ -25,16 +30,26 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun Main_Screen(navHostController: NavHostController, Title: String){
+fun Main_Screen(
+    navHostController: NavHostController,
+    Title: String,
+    allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel()
+    ){
 
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     var searchText by remember{ mutableStateOf("")}
     var displayTopBarElements by remember{mutableStateOf(false)}
+    var filterDTO = allClassroomsViewModel.filterDto.value
+
+
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,
 
         sheetContent =  {
-         Bottom_Sheet_Content()
+         Bottom_Sheet_Content(filterDTO,{_filterDTO->
+             filterDTO=_filterDTO
+             allClassroomsViewModel.filter()
+         }){ coroutineScope.launch{ modalBottomSheetState.hide()} }
         },
 
        sheetBackgroundColor = Color.Transparent,
@@ -50,15 +65,15 @@ fun Main_Screen(navHostController: NavHostController, Title: String){
             ) {
 
                 when(Title){
-                    "Classrooms"->{
+                    Screen.BottomBarScreens.AllClassroomsScreen.title->{
                         displayTopBarElements=false
-                        All_Classrooms(navHostController)
+                        All_Classrooms(navHostController,searchText)
                     }
-                    "Reservations"->{
+                    Screen.BottomBarScreens.ReservationScreen.title->{
                         displayTopBarElements=true
                         AllReservations_Screen(navHostController)
                     }
-                    "Profile"->{
+                    Screen.BottomBarScreens.UserProfileScreen.title->{
                         displayTopBarElements=true
                         Profile_Screen(isAdmin = false, fullName ="Ilija Radojkovic" )
                     }
