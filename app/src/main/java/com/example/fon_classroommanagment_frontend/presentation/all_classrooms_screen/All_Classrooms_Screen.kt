@@ -1,7 +1,10 @@
 package com.example.fon_classroommanagment_frontend.screens
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieConstants
@@ -39,19 +43,36 @@ fun All_Classrooms(
     val networkState by allClassroomsViewModel.networkState
 
 
+
     LaunchedEffect(key1 = scrollContext.isBottom){
         allClassroomsViewModel.getAllClassrooms()
     }
+
+
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         LazyColumn(state = layoutState,modifier=Modifier, contentPadding = PaddingValues(15.dp), verticalArrangement = Arrangement.spacedBy(15.dp)){
             itemsIndexed(
                 if(allClassroomsViewModel.shouldDisplaySeachData())
-                    seachedClassrooms else classrooms
-            ){index,item->
-                Row(Modifier.animateItemPlacement()) {
-                    ClassroomCard(item.name,item.isRC,item.projector,item.number_of_seats) { navHostController.navigate(Screen.DetailsClassroomScreen.route) }
+                    seachedClassrooms else classrooms,
 
-                }
+            ){index,item->
+
+
+                    Row(
+                        Modifier
+                    ) {
+                        ClassroomCard(
+                            item.name,
+                            item.isRC,
+                            item.projector,
+                            item.number_of_seats
+                        ) { navHostController.navigate(Screen.DetailsClassroomScreen.route) }
+
+                    }
+
+
+
+
             }
 
             item{

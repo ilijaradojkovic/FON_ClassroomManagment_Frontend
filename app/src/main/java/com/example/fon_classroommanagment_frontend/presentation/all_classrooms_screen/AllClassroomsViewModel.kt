@@ -28,7 +28,7 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
    private  var _searchText = mutableStateOf("")
     var searchText = _searchText
 
-    private var searchRequested=false
+var searchRequested= mutableStateOf(false)
 
     private var _searchClassrooms= mutableStateListOf<ClassroomCardDTO>()
     val searchedClassrooms= _searchClassrooms
@@ -47,7 +47,7 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
 
 //handle kada je error pri searchu
      fun changeSearchText(searchText: String){
-        if(searchText.isEmpty())    searchRequested=false
+        if(searchText.isEmpty())    searchRequested.value=false
         this._searchText.value=searchText
     }
     init {
@@ -91,7 +91,7 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
     }
 
     fun searchClassrooms(searchText: String) {
-        searchRequested=true
+        searchRequested.value=true
         _searchClassrooms.clear()
         getAllClassroomSearched(createClassroomSearchObject(searchText)).onEach {
             result->
@@ -111,6 +111,10 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
     }
 
     private fun createClassroomSearchObject(searchText: String) = SearchClassroomDTO(searchText)
-      fun shouldDisplaySeachData() =   _searchText.value.isNotEmpty() && searchRequested
+    fun shouldDisplaySeachData(): Boolean {
+
+     return searchRequested.value
+    }
+
 
 }

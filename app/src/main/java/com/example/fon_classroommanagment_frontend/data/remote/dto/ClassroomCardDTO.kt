@@ -11,5 +11,6 @@ val name:String,
   val number_of_seats:Int,
   val projector:Boolean,
   @SerializedName("rc")
-  val isRC:Boolean
+  val isRC:Boolean,
+
 ) : Parcelable
