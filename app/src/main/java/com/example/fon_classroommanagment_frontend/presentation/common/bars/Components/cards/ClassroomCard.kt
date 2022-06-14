@@ -27,7 +27,7 @@ fun ClassroomCard(
     navigateToDetailsScreen: () -> Unit,
 
     ) {
-    Log.i("cao",isRC.toString())
+
     Card(modifier = Modifier
         .fillMaxWidth()
 

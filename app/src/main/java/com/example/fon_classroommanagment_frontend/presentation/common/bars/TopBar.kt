@@ -18,7 +18,9 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.R
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import kotlinx.coroutines.Job
 
 
@@ -26,10 +28,10 @@ import kotlinx.coroutines.Job
 fun TopBar(
     souldHide: Boolean,
     onFilterClick: () -> Job,
-
     search:(searchText:String)->Unit,
     searchText: String,
-    changeSearchText:(String)->Unit
+    changeSearchText:(String)->Unit,
+    searchLoading:Boolean
 ) {
 
     var widthOfSearchInput by remember {
@@ -109,15 +111,23 @@ fun TopBar(
 
 
                                     Row(Modifier) {
-                                        IconButton(onClick = {
-                                            if (searchText.isEmpty()) widthOfSearchInput =
-                                                0f else changeSearchText("")
-                                        }) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.close),
-                                                contentDescription = "closeIcon",
-                                                modifier = Modifier.size(15.dp)
-                                            )
+                                        if(searchLoading){
+                                            Box( modifier = Modifier.size(15.dp)){
+                                                LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations = LottieConstants.IterateForever)
+                                            }
+
+                                        }else {
+
+                                            IconButton(onClick = {
+                                                if (searchText.isEmpty()) widthOfSearchInput =
+                                                    0f else changeSearchText("")
+                                            }) {
+                                                Icon(
+                                                    painter = painterResource(id = R.drawable.close),
+                                                    contentDescription = "closeIcon",
+                                                    modifier = Modifier.size(15.dp)
+                                                )
+                                            }
                                         }
                                     }
                                 }

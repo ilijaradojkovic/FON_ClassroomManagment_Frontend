@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.presentation.main_screen.com
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
@@ -40,6 +42,7 @@ fun Main_Screen(
     var filterDTO = allClassroomsViewModel.filterDto.value
 
 
+
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,
 
         sheetContent =  {
@@ -55,7 +58,7 @@ fun Main_Screen(
         Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch {
             if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded)
                 modalBottomSheetState.hide() else modalBottomSheetState.show()}},
-            {allClassroomsViewModel.searchClassrooms(it)},searchText,{allClassroomsViewModel.searchText.value=it}) },
+            {allClassroomsViewModel.searchClassrooms(it)},searchText,{allClassroomsViewModel.changeSearchText(it)},allClassroomsViewModel.networkStateSearch.value.isLoading) },
             bottomBar = { BottonBar(navHostController) }) {
             Column(
                 modifier = Modifier

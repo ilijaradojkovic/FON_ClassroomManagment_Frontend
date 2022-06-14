@@ -25,17 +25,31 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
 
     var filterDto = mutableStateOf(FilterDTO())
 
-    var searchText = mutableStateOf("")
+   private  var _searchText = mutableStateOf("")
+    var searchText = _searchText
 
-    private var _classrooms = mutableStateListOf<ClassroomCardDTO>()
-    val classrooms=_classrooms
+    private var searchRequested=false
 
     private var _searchClassrooms= mutableStateListOf<ClassroomCardDTO>()
     val searchedClassrooms= _searchClassrooms
 
+    private var _networkStateSearch= mutableStateOf(UIRequestResponse())
+    val networkStateSearch=_networkStateSearch
+
+
+    private var _classrooms = mutableStateListOf<ClassroomCardDTO>()
+    val classrooms=_classrooms
+
+
+
     private var _networkState= mutableStateOf(UIRequestResponse())
     val networkState=_networkState
 
+//handle kada je error pri searchu
+     fun changeSearchText(searchText: String){
+        if(searchText.isEmpty())    searchRequested=false
+        this._searchText.value=searchText
+    }
     init {
         getAllClassrooms()
     }
@@ -45,6 +59,7 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
     }
 
     fun getAllClassrooms(){
+
         if(!networkState.value.isLoading) {
             getClassroomsUseCase(page).onEach { result ->
                 when (result) {
@@ -65,7 +80,7 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
                     is Response.Error -> {
                         _networkState.value = UIRequestResponse(isError = true)
 
-                        result.message?.let { Log.i("cao", it) }
+
                     }
                 }
             }.launchIn(viewModelScope)
@@ -76,15 +91,18 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
     }
 
     fun searchClassrooms(searchText: String) {
+        searchRequested=true
         _searchClassrooms.clear()
         getAllClassroomSearched(createClassroomSearchObject(searchText)).onEach {
             result->
             when(result){
-                is Response.Loading->{Log.i("cao","loading")}
+                is Response.Loading->{_networkStateSearch.value=UIRequestResponse(isLoading = true)}
                 is Response.Error->{
-                    result.message?.let { Log.i("cao", it) }
+                    result.message?.let { _networkStateSearch.value= UIRequestResponse(isError = true) }
                 }
                 is Response.Success->{
+
+                    _networkStateSearch.value=UIRequestResponse(success = true)
                     result.data?.let { _searchClassrooms.addAll(it) }
                 }
             }
@@ -93,6 +111,6 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
     }
 
     private fun createClassroomSearchObject(searchText: String) = SearchClassroomDTO(searchText)
-      fun shouldDisplaySeachData() = !searchText.value.isEmpty() && _searchClassrooms.size!=0
+      fun shouldDisplaySeachData() =   _searchText.value.isNotEmpty() && searchRequested
 
 }

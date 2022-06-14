@@ -52,11 +52,6 @@ fun All_Classrooms(
                     ClassroomCard(item.name,item.isRC,item.projector,item.number_of_seats) { navHostController.navigate(Screen.DetailsClassroomScreen.route) }
 
                 }
-
-
-
-
-
             }
 
             item{

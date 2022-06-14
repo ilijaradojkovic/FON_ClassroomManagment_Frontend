@@ -91,16 +91,16 @@ init {
         response->
         when(response){
             is Response.Loading->{
-                Log.i("cao","titles se load")
+
                 _registerDataTitleState.value= UIRequestResponse(isLoading = true)
             }
             is Response.Success->{
-                Log.i("cao","titles usccess")
+
                 _registerDataTitleState.value= UIRequestResponse(success = true)
                 response.data?.let { _titles.addAll(it) }
             }
             is Response.Error -> {
-                Log.i("cao","titles error")
+
                 _registerDataTitleState.value= UIRequestResponse(isError = true)
             }
         }
