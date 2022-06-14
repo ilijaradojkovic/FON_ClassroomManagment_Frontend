@@ -1,7 +1,9 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -18,9 +20,14 @@ import com.example.fon_classroommanagment_frontend.R
 @Composable
 
 fun ClassroomCard(
-    name: String, navigateToDetailsScreen: () -> Unit,
+    name: String,
+    isRC:Boolean,
+    isProjector:Boolean,
+    numOfPeopleCapacity:Int,
+    navigateToDetailsScreen: () -> Unit,
 
     ) {
+    Log.i("cao",isRC.toString())
     Card(modifier = Modifier
         .fillMaxWidth()
 
@@ -53,34 +60,43 @@ fun ClassroomCard(
 
                         .weight(1f)
                         .fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                        Ui(R.drawable.monitoricon)
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxHeight()) {
+                            Icon(painter = painterResource(id =R.drawable.monitoricon), contentDescription ="MonitorIcon" , modifier = Modifier.size(24.dp))
+                            Canvas(modifier = Modifier ){
+                                if(isRC)
+                                    drawCircle(Color.Green, radius = 20f)
+                                else     drawCircle(Color.Red, radius = 20f)
+
+                            }
+                        }
                     }
 
                     Row(modifier = Modifier
 
                         .weight(1f)
                         .fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                        Ui(R.drawable.projector)
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxHeight()) {
+                            Icon(painter = painterResource(id =R.drawable.projector), contentDescription ="MonitorIcon" , modifier = Modifier.size(24.dp))
+                            Canvas(modifier = Modifier ){
+                                if(isProjector)
+                                    drawCircle(Color.Green, radius = 20f)
+                                else  drawCircle(Color.Red, radius = 20f)
+                            }
+                        }
                     }
                     Row(modifier = Modifier
 
                         .weight(1f)
                         .fillMaxHeight(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-                        Ui(R.drawable.people)
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxHeight()) {
+                            Icon(painter = painterResource(id =R.drawable.people), contentDescription ="MonitorIcon" , modifier = Modifier.size(24.dp))
+                            Text(text = numOfPeopleCapacity.toString(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
+                        }
                     }
 
                 }
             }
         }
 
-    }
-}
-@Composable
-fun Ui(icon:Int){
-    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround, modifier = Modifier.fillMaxHeight()) {
-        Icon(painter = painterResource(id =icon), contentDescription ="MonitorIcon" , modifier = Modifier.size(24.dp))
-        Canvas(modifier = Modifier ){
-            drawCircle(Color.Green, radius = 20f)
-        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.data.remote
 
 import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.model.*
 import retrofit2.Call
@@ -27,5 +28,5 @@ interface API {
     suspend fun GetAllClassroomTypes():List<ClassroomType>
 
     @GET("getClassrooms")
-    suspend fun  GetAllClassroomsPaging(@Query("page") page:Int, @Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<Classroom>
+    suspend fun  GetAllClassroomsPaging(@Query("page") page:Int, @Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<ClassroomCardDTO>
 }

@@ -142,7 +142,7 @@ fun TypeEMP_EducationEMP_Screen(
             }
 
             if (dataTitles.isError || dataTypes.isError) {
-                No_Internet_Screen()
+                No_Internet_Screen { navHostController.navigate(Screen.RegisterScreen.route) }
             } else if (dataTitles.isLoading || dataTitles.isLoading) {
                 Box(modifier = Modifier.fillMaxWidth(0.5f)) {
                     LottieAnimation(

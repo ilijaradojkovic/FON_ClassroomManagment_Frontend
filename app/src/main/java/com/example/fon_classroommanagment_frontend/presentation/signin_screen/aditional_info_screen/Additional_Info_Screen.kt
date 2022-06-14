@@ -60,7 +60,7 @@ fun  Aditional_Info_Screen(
 
         }
         else{
-            No_Internet_Screen()
+            No_Internet_Screen(){navController.navigate(Screen.RegisterScreen.route)}
         }
         Box(modifier = Modifier
             .fillMaxWidth()
