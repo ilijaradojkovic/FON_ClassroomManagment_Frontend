@@ -1,6 +1,5 @@
 package com.example.fon_classroommanagment_frontend
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,17 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
-import com.example.fon_classroommanagment_frontend.common.Constants.MIN_CAPACITY
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
-import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.google.accompanist.flowlayout.FlowRow
+import java.util.*
 
 
 @Composable
@@ -37,14 +33,10 @@ fun Bottom_Sheet_Content(
     closeFilter: () -> Unit,
 
 ) {
-    //kada izadjemo treba da ne save obj
-    var filterDTO by remember {
 
-        mutableStateOf(_filterDTO.copy())
-    }
     val classroomTypes = filterViewModel.classroomTypes
-    val scrollstate= rememberScrollState()
-    var sliderPosition by remember { mutableStateOf(filterDTO.minCapacity.toFloat() ..filterDTO.maxCapacity.toFloat()) }
+    val scrollstate = rememberScrollState()
+
 
     Box(
         Modifier
@@ -53,25 +45,30 @@ fun Bottom_Sheet_Content(
             .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
             .background(MaterialTheme.colorScheme.surface)
             .scrollable(scrollstate, orientation = Orientation.Vertical)
-            .padding(20.dp)) {
-        Column(Modifier.fillMaxSize(),
+            .padding(20.dp)
+    ) {
+        Column(
+            Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Row(modifier= Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .height(IntrinsicSize.Max)
-               ){
-                Row(modifier= Modifier
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                modifier = Modifier
                     .fillMaxWidth()
+                    .weight(1f)
                     .height(IntrinsicSize.Max)
-                   ) {
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Max)
+                ) {
 
                     Row(
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight(),
-                        verticalAlignment = Alignment.Bottom
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.close),
@@ -99,8 +96,7 @@ fun Bottom_Sheet_Content(
                     Row(
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxHeight()
-                    ,   horizontalArrangement = Arrangement.End,
+                            .fillMaxHeight(), horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -108,9 +104,7 @@ fun Bottom_Sheet_Content(
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.clickable {
-                                filterDTO.minCapacity= (sliderPosition.start * MAX_CAPACITY).toInt()
-                                filterDTO.maxCapacity= (sliderPosition.endInclusive * MAX_CAPACITY).toInt()
-                                applyFilters(filterDTO)
+                                //applyFilters(filterDTO)
                                 closeFilter()
                             }
                         )
@@ -119,101 +113,140 @@ fun Bottom_Sheet_Content(
                 }
             }
 
-            Column(modifier= Modifier
-                .fillMaxWidth()
-                .weight(1f)) {
-                Column(modifier=Modifier.fillMaxWidth()) {
-                    Text("Kapacitet",
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Kapacitet",
                         style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface
-                        )
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                 }
-                Column(modifier=Modifier.weight(1f), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                    Row(modifier=Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceAround){
-                        Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.Start) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
                             Text(
-                                (sliderPosition.start* MAX_CAPACITY).toInt().toString(),
+                                filterViewModel.sliderPositionConverted.value.start.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.secondary
                             )
                         }
-                        Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.End
+                        ) {
                             Text(
-                                (sliderPosition.endInclusive * MAX_CAPACITY).toInt().toString(),
+                                filterViewModel.sliderPositionConverted.value.endInclusive.toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.secondary
                             )
                         }
                     }
-                               DoubleSlider(sliderPosition
-                               ) { sliderPosition=it
-                                       //start, end ->
-////                                   if((start*200f).toInt()!=filterDTO.minCapacity)
-////                                         filterDTO.minCapacity = (start*200f).toInt()
-////
-////                                   if((end*200f).toInt()!=filterDTO.maxCapacity)
-////                                        filterDTO.maxCapacity = (end*200f).toInt()
-//                                   Log.i("cao","Start "+start.toString())
-//                                   Log.i("cao","End"+end.toString())
-                               }
-                }
-            }
-            Column(modifier= Modifier
-                .fillMaxWidth()
-                .weight(2f)) {
-                Column(modifier=Modifier.fillMaxWidth()) {
-                    Text("Tip",
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onSurface
-
-                    )
-                }
-                Column(modifier= Modifier
-                    .weight(5f)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Center) {
-                    FlowRow() {
-                        for (i in 0 until classroomTypes.size){
-                            CategoryChip(classroomTypes[i].name,false)  {}
-                        }
-
-                }
-                }
-            }
-            Column(modifier= Modifier
-                .fillMaxWidth()
-                .weight(1f)) {
-                Column(modifier=Modifier.fillMaxWidth()) {
-                    Text("Oprema",
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-                Column(modifier= Modifier
-                    .weight(1f)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Center) {
-                    FlowRow() {
-                        CategoryChip("Klima",filterDTO.aircondition) { filterDTO=filterDTO.copy(aircondition =  it)
-                        Log.i("cao",filterDTO.aircondition.toString())
-                        }
-                        CategoryChip("Projektor",filterDTO.projeector){ filterDTO=filterDTO.copy(projeector = it) }
+                    DoubleSlider(
+                        filterViewModel.sliderPosition
+                    ) {
+                        filterViewModel.changeRangeCapacity(it)
 
                     }
                 }
             }
-            Column(modifier= Modifier
-                .fillMaxWidth()
-                .weight(1f)) {
-                Column(modifier=Modifier.fillMaxWidth()) {
-                    Text("Sort by",
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2f)
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Tip",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onSurface
+
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(5f)
+                        .fillMaxWidth(), verticalArrangement = Arrangement.Center
+                ) {
+                    FlowRow() {
+                        for (i in 0 until classroomTypes.size) {
+                            CategoryChip(
+                                classroomTypes[i].name,
+                                filterViewModel.shouldShowCoosenType(classroomTypes[i])
+                            ) { filterViewModel.handleClassroomTypeChoosen(classroomTypes[i]) }
+                        }
+
+                    }
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Oprema",
                         style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                Column(modifier= Modifier
-                    .weight(1f)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Center) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(), verticalArrangement = Arrangement.Center
+                ) {
                     FlowRow() {
-                        CategoryChip("Kapacitet",filterDTO.sortByCapacity){filterDTO=filterDTO.copy(sortByCapacity=it)}
+                        CategoryChip(
+                            "Klima",
+                            filterViewModel.aircontition
+                        ) { filterViewModel.changeAircondition(it) }
+                        CategoryChip(
+                            "Projektor",
+                            filterViewModel.projector
+                        ) { filterViewModel.changeProjector(it) }
+                    }
+
+
+                }
+            }
+
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Sort by",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(), verticalArrangement = Arrangement.Center
+                ) {
+                    FlowRow() {
+                        CategoryChip(
+                            "Kapacitet",
+                            filterViewModel.sortByCapacity
+                        ) { filterViewModel.changeSortByCapacity(it) }
 
 
                     }
@@ -222,6 +255,7 @@ fun Bottom_Sheet_Content(
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -250,7 +284,7 @@ fun CategoryChip(
         shape = MaterialTheme.shapes.medium,
         color = when {
             checked -> MaterialTheme.colorScheme.secondary
-            else -> Color.Transparent
+            else ->MaterialTheme.colorScheme.surface
         },
 
     ) {
@@ -266,7 +300,7 @@ fun CategoryChip(
             Text(
                 text = category,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White,
+                color = if(checked) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(16.dp,0.dp)
             )
         }

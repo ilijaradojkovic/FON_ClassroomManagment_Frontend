@@ -11,7 +11,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrat
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllEducationTitlesUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllEmployeeTypesUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.RegisterUseCase
-import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterState
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,16 +20,16 @@ import javax.inject.Inject
 @HiltViewModel
 class TypeEducationViewModel  @Inject constructor(private val getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase,private val getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase,private val registerUseCase: RegisterUseCase):ViewModel(){
 
-    private val _registerDataTitleState = mutableStateOf(RegisterState())
+    private val _registerDataTitleState = mutableStateOf(UIRequestResponse())
     val registerDataTitleState=_registerDataTitleState
 
-    private val _registerDataTypeState = mutableStateOf(RegisterState())
+    private val _registerDataTypeState = mutableStateOf(UIRequestResponse())
     val registerDataTypeState=_registerDataTypeState
 
 
 
-    private val _state= mutableStateOf(RegisterState())
-    val state: State<RegisterState> = _state
+    private val _state= mutableStateOf(UIRequestResponse())
+    val state: State<UIRequestResponse> = _state
 
     var registerObject:UserRegistrationDTO= UserRegistrationDTO()
 
@@ -53,11 +53,11 @@ init {
         registerUseCase(registerObject).onEach { response ->
             when (response) {
 
-                is Response.Success->{_state.value= RegisterState(success = true)
+                is Response.Success->{_state.value= UIRequestResponse(success = true)
                 }
-                is Response.Error->{_state.value= RegisterState(isError = true)
+                is Response.Error->{_state.value= UIRequestResponse(isError = true)
                 }
-                is Response.Loading->{_state.value= RegisterState(isLoading = true)
+                is Response.Loading->{_state.value= UIRequestResponse(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
@@ -69,16 +69,16 @@ init {
             when(response){
                 is Response.Loading->{
                     Log.i("cao","types se load")
-                    _registerDataTypeState.value= RegisterState(isLoading = true)
+                    _registerDataTypeState.value= UIRequestResponse(isLoading = true)
                 }
                 is Response.Success->{
                     Log.i("cao","types success")
-                    _registerDataTypeState.value=RegisterState(success = true)
+                    _registerDataTypeState.value= UIRequestResponse(success = true)
                     response.data?.let { _types.addAll(it) }
                 }
                 is Response.Error -> {
                     Log.i("cao","types error")
-                    _registerDataTypeState.value=RegisterState(isError = true)
+                    _registerDataTypeState.value= UIRequestResponse(isError = true)
                 }
 
 
@@ -92,16 +92,16 @@ init {
         when(response){
             is Response.Loading->{
                 Log.i("cao","titles se load")
-                _registerDataTitleState.value= RegisterState(isLoading = true)
+                _registerDataTitleState.value= UIRequestResponse(isLoading = true)
             }
             is Response.Success->{
                 Log.i("cao","titles usccess")
-                _registerDataTitleState.value=RegisterState(success = true)
+                _registerDataTitleState.value= UIRequestResponse(success = true)
                 response.data?.let { _titles.addAll(it) }
             }
             is Response.Error -> {
                 Log.i("cao","titles error")
-                _registerDataTitleState.value=RegisterState(isError = true)
+                _registerDataTitleState.value= UIRequestResponse(isError = true)
             }
         }
 
@@ -110,7 +110,7 @@ init {
     }
 
     fun restert() {
-        _state.value= RegisterState()
+        _state.value= UIRequestResponse()
         _dialog.value=false
     }
 }

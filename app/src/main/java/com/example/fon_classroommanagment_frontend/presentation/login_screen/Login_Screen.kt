@@ -169,7 +169,7 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
 
                             Column(modifier=Modifier.fillMaxHeight(0.7f), verticalArrangement = Arrangement.SpaceBetween) {
                                 Button(onClick = { loginViewModel.Login(emailText,passwordText)},modifier= Modifier
-                                    .fillMaxWidth(0.5f)
+                                    .fillMaxWidth(0.7f)
                                     .height(50.dp)) {
                                     Text("Login", style = MaterialTheme.typography.bodyLarge)
                                 }
@@ -177,7 +177,7 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                                     navController.navigate(
                                         route = Screen.RegisterScreen.route
                                     ) },modifier= Modifier
-                                    .fillMaxWidth(0.5f)
+                                    .fillMaxWidth(0.7f)
                                     .height(50.dp)) {
                                     Text("Sign ip", style = MaterialTheme.typography.bodyLarge)
                                 }

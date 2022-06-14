@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.TokenResponse
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +26,8 @@ class LoginViewModel @Inject constructor(
     private val resultChannel= Channel<Response<TokenResponse>>()
     val authResult= resultChannel.receiveAsFlow()
 
-    private val _state= mutableStateOf(LoginState())
-    val state: State<LoginState> = _state
+    private val _state= mutableStateOf(UIRequestResponse())
+    val state: State<UIRequestResponse> = _state
 
     var errorMessageEmail by mutableStateOf("")
    var errorMessagePassword by mutableStateOf("")
@@ -39,16 +40,16 @@ class LoginViewModel @Inject constructor(
                 when(result){
                     //neka vraca token popravi ovo
                     is Response.Success->{
-                        _state.value= LoginState(success = result.data.toString())
+                        _state.value= UIRequestResponse(success = true)
 
                     }
                     is Response.Error->{
-                        _state.value= LoginState(isError = result.message ?: "Nepoznati error")
+                        _state.value= UIRequestResponse(isError = true)
                         errorMessageEmail ="Please enter valid email"
                         errorMessagePassword="Please enter valid password"
                     }
                     is Response.Loading->{
-                        _state.value=LoginState(isLoading = true)
+                        _state.value=UIRequestResponse(isLoading = true)
                         errorMessagePassword=""
                         errorMessageEmail=""
                     }

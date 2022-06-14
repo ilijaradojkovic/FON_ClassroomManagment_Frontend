@@ -9,7 +9,7 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllDepartmentsUseCase
-import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterState
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,7 +25,7 @@ class AditionalInfoViewModel @Inject constructor(private val getAllDepartmentsUs
     private var _departments = mutableStateListOf<EmployeeDepartment>()
     var departments = _departments
 
-    private val _registerState = mutableStateOf(RegisterState())
+    private val _registerState = mutableStateOf(UIRequestResponse())
     val registerState by _registerState
 
 
@@ -38,16 +38,16 @@ class AditionalInfoViewModel @Inject constructor(private val getAllDepartmentsUs
             result->
             when(result){
                 is Response.Success->{
-                    _registerState.value=RegisterState(success = true)
+                    _registerState.value= UIRequestResponse(success = true)
                     result.data?.let { _departments.addAll(it)
                     }
                 }
                 is Response.Error->{
-                    _registerState.value=RegisterState(isError = true)
+                    _registerState.value= UIRequestResponse(isError = true)
 
                 }
                 is Response.Loading->{
-                    _registerState.value=RegisterState(isLoading = true)
+                    _registerState.value= UIRequestResponse(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
