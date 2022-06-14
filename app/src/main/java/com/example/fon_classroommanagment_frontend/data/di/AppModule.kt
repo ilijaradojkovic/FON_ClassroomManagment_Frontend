@@ -6,10 +6,13 @@ import android.content.SharedPreferences
 import com.example.fon_classroommanagment_frontend.common.Constants.URL
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.data.repository.AuthRepositoryImpl
+import com.example.fon_classroommanagment_frontend.data.repository.ClassroomRepositoryImpl
 import com.example.fon_classroommanagment_frontend.data.repository.CommonDataRepositoryImpl
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
+import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
 import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
@@ -121,4 +124,16 @@ fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeType
     @Provides
     fun provideFilterViewModel(getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase):FilterViewModel=FilterViewModel(getAllClassroomTypesUserCase)
 
+    @Provides
+    @Singleton
+    fun provideClassroomRepository(api: API):ClassroomRepository=ClassroomRepositoryImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideGetClassroomsUseCase(classroomRepository: ClassroomRepository):GetClassroomsUseCase= GetClassroomsUseCase(classroomRepository)
+
+    @Provides
+    @Singleton
+    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase):AllClassroomsViewModel=
+        AllClassroomsViewModel(getClassroomsUseCase)
 }

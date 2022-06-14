@@ -16,8 +16,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
 import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
-import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
 import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
@@ -67,7 +65,7 @@ fun Main_Screen(
                 when(Title){
                     Screen.BottomBarScreens.AllClassroomsScreen.title->{
                         displayTopBarElements=false
-                        All_Classrooms(navHostController,searchText)
+                        All_Classrooms(navHostController,searchText,allClassroomsViewModel)
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
                         displayTopBarElements=true

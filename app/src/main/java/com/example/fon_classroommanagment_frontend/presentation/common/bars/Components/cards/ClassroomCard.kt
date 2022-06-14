@@ -17,9 +17,10 @@ import com.example.fon_classroommanagment_frontend.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-fun ClassroomCard(navigateToDetailsScreen: () -> Unit,
+fun ClassroomCard(
+    name: String, navigateToDetailsScreen: () -> Unit,
 
-) {
+    ) {
     Card(modifier = Modifier
         .fillMaxWidth()
 
@@ -41,7 +42,7 @@ fun ClassroomCard(navigateToDetailsScreen: () -> Unit,
                     .weight(1f)
                     .fillMaxWidth()
                    , horizontalArrangement = Arrangement.Center){
-                  Text(text = "Title", style = MaterialTheme.typography.headlineMedium)
+                  Text(text = name, style = MaterialTheme.typography.headlineMedium)
                 }
                 Row(modifier= Modifier
                     .weight(2f)

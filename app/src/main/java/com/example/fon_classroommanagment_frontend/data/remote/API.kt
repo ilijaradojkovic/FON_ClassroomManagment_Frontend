@@ -1,10 +1,8 @@
 package com.example.fon_classroommanagment_frontend.data.remote
 
-import com.example.fon_classroommanagment_frontend.domain.model.EducationTitle
-import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
-import com.example.fon_classroommanagment_frontend.domain.model.EmployeeType
+import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
-import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
+import com.example.fon_classroommanagment_frontend.domain.model.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -27,4 +25,7 @@ interface API {
 
     @GET("allClassroomTypes")
     suspend fun GetAllClassroomTypes():List<ClassroomType>
+
+    @GET("getClassrooms")
+    suspend fun  GetAllClassroomsPaging(@Query("page") page:Int, @Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<Classroom>
 }

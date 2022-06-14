@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.data.repository
 
 import android.content.SharedPreferences
 import android.util.Log
+import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
 import com.example.fon_classroommanagment_frontend.common.TokenResponse
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
@@ -31,7 +32,9 @@ class AuthRepositoryImpl @Inject constructor(
             val awaitResponse = callResponse.awaitResponse()
             val validationToken= awaitResponse.headers()["validationToken"]
             val refreshToken= awaitResponse.headers()["refreshToken"]
-
+        if (validationToken != null) {
+            TOKEN_VALIDATION="Bearer $validationToken"
+        }
             if(validationToken!=null && refreshToken!=null) {
                 sharedPreferences.edit()
                     .putString("jwt_validation_token", "Bearer $validationToken")
