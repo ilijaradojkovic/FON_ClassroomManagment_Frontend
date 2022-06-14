@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend
 
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -24,6 +25,7 @@ import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.compose.FON_ClassroomManagment_FrontendTheme
+import com.example.compose.LockScreenOrientation
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Navigation
@@ -46,8 +48,10 @@ class MainActivity :  ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContent {
+                LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT)
                 FON_ClassroomManagment_FrontendTheme() {
                     Navigation()
+
                   // RequestContentPermission()
                     //TypeEMP_EducationEMP_Screen(UserRegistrationDTO(), navHostController = rememberNavController(
                    // ))

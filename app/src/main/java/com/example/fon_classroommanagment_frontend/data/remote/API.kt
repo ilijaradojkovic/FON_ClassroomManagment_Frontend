@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.data.remote
 
 import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.model.*
 import retrofit2.Call
@@ -29,4 +30,10 @@ interface API {
 
     @GET("getClassrooms")
     suspend fun  GetAllClassroomsPaging(@Query("page") page:Int, @Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<ClassroomCardDTO>
+
+    //@GET("searchClassroom")
+//    @HTTP(method = "GET", path = "searchClassroom", hasBody = true)
+    @POST("searchClassroom")
+    suspend fun  GetSearchClassrooms(@Body searchClassroomDTO: SearchClassroomDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<ClassroomCardDTO>
+
 }

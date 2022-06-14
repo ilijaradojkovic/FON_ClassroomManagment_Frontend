@@ -9,6 +9,8 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearched
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -16,18 +18,20 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase):ViewModel() {
+class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearched):ViewModel() {
 
     private var page:Int=1
 
 
     var filterDto = mutableStateOf(FilterDTO())
 
-    private val _searchText= mutableStateOf("")
-    val searchText=_searchText
+    var searchText = mutableStateOf("")
 
     private var _classrooms = mutableStateListOf<ClassroomCardDTO>()
     val classrooms=_classrooms
+
+    private var _searchClassrooms= mutableStateListOf<ClassroomCardDTO>()
+    val searchedClassrooms= _searchClassrooms
 
     private var _networkState= mutableStateOf(UIRequestResponse())
     val networkState=_networkState
@@ -71,5 +75,24 @@ class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCa
         }
     }
 
+    fun searchClassrooms(searchText: String) {
+        _searchClassrooms.clear()
+        getAllClassroomSearched(createClassroomSearchObject(searchText)).onEach {
+            result->
+            when(result){
+                is Response.Loading->{Log.i("cao","loading")}
+                is Response.Error->{
+                    result.message?.let { Log.i("cao", it) }
+                }
+                is Response.Success->{
+                    result.data?.let { _searchClassrooms.addAll(it) }
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
+
+    private fun createClassroomSearchObject(searchText: String) = SearchClassroomDTO(searchText)
+      fun shouldDisplaySeachData() = !searchText.value.isEmpty() && _searchClassrooms.size!=0
 
 }

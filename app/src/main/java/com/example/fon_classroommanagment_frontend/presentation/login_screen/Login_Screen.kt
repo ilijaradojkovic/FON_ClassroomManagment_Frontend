@@ -23,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.IconRoundBorder
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.Text_Field
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.components.Password_Text_Field
@@ -41,17 +43,12 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
     val colorBcg=MaterialTheme.colorScheme.background
     var emailText by remember{ mutableStateOf("")}
     var passwordText by remember{ mutableStateOf("")}
-    LaunchedEffect(loginViewModel){
-        loginViewModel.authResult.collect{result->
-            when(result){
-                is Response.Success->{navController.navigate(route = Screen.MainScreen.route) }
-                is Response.Loading->{
-                    Log.i("cao","Loading")}
-
-                else -> { }
-            }
-        }
+    val loginState by loginViewModel.state
+    LaunchedEffect(key1 =loginState.success) {
+        if(loginState.success)
+            navController.navigate(route = Screen.MainScreen.route)
     }
+      
     Column() {
         //naslov
         Row(
@@ -171,7 +168,8 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                                 Button(onClick = { loginViewModel.Login(emailText,passwordText)},modifier= Modifier
                                     .fillMaxWidth(0.7f)
                                     .height(50.dp)) {
-                                    Text("Login", style = MaterialTheme.typography.bodyLarge)
+                                    if(loginState.isLoading)  LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations = LottieConstants.IterateForever)
+                                    else Text("Login", style = MaterialTheme.typography.bodyLarge)
                                 }
                                 OutlinedButton(onClick = {
                                     navController.navigate(

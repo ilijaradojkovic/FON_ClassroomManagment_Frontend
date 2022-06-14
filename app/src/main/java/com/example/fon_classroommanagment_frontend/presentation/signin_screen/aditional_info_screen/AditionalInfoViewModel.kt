@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +27,7 @@ class AditionalInfoViewModel @Inject constructor(private val getAllDepartmentsUs
     var departments = _departments
 
     private val _registerState = mutableStateOf(UIRequestResponse())
-    val registerState by _registerState
+    val registerState = _registerState
 
 
 
@@ -52,5 +53,14 @@ class AditionalInfoViewModel @Inject constructor(private val getAllDepartmentsUs
             }
         }.launchIn(viewModelScope)
 
+    }
+
+    fun restart() {
+
+        if(_registerState.value.isError) {
+
+            _registerState.value = UIRequestResponse()
+            getAllData()
+        }
     }
 }

@@ -109,8 +109,17 @@ init {
     }.launchIn(viewModelScope)
     }
 
-    fun restert() {
-        _state.value= UIRequestResponse()
+
+
+    fun restart() {
+
+        if(_registerDataTitleState.value.isError || _registerDataTypeState.value.isError) {
+
+            _registerDataTitleState.value = UIRequestResponse()
+            _registerDataTitleState.value = UIRequestResponse()
+            getAllEducationTitles()
+            getAllEmployeTypes()
+        }
         _dialog.value=false
     }
 }

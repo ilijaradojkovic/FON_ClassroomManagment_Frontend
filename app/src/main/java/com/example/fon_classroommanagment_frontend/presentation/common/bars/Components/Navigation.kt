@@ -70,14 +70,25 @@ fun Navigation() {
             }
         }
         navigation(route = Screen.MainScreen.route, startDestination = Screen.BottomBarScreens.AllClassroomsScreen.route){
+
             composable(route = Screen.BottomBarScreens.AllClassroomsScreen.route){
+                BackHandler(true) {
+
+                }
                Main_Screen(navHostController = navController, Screen.BottomBarScreens.AllClassroomsScreen.title)
+
             }
             composable(route = Screen.BottomBarScreens.ReservationScreen.route){
+                BackHandler(true) {
+
+                }
                 Main_Screen(navHostController = navController, Screen.BottomBarScreens.ReservationScreen.title)
 
             }
             composable(route = Screen.BottomBarScreens.UserProfileScreen.route){
+                BackHandler(true) {
+
+                }
                 Main_Screen(navHostController = navController, Screen.BottomBarScreens.UserProfileScreen.title)
             }
         }

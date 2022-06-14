@@ -134,6 +134,10 @@ fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeType
 
     @Provides
     @Singleton
-    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase):AllClassroomsViewModel=
-        AllClassroomsViewModel(getClassroomsUseCase)
+    fun provideGetAllClassroomSearched(classroomRepository: ClassroomRepository):GetAllClassroomSearched=GetAllClassroomSearched(classroomRepository)
+
+    @Provides
+    @Singleton
+    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearched):AllClassroomsViewModel=
+        AllClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched)
 }

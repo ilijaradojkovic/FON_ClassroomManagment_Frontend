@@ -33,10 +33,9 @@ fun Main_Screen(
     Title: String,
     allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel()
     ){
-
+    val searchText by allClassroomsViewModel.searchText
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-    var searchText by remember{ mutableStateOf("")}
     var displayTopBarElements by remember{mutableStateOf(false)}
     var filterDTO = allClassroomsViewModel.filterDto.value
 
@@ -53,7 +52,10 @@ fun Main_Screen(
        sheetBackgroundColor = Color.Transparent,
 
     ) {
-        Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch { if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded) modalBottomSheetState.hide() else modalBottomSheetState.show()}},searchText,{searchText=it}) },
+        Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch {
+            if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded)
+                modalBottomSheetState.hide() else modalBottomSheetState.show()}},
+            {allClassroomsViewModel.searchClassrooms(it)},searchText,{allClassroomsViewModel.searchText.value=it}) },
             bottomBar = { BottonBar(navHostController) }) {
             Column(
                 modifier = Modifier
@@ -65,7 +67,7 @@ fun Main_Screen(
                 when(Title){
                     Screen.BottomBarScreens.AllClassroomsScreen.title->{
                         displayTopBarElements=false
-                        All_Classrooms(navHostController,searchText,allClassroomsViewModel)
+                        All_Classrooms(navHostController,allClassroomsViewModel)
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
                         displayTopBarElements=true

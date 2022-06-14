@@ -1,10 +1,13 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
 import kotlinx.coroutines.Job
@@ -22,13 +26,16 @@ import kotlinx.coroutines.Job
 fun TopBar(
     souldHide: Boolean,
     onFilterClick: () -> Job,
-    searchText:String,
-    changeText:(String)->Unit
+
+    search:(searchText:String)->Unit,
+    searchText: String,
+    changeSearchText:(String)->Unit
 ) {
 
     var widthOfSearchInput by remember {
         mutableStateOf(0f)
     }
+
 
 
     SmallTopAppBar(
@@ -58,6 +65,7 @@ fun TopBar(
 
                         //TextField(modifier = Modifier.width(0.dp),value = "", onValueChange ={}, )
                         BasicTextField(
+
                             textStyle = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .animateContentSize()
@@ -72,7 +80,7 @@ fun TopBar(
                             //.background(Color.Gray)
                             // shape = MaterialTheme.shapes.medium,
                             value = searchText,
-                            onValueChange = { changeText(it) },
+                            onValueChange = { changeSearchText(it) },
                             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
                             decorationBox = { innerTextField ->
                                 Row(
@@ -103,7 +111,7 @@ fun TopBar(
                                     Row(Modifier) {
                                         IconButton(onClick = {
                                             if (searchText.isEmpty()) widthOfSearchInput =
-                                                0f else changeText("")
+                                                0f else changeSearchText("")
                                         }) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.close),
@@ -114,7 +122,12 @@ fun TopBar(
                                     }
                                 }
 
-                            }
+                            },
+
+                            keyboardActions = KeyboardActions(onDone = {
+                                    search(searchText)
+                            }),
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
 
                         )
                     }

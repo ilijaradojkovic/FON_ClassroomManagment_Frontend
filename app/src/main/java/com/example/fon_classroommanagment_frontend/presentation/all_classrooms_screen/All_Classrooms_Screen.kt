@@ -26,23 +26,28 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
 @Composable
 fun All_Classrooms(
     navHostController: NavHostController,
-    searchText: String,
     allClassroomsViewModel: AllClassroomsViewModel,
 
     ) {
     val classrooms = allClassroomsViewModel.classrooms
+    val seachedClassrooms=allClassroomsViewModel.searchedClassrooms
+
     val layoutState =     rememberLazyListState()
 
     val scrollContext = rememberScrollContext(layoutState)
 
     val networkState by allClassroomsViewModel.networkState
 
+
     LaunchedEffect(key1 = scrollContext.isBottom){
         allClassroomsViewModel.getAllClassrooms()
     }
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         LazyColumn(state = layoutState,modifier=Modifier, contentPadding = PaddingValues(15.dp), verticalArrangement = Arrangement.spacedBy(15.dp)){
-            itemsIndexed(classrooms){index,item->
+            itemsIndexed(
+                if(allClassroomsViewModel.shouldDisplaySeachData())
+                    seachedClassrooms else classrooms
+            ){index,item->
                 Row(Modifier.animateItemPlacement()) {
                     ClassroomCard(item.name,item.isRC,item.projector,item.number_of_seats) { navHostController.navigate(Screen.DetailsClassroomScreen.route) }
 

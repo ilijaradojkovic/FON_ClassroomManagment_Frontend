@@ -56,6 +56,7 @@ fun TypeEMP_EducationEMP_Screen(
 
     LaunchedEffect(true) {
         typeEducationViewModel.registerObject = registerObject
+                typeEducationViewModel.restart()
 
     }
 
@@ -89,7 +90,7 @@ fun TypeEMP_EducationEMP_Screen(
                                 Button(
                                     modifier = Modifier.fillMaxWidth(),
                                     onClick = {
-                                        typeEducationViewModel.restert()
+                                        typeEducationViewModel.restart()
                                         navHostController.navigate(Screen.LoginScreen.route)
                                     }
                                 ) {
@@ -116,7 +117,7 @@ fun TypeEMP_EducationEMP_Screen(
                                 Button(
                                     modifier = Modifier.fillMaxWidth(),
                                     onClick = {
-                                        typeEducationViewModel.restert()
+                                        typeEducationViewModel.restart()
                                         navHostController.navigate(Screen.LoginScreen.route)
                                     }
                                 ) {
@@ -132,7 +133,7 @@ fun TypeEMP_EducationEMP_Screen(
 
 
                     ErrorDialog("Error", "Error occured please try again") {
-                        typeEducationViewModel.restert()
+                        typeEducationViewModel.restart()
                         navHostController.navigate(
                             Screen.LoginScreen.route
                         )

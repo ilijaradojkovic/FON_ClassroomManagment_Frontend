@@ -23,8 +23,8 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) :ViewModel() {
 
-    private val resultChannel= Channel<Response<TokenResponse>>()
-    val authResult= resultChannel.receiveAsFlow()
+//    private val resultChannel= Channel<Response<TokenResponse>>()
+//    val authResult= resultChannel.receiveAsFlow()
 
     private val _state= mutableStateOf(UIRequestResponse())
     val state: State<UIRequestResponse> = _state
@@ -54,7 +54,7 @@ class LoginViewModel @Inject constructor(
                         errorMessageEmail=""
                     }
                 }
-                resultChannel.send(result)
+                //resultChannel.send(result)
 
             }.launchIn(viewModelScope)
 

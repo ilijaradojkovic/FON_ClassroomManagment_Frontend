@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,13 +31,14 @@ fun  Aditional_Info_Screen(
     aditionalInfoViewModel: AditionalInfoViewModel = hiltViewModel()
 ) {
 
-    val registerState = aditionalInfoViewModel.registerState
+    val registerState by aditionalInfoViewModel.registerState
     val selectedValue = remember { mutableStateOf(1) }
     val isSelectedItem: (Int) -> Boolean = { selectedValue.value == it }
     val onChangeState: (Int) -> Unit = { selectedValue.value = it }
     val departments = aditionalInfoViewModel.departments
     LaunchedEffect(true){
         aditionalInfoViewModel.registerObject=registerObject
+        aditionalInfoViewModel.restart()
    }
 
 
@@ -46,18 +48,27 @@ fun  Aditional_Info_Screen(
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)
-        .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        if(registerState.isLoading)     Box(modifier = Modifier.fillMaxWidth(0.5f)){      LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations =  LottieConstants.IterateForever)}
-        else if(registerState.success)
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
-            .weight(8f)
+        .padding(10.dp), ) {
+        if(registerState.isLoading)   Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(modifier = Modifier.fillMaxWidth(0.5f)){      LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations =  LottieConstants.IterateForever)}
 
-            ){
-            itemsIndexed(departments){ index, item->
-                ChoiseItem(item.name, isSelectedItem(item.id)) { onChangeState(item.id) }
+        }     else if(registerState.success) {
+            Text(
+                "Department",
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
+                    .weight(8f)
+
+            ) {
+                itemsIndexed(departments) { index, item ->
+                    ChoiseItem(item.name, isSelectedItem(item.id)) { onChangeState(item.id) }
+                }
+
+
             }
-
-
         }
         else{
             No_Internet_Screen(){navController.navigate(Screen.RegisterScreen.route)}

@@ -30,4 +30,6 @@ class CommonDataRepositoryImpl @Inject constructor(
     override suspend fun getAllClassroomTypes(): List<ClassroomType> {
         return  api.GetAllClassroomTypes()
     }
+
+
 }
