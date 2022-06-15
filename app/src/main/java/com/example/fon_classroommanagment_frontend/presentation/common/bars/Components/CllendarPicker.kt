@@ -15,15 +15,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.foreverrafs.datepicker.DatePickerTimeline
 import com.foreverrafs.datepicker.Orientation
+import com.foreverrafs.datepicker.state.DatePickerState
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 import java.time.LocalDate
 @OptIn(ExperimentalComposeUiApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CallendarPicker(){
+fun CallendarPicker(datePickerState: DatePickerState) {
 
-    val datePickerState =
-        rememberDatePickerState(initialDate = LocalDate.now())
+
+
     DatePickerTimeline(
         modifier = Modifier.wrapContentSize().shadow(0.dp),
 
@@ -41,8 +42,8 @@ fun CallendarPicker(){
             Text(
                 modifier = Modifier.padding(10.dp),
                 text = "Today",
-                color = Color.White,
-                style = MaterialTheme.typography.bodyLarge
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.headlineMedium
             )
         },
         pastDaysCount = 5,

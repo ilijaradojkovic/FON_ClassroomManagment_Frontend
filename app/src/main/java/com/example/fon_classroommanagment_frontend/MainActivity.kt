@@ -32,6 +32,7 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessDialog
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
+import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 //import com.example.fon_classroommanagment_frontend.ui.theme.FON_ClassroomManagment_FrontendTheme
@@ -55,6 +56,7 @@ class MainActivity :  ComponentActivity() {
                   // RequestContentPermission()
                     //TypeEMP_EducationEMP_Screen(UserRegistrationDTO(), navHostController = rememberNavController(
                    // ))
+                    //AllReservations_Screen(rememberNavController())
                 }
             }
     }

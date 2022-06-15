@@ -1,10 +1,9 @@
 package com.example.fon_classroommanagment_frontend.data.remote
 
 import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 import com.example.fon_classroommanagment_frontend.domain.model.*
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForDateUseCse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -33,7 +32,11 @@ interface API {
 
     //@GET("searchClassroom")
 //    @HTTP(method = "GET", path = "searchClassroom", hasBody = true)
+    //vidi za body i get
     @POST("searchClassroom")
     suspend fun  GetSearchClassrooms(@Body searchClassroomDTO: SearchClassroomDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<ClassroomCardDTO>
+
+    @POST("GetForDate")
+    suspend fun  getReservationsForDate(@Body requestAppointmetDateDTO: RequestAppointmetDateDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<GetForDateAppointmentDTO>
 
 }

@@ -15,19 +15,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.CallendarPicker
-import com.example.fon_classroommanagment_frontend.CategoryChip
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.TextIconButton
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmentInput
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmentMultyLineInput
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmetnComboBox
 import com.example.fon_classroommanagment_frontend.R
+import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
+import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Appointment_Screen(classroom:Int) {
     val scrollableState = rememberScrollState()
+    val datePickerState =
+        rememberDatePickerState(initialDate = LocalDate.now())
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,7 +90,7 @@ fun Appointment_Screen(classroom:Int) {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            CallendarPicker()
+            CallendarPicker(datePickerState)
         }
 
         Column(

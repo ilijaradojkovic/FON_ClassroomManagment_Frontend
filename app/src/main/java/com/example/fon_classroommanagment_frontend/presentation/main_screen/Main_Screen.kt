@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.presentation.main_screen.com
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
@@ -14,11 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
+import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
+import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
 import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
@@ -33,7 +38,8 @@ import kotlinx.coroutines.launch
 fun Main_Screen(
     navHostController: NavHostController,
     Title: String,
-    allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel()
+    allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel(),
+    allReservationViewModel: AllReservationViewModel = hiltViewModel()
     ){
     val searchText by allClassroomsViewModel.searchText
     val coroutineScope = rememberCoroutineScope()
@@ -60,7 +66,13 @@ fun Main_Screen(
                 modalBottomSheetState.hide() else modalBottomSheetState.show()}},
             {  allClassroomsViewModel.changeSearchText(it)
                 allClassroomsViewModel.searchClassrooms()},searchText,{allClassroomsViewModel.changeSearchText(it)},allClassroomsViewModel.networkStateSearch.value.isLoading) },
-            bottomBar = { BottonBar(navHostController) }) {
+            bottomBar = { BottonBar(navHostController) },
+            floatingActionButton = {
+               if(navHostController.currentDestination!!.route==Screen.BottomBarScreens.ReservationScreen.route)
+                    androidx.compose.material3.FloatingActionButton(onClick = { /*TODO*/ }) {
+                    Icon(painter = painterResource(id = R.drawable.arrow_right), contentDescription ="" , modifier = Modifier.size(24.dp))
+            }}
+            ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -75,7 +87,7 @@ fun Main_Screen(
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
                         displayTopBarElements=true
-                        AllReservations_Screen(navHostController)
+                        AllReservations_Screen(navHostController,allReservationViewModel)
                     }
                     Screen.BottomBarScreens.UserProfileScreen.title->{
                         displayTopBarElements=true

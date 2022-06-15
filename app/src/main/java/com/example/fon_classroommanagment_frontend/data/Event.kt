@@ -5,8 +5,7 @@ import java.time.LocalDateTime
 
 data class Event(
     val type:String,
-    val subject:String,
-    val color: Color,
+    val classroomName:String,
     val start:LocalDateTime,
     val end:LocalDateTime,
 

@@ -22,8 +22,10 @@ import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.Event
+import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
+import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.random.Random
 
@@ -35,6 +37,8 @@ fun DetailsClassroom_Screen(navController: NavHostController) {
     Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
+        val datePickerState =
+            rememberDatePickerState(initialDate = LocalDate.now())
 
         Column(
             modifier = Modifier
@@ -91,22 +95,20 @@ fun DetailsClassroom_Screen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker()
+                CallendarPicker(datePickerState)
             }
             Column() {
                 Schedule(
                     listOf(
                         Event(
                             type = "Predavanje",
-                            subject = "Programiranje 2",
-                            color = Color(0xFFAFBBF2),
+                            classroomName = "Programiranje 2",
                             start = LocalDateTime.parse("2021-05-18T15:00:00"),
                             end = LocalDateTime.parse("2021-05-18T17:00:00"),
                         ),
                         Event(
                             type = "Predavanje",
-                            subject = "Napredna java",
-                            color = Color(0xFFAFBBF2),
+                            classroomName = "Napredna java",
                             start = LocalDateTime.parse("2021-05-18T13:00:00"),
                             end = LocalDateTime.parse("2021-05-18T15:00:00"),
                         )

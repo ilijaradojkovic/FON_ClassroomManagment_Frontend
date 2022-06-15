@@ -7,35 +7,37 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Schedule
-import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.data.Event
-import java.time.LocalDateTime
+import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
+import com.foreverrafs.datepicker.state.rememberDatePickerState
+import java.time.LocalDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AllReservations_Screen(navHostController: NavHostController) {
+fun AllReservations_Screen(
+    navHostController: NavHostController,
+    allReservationViewModel: AllReservationViewModel
+) {
 
-    Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navHostController.navigate(
-        Screen.AppointmentScreen.route+"/-1")}) {
-        Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
+    val datePickerState =
+        rememberDatePickerState(initialDate = LocalDate.now())
+
+    val reservations =  allReservationViewModel.reservationForDay
+
+
+
+    LaunchedEffect(key1 = true ){
+        allReservationViewModel.getReservationsForData(datePickerState.initialDate)
     }
-    }) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -47,30 +49,14 @@ fun AllReservations_Screen(navHostController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker()
+                CallendarPicker(datePickerState)
             }
 
             Row(modifier = Modifier) {
                 Schedule(
-                    listOf(
-                        Event(
-                            type = "Predavanje",
-                            subject = "Programiranje 2",
-                            color = Color(0xFFAFBBF2),
-                            start = LocalDateTime.parse("2021-05-18T15:00:00"),
-                            end = LocalDateTime.parse("2021-05-18T17:00:00"),
-                        ),
-                        Event(
-                            type = "Predavanje",
-                            subject = "Napredna java",
-                            color = Color(0xFFAFBBF2),
-                            start = LocalDateTime.parse("2021-05-18T13:00:00"),
-                            end = LocalDateTime.parse("2021-05-18T15:00:00"),
-                        )
-                    )
+                    reservations
                 )
 
             }
         }
     }
-}

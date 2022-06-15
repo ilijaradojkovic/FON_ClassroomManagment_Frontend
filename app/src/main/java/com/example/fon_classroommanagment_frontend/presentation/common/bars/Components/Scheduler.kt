@@ -65,8 +65,8 @@ fun Schedule(
             val height = hourHeight.roundToPx() * 14
             val placeablesWithEvents = measureables.map { measurable ->
                 val event = measurable.parentData as Event
-                val eventDurationMinutes = ChronoUnit.MINUTES.between(event.start, event.end)
-                val eventHeight = ((eventDurationMinutes / 60f) * hourHeight.toPx()).roundToInt()
+                val eventDurationHours = ChronoUnit.HOURS.between(event.start, event.end)
+                val eventHeight = ((eventDurationHours ) * hourHeight.toPx()).roundToInt()
                 val placeable = measurable.measure(
                     constraints.copy(
                         minHeight = eventHeight,
@@ -78,8 +78,8 @@ fun Schedule(
             layout(constraints.maxWidth, height) {
                 placeablesWithEvents.forEach { (placeable, event) ->
                     val eventOffsetMinutes =
-                        ChronoUnit.MINUTES.between(LocalTime.of(8,0), event.start.toLocalTime())
-                    val eventY = ((eventOffsetMinutes / 60f) * hourHeight.toPx()).roundToInt()
+                        ChronoUnit.HOURS.between(LocalTime.of(8,0), event.start.toLocalTime())
+                    val eventY = ((eventOffsetMinutes ) * hourHeight.toPx()).roundToInt()
                     placeable.place(0, eventY)
                 }
             }
