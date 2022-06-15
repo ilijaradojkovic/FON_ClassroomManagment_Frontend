@@ -58,7 +58,8 @@ fun Main_Screen(
         Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch {
             if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded)
                 modalBottomSheetState.hide() else modalBottomSheetState.show()}},
-            {allClassroomsViewModel.searchClassrooms(it)},searchText,{allClassroomsViewModel.changeSearchText(it)},allClassroomsViewModel.networkStateSearch.value.isLoading) },
+            {  allClassroomsViewModel.changeSearchText(it)
+                allClassroomsViewModel.searchClassrooms()},searchText,{allClassroomsViewModel.changeSearchText(it)},allClassroomsViewModel.networkStateSearch.value.isLoading) },
             bottomBar = { BottonBar(navHostController) }) {
             Column(
                 modifier = Modifier

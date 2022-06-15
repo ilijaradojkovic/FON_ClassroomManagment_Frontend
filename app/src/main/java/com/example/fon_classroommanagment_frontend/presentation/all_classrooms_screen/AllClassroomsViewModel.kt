@@ -21,6 +21,7 @@ import javax.inject.Inject
 class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearched):ViewModel() {
 
     private var page:Int=1
+    private var searchPage:Int=1
 
 
     var filterDto = mutableStateOf(FilterDTO())
@@ -47,11 +48,15 @@ var searchRequested= mutableStateOf(false)
 
 //handle kada je error pri searchu
      fun changeSearchText(searchText: String){
-        if(searchText.isEmpty())    searchRequested.value=false
+        if(searchText.isEmpty()) {
+            searchRequested.value = false
+
+        }
+    searchPage=1
         this._searchText.value=searchText
     }
     init {
-        getAllClassrooms()
+      //  getAllClassrooms()
     }
 
     fun filter(){
@@ -66,7 +71,8 @@ var searchRequested= mutableStateOf(false)
                     is Response.Success -> {
                         result.data?.let {
                             page++
-                            if(it.isEmpty()) Log.i("cao","nema vise podataka")
+                            //if(it.isEmpty()) Log.i("cao","nema vise podataka")
+
                             _networkState.value = UIRequestResponse(success = true)
                             _classrooms.addAll(it)
 
@@ -86,31 +92,42 @@ var searchRequested= mutableStateOf(false)
             }.launchIn(viewModelScope)
         }
         else{
-            Log.i("cao","cekaj vec ucitavam")
+            //Log.i("cao","cekaj vec ucitavam")
         }
     }
-
-    fun searchClassrooms(searchText: String) {
-        searchRequested.value=true
-        _searchClassrooms.clear()
-        getAllClassroomSearched(createClassroomSearchObject(searchText)).onEach {
-            result->
-            when(result){
-                is Response.Loading->{_networkStateSearch.value=UIRequestResponse(isLoading = true)}
-                is Response.Error->{
-                    result.message?.let { _networkStateSearch.value= UIRequestResponse(isError = true) }
-                }
-                is Response.Success->{
-
-                    _networkStateSearch.value=UIRequestResponse(success = true)
-                    result.data?.let { _searchClassrooms.addAll(it) }
-                }
-            }
-
-        }.launchIn(viewModelScope)
+    fun getMoreSearchData(){
+        performSeach()
     }
 
-    private fun createClassroomSearchObject(searchText: String) = SearchClassroomDTO(searchText)
+    fun searchClassrooms() {
+        searchRequested.value=true
+
+        _searchClassrooms.clear()
+        performSeach()
+
+    }
+   private  fun performSeach(){
+       if(!_networkStateSearch.value.isLoading)
+           getAllClassroomSearched(createClassroomSearchObject(_searchText.value,searchPage)).onEach {
+                   result->
+               when(result){
+                   is Response.Loading->{_networkStateSearch.value=UIRequestResponse(isLoading = true)}
+                   is Response.Error->{
+                       result.message?.let { _networkStateSearch.value= UIRequestResponse(isError = true) }
+                   }
+                   is Response.Success->{
+                       searchPage++
+                       _networkStateSearch.value=UIRequestResponse(success = true)
+                       result.data?.let { _searchClassrooms.addAll(it) }
+                   }
+               }
+
+
+           }.launchIn(viewModelScope)
+
+   }
+
+    private fun createClassroomSearchObject(searchText: String, searchPage: Int) = SearchClassroomDTO(searchText,searchPage)
     fun shouldDisplaySeachData(): Boolean {
 
      return searchRequested.value

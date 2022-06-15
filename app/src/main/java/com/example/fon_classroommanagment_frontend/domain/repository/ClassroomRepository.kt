@@ -7,6 +7,6 @@ interface ClassroomRepository {
 
     suspend fun getAllClassroomsPage(page:Int):List<ClassroomCardDTO>
 
-    suspend fun getAllClassroomsSearchPage(/*page:Int*/searchClassroomDTO: SearchClassroomDTO):List<ClassroomCardDTO>
+    suspend fun getAllClassroomsSearchPage(searchClassroomDTO: SearchClassroomDTO):List<ClassroomCardDTO>
 
 }

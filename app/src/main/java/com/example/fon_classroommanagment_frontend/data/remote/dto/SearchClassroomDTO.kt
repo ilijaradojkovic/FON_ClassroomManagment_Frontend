@@ -1,3 +1,3 @@
 package com.example.fon_classroommanagment_frontend.data.remote.dto
 
-data class SearchClassroomDTO(val name:String)
+data class SearchClassroomDTO(val name: String, val page: Int)
