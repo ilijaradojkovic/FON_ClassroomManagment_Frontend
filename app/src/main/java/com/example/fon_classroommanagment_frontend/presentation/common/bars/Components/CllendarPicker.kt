@@ -2,11 +2,12 @@ package com.example.fon_classroommanagment_frontend
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -21,18 +22,23 @@ import java.time.LocalDate
 @OptIn(ExperimentalComposeUiApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CallendarPicker(datePickerState: DatePickerState) {
+fun CallendarPicker(
 
+    onDateChaned :(LocalDate)->Unit
+                    ) {
 
+val datePicked = rememberDatePickerState()
 
     DatePickerTimeline(
-        modifier = Modifier.wrapContentSize().shadow(0.dp),
+        modifier = Modifier
+            .wrapContentSize()
+            .shadow(0.dp),
 
         onDateSelected = { selectedDate: LocalDate ->
-            // do something with the selected date
+            onDateChaned(selectedDate)
         },
         backgroundColor = MaterialTheme.colorScheme.background,
-        state = datePickerState,
+        state = datePicked,
         orientation = Orientation.Horizontal,
         selectedBackgroundColor = MaterialTheme.colorScheme.secondary ,
         selectedTextColor = MaterialTheme.colorScheme.onSecondary,
@@ -40,7 +46,12 @@ fun CallendarPicker(datePickerState: DatePickerState) {
 
         todayLabel = {
             Text(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clickable {
+                        datePicked.smoothScrollToDate(LocalDate.now())
+                        onDateChaned(datePicked.initialDate)
+                    },
                 text = "Today",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineMedium

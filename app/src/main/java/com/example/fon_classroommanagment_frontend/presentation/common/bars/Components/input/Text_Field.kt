@@ -16,11 +16,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
 
 @Composable
 fun Text_Field(text:String, changeText:(String)->Unit, @DrawableRes leadingIcon:Int, hint:String, errorMessage:String=""){
     Column(modifier = Modifier.width(IntrinsicSize.Max), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        Text(errorMessage, modifier = Modifier.fillMaxWidth(0.8f), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.error)
+        ErrorField(text = errorMessage,Modifier.fillMaxWidth(0.8f))
         TextField(
             value = text,
             modifier = Modifier

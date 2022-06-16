@@ -15,9 +15,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 @Composable
-fun RoundIconButton(@DrawableRes icon:Int, size:Dp){
+fun RoundIconButton(@DrawableRes icon:Int, size:Dp,onClick:()->Unit={}){
 
-    IconButton(onClick = { /*TODO*/ }) {
+    IconButton(onClick = { onClick() }) {
         Icon(painter = painterResource(id = icon),
             contentDescription = "Profile_Image",
 
@@ -29,6 +29,7 @@ fun RoundIconButton(@DrawableRes icon:Int, size:Dp){
                 .padding(10.dp)
                 .size(size)
             ,
+            tint = MaterialTheme.colorScheme.onBackground
 
         )
     }

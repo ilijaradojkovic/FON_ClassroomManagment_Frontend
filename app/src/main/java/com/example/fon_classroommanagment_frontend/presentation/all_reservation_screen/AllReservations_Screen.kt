@@ -24,19 +24,17 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AllReservations_Screen(
-    navHostController: NavHostController,
     allReservationViewModel: AllReservationViewModel
 ) {
 
-    val datePickerState =
-        rememberDatePickerState(initialDate = LocalDate.now())
+
 
     val reservations =  allReservationViewModel.reservationForDay
 
 
 
     LaunchedEffect(key1 = true ){
-        allReservationViewModel.getReservationsForData(datePickerState.initialDate)
+        allReservationViewModel.getReservationsForData(LocalDate.now())
     }
         Column(
             modifier = Modifier
@@ -49,7 +47,7 @@ fun AllReservations_Screen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker(datePickerState)
+                CallendarPicker(){allReservationViewModel.getReservationsForData(it)}
             }
 
             Row(modifier = Modifier) {

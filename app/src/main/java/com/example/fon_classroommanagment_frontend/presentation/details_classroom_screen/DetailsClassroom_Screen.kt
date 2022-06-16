@@ -37,8 +37,7 @@ fun DetailsClassroom_Screen(navController: NavHostController) {
     Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
-        val datePickerState =
-            rememberDatePickerState(initialDate = LocalDate.now())
+
 
         Column(
             modifier = Modifier
@@ -95,7 +94,7 @@ fun DetailsClassroom_Screen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker(datePickerState)
+                CallendarPicker(){}
             }
             Column() {
                 Schedule(

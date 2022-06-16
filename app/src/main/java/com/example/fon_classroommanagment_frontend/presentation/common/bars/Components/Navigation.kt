@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fon_classroommanagment_frontend.presentation.main_screen.components.Main_Screen
 import com.example.fon_classroommanagment_frontend.Login_Screen
+import com.example.fon_classroommanagment_frontend.MyClassroomRequests_Screen
 import com.example.fon_classroommanagment_frontend.SignUp_Screen
 import com.example.fon_classroommanagment_frontend.Splash_Screen
 import com.example.fon_classroommanagment_frontend.common.Screen
@@ -58,17 +59,28 @@ fun Navigation() {
         composable(route= Screen.DetailsClassroomScreen.route){
             DetailsClassroom_Screen(navController)
         }
-        composable(route= Screen.AppointmentScreen.route+"/{classroomId}",
+        composable(route= Screen.AppointmentScreen.route+"?classroomId={classroomId}",
             arguments = listOf(navArgument("classroomId"){
-            type= NavType.IntType
-            defaultValue=-1
+            type= NavType.LongType
+            defaultValue=-1L
 
         })){
-            val classroomId=it.arguments?.getInt("classroomId")
+            val classroomId=it.arguments?.getLong("classroomId")
             if (classroomId != null) {
-                Appointment_Screen(classroomId)
+                Appointment_Screen(classroomId,navController)
             }
         }
+
+
+        composable(route= Screen.MyClassroomRequests_Screen.route){
+            MyClassroomRequests_Screen(navController)
+        }
+        composable(route= Screen.MyClassroomRequests_Screen.route){
+            MyClassroomRequests_Screen(navController)
+        }
+
+
+
         navigation(route = Screen.MainScreen.route, startDestination = Screen.BottomBarScreens.AllClassroomsScreen.route){
 
             composable(route = Screen.BottomBarScreens.AllClassroomsScreen.route){

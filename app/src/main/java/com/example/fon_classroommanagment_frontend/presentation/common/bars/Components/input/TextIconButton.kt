@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun TextIconButton(actionName:String,@DrawableRes icon:Int){
-    Button(onClick = { /*TODO*/ }, modifier = Modifier.height(50.dp)) {
+fun TextIconButton(actionName:String,@DrawableRes icon:Int,onClick:()->Unit){
+    Button(onClick = {onClick() }, modifier = Modifier.height(50.dp)) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround) {
             Text(text = actionName, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.background)
             Icon(painter = painterResource(id =icon ), contentDescription ="Icon button", modifier = Modifier.size(24.dp))

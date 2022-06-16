@@ -33,6 +33,7 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Succ
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
 import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
+import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 //import com.example.fon_classroommanagment_frontend.ui.theme.FON_ClassroomManagment_FrontendTheme
@@ -51,8 +52,8 @@ class MainActivity :  ComponentActivity() {
             setContent {
                 LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT)
                 FON_ClassroomManagment_FrontendTheme() {
-                    Navigation()
-
+                  //  Navigation()
+                    Appointment_Screen(-1, rememberNavController())
                   // RequestContentPermission()
                     //TypeEMP_EducationEMP_Screen(UserRegistrationDTO(), navHostController = rememberNavController(
                    // ))

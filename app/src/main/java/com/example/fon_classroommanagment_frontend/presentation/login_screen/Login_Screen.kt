@@ -1,6 +1,8 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -49,7 +51,7 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
             navController.navigate(route = Screen.MainScreen.route)
     }
       
-    Column() {
+    Column(modifier = Modifier.animateContentSize(tween(500))) {
         //naslov
         Row(
             modifier = Modifier

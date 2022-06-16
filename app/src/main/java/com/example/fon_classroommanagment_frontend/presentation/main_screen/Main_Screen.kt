@@ -41,6 +41,7 @@ fun Main_Screen(
     allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel(),
     allReservationViewModel: AllReservationViewModel = hiltViewModel()
     ){
+
     val searchText by allClassroomsViewModel.searchText
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -69,7 +70,7 @@ fun Main_Screen(
             bottomBar = { BottonBar(navHostController) },
             floatingActionButton = {
                if(navHostController.currentDestination!!.route==Screen.BottomBarScreens.ReservationScreen.route)
-                    androidx.compose.material3.FloatingActionButton(onClick = { /*TODO*/ }) {
+                    androidx.compose.material3.FloatingActionButton(onClick = {navHostController.navigate(Screen.MyClassroomRequests_Screen.route)}) {
                     Icon(painter = painterResource(id = R.drawable.arrow_right), contentDescription ="" , modifier = Modifier.size(24.dp))
             }}
             ) {
@@ -87,7 +88,7 @@ fun Main_Screen(
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
                         displayTopBarElements=true
-                        AllReservations_Screen(navHostController,allReservationViewModel)
+                        AllReservations_Screen(allReservationViewModel)
                     }
                     Screen.BottomBarScreens.UserProfileScreen.title->{
                         displayTopBarElements=true

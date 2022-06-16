@@ -30,7 +30,7 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getReservationsForData(initialDate: LocalDate) {
-
+        _reservationsForDay.clear()
         getReservationsForDateUseCase(CreateRequestAppointmetDateDTO(initialDate)).onEach {
 
             result->
@@ -52,7 +52,7 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun TransformToLocalDate(hours: Int): LocalDateTime {
-var localDate=    LocalDateTime.now()
+        var localDate=    LocalDateTime.now()
 
        localDate= localDate.withHour(hours)
         localDate=localDate.withMinute(0)

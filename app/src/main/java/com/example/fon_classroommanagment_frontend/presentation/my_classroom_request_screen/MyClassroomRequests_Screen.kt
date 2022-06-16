@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -7,12 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundIconButton
 
 @Composable
-fun MyClassroomRequests_Screen(){
+fun MyClassroomRequests_Screen(navController: NavHostController) {
 
-    Column(modifier= Modifier.fillMaxSize()) {
+    Column(modifier= Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
         Row(
             modifier = Modifier
@@ -22,11 +25,11 @@ fun MyClassroomRequests_Screen(){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            OutlinedButton(onClick = { /*TODO*/ }, shape = MaterialTheme.shapes.medium) {
+            Button(onClick = { /*TODO*/ }, shape = MaterialTheme.shapes.medium) {
                 Text(
                     "Complete",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
 
@@ -41,7 +44,7 @@ fun MyClassroomRequests_Screen(){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            RoundIconButton(R.drawable.plus,24.dp)
+            RoundIconButton(R.drawable.plus,24.dp){navController.navigate(Screen.AppointmentScreen.route)}
         }
 
         Row(
@@ -71,7 +74,7 @@ fun ClassromRequestCard(){
                     Text(text = "C001", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary)
                 }
                 Row(modifier = Modifier.weight(4f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-                    Text("Predavanje iz programiranja 2",style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
+                    Text("Predavanje iz programiranja 2",style = MaterialTheme.typography.bodyLarge , color = MaterialTheme.colorScheme.onBackground)
                 }
             }
             Row(modifier = Modifier.weight(1f).padding(10.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
