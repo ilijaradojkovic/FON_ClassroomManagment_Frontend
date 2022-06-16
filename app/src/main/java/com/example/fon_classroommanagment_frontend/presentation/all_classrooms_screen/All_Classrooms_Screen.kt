@@ -69,12 +69,11 @@ fun All_Classrooms(
             }
 
             item{
-                AnimatedVisibility(scrollContext.isBottom  ) {
+                AnimatedVisibility(scrollContext.isBottom ) {
                     if(networkState.isError)
                         Row(modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp), horizontalArrangement = Arrangement.Center){
-                           // Icon(painter = painterResource(id = R.drawable.no_wifi), contentDescription = "", modifier = Modifier.size(24.dp))
                            LottieAnimation(lottieAnim = R.raw.no_wifi, iterations = LottieConstants.IterateForever)
 
                         }
@@ -82,8 +81,7 @@ fun All_Classrooms(
                         Row(modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp), horizontalArrangement = Arrangement.Center){
-                            // Icon(painter = painterResource(id = R.drawable.no_wifi), contentDescription = "", modifier = Modifier.size(24.dp))
-                            LottieAnimation(lottieAnim = R.raw.no_wifi, iterations = LottieConstants.IterateForever)
+                            LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations = LottieConstants.IterateForever)
 
                         }
                     }

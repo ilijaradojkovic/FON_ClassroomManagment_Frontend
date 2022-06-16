@@ -71,12 +71,7 @@ fun AppointmentInput(
                     )
                 },
             textStyle = MaterialTheme.typography.labelLarge,
-            trailingIcon={if(trailingIcon!=null)
-                        Icon(painter = painterResource(
-                            id = trailingIcon),
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            contentDescription = "Trailing icon",
-                            modifier = Modifier.size(24.dp))
+            trailingIcon={
                 if(errorText.isNotEmpty()){
                  if(showTooltip) {
                      val tooltipstyple = rememberTooltipStyle()
@@ -102,7 +97,12 @@ fun AppointmentInput(
                         modifier = Modifier
                             .size(24.dp)
                             .clickable { showTooltip = !showTooltip })
-                }
+                }else if(trailingIcon!=null)
+                    Icon(painter = painterResource(
+                        id = trailingIcon),
+                        tint = MaterialTheme.colorScheme.onBackground,
+                        contentDescription = "Trailing icon",
+                        modifier = Modifier.size(24.dp))
                              },
             isError = errorText.isNotEmpty(),
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),

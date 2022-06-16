@@ -9,4 +9,6 @@ object Constants {
 
     const val MIN_CAPACITY=0
     const val MAX_CAPACITY=200
+    const val MAX_WORK_TIME=20
+    const val MIN_WORK_TIME=8
 }
