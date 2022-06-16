@@ -68,6 +68,12 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
 
+    //all material icons
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
+    //tooltip
+    implementation "com.github.skgmn:composetooltip:0.2.0"
+
     //material 3
     implementation "androidx.compose.material3:material3:1.0.0-alpha13"
     implementation "androidx.compose.material3:material3-window-size-class:1.0.0-alpha13"

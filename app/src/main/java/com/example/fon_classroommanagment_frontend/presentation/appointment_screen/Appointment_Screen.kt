@@ -53,20 +53,20 @@ fun Appointment_Screen(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            AppointmentInput(appointmentCreationViewModel.nameText,{appointmentCreationViewModel.nameText=it},hint = "Name", errorText = appointmentCreationViewModel.nameTextError)
+            AppointmentInput(appointmentCreationViewModel.nameText,{appointmentCreationViewModel.nameText=it},hint = "Name", errorText = appointmentCreationViewModel.nameTextError, isScrolling = scrollableState.isScrollInProgress, explainedError = "fewgewt wet")
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
 
-            AppointmentInput(appointmentCreationViewModel.reasonText,{appointmentCreationViewModel.reasonText=it},hint = "Razlog",errorText = appointmentCreationViewModel.reasonTextError)
+            AppointmentInput(appointmentCreationViewModel.reasonText,{appointmentCreationViewModel.reasonText=it},hint = "Razlog",errorText = appointmentCreationViewModel.reasonTextError,isScrolling = scrollableState.isScrollInProgress, explainedError = "")
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            AppointmentInput(appointmentCreationViewModel.numAttendeesText.toString(),{appointmentCreationViewModel.numAttendeesText=it},hint = "Broj prisutnih", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.numAttendeesTextError)
+            AppointmentInput(appointmentCreationViewModel.numAttendeesText,{appointmentCreationViewModel.numAttendeesText=it},hint = "Broj prisutnih", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.numAttendeesTextError,isScrolling = scrollableState.isScrollInProgress, explainedError = "")
         }
         Row(
             modifier = Modifier
@@ -83,7 +83,7 @@ fun Appointment_Screen(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    AppointmentInput("",{},"Classroom", trailingIcon = R.drawable.plus)
+                    AppointmentInput("",{},"Classroom", trailingIcon = R.drawable.plus,isScrolling = scrollableState.isScrollInProgress, explainedError = "")
                     FlowRow(
                         Modifier.fillMaxWidth(),
                         mainAxisAlignment = FlowMainAxisAlignment.Center
@@ -135,7 +135,7 @@ fun Appointment_Screen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Row(modifier = Modifier.fillMaxWidth(0.7f)) {
-                        AppointmentInput(appointmentCreationViewModel.startTime,{appointmentCreationViewModel.startTime=it},hint = "Od", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.startTimeError)
+                        AppointmentInput(appointmentCreationViewModel.startTime,{appointmentCreationViewModel.startTime=it},hint = "Od", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.startTimeError,isScrolling = scrollableState.isScrollInProgress, explainedError = "")
                     }
 
                 }
@@ -145,7 +145,7 @@ fun Appointment_Screen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Row(modifier = Modifier.fillMaxWidth(0.7f)) {
-                        AppointmentInput(appointmentCreationViewModel.endTime,{appointmentCreationViewModel.endTime=it},hint = "Do", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.endTimeError)
+                        AppointmentInput(appointmentCreationViewModel.endTime,{appointmentCreationViewModel.endTime=it},hint = "Do", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.endTimeError,isScrolling = scrollableState.isScrollInProgress  , explainedError = "")
                     }
                 }
             }

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun AppointmetnComboBox( @DrawableRes trailingIcon: Int) {
 
-    AppointmentInput("",{},hint = "Select",trailingIcon=trailingIcon, enabled = false)
+    AppointmentInput("",{},hint = "Select",trailingIcon=trailingIcon, enabled = false, isScrolling = false, explainedError = "")
     DropdownMenu(expanded = false, onDismissRequest = { }) {
 
     }
