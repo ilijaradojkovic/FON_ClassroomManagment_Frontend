@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIM
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.InformationChip
+import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 
@@ -38,44 +40,45 @@ fun Appointment_Screen(
     appointmentCreationViewModel: AppointmentCreationViewModel = hiltViewModel()
 ) {
     val scrollableState = rememberScrollState()
-
+    val datePickerState= rememberDatePickerState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(scrollableState)
-            .padding(0.dp, 20.dp)
+            .padding(0.dp, 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.8f)
         ) {
             AppointmentInput(appointmentCreationViewModel.nameText,{appointmentCreationViewModel.nameText=it},hint = "Name", errorText = appointmentCreationViewModel.nameTextError, isScrolling = scrollableState.isScrollInProgress, explainedError = appointmentCreationViewModel.nameTextErrorExplained)
         }
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.8f)
         ) {
 
             AppointmentInput(appointmentCreationViewModel.reasonText,{appointmentCreationViewModel.reasonText=it},hint = "Razlog",errorText = appointmentCreationViewModel.reasonTextError,isScrolling = scrollableState.isScrollInProgress, explainedError = appointmentCreationViewModel.reasonTextErrorExplained)
         }
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.8f)
         ) {
             AppointmentInput(appointmentCreationViewModel.numAttendeesText,{appointmentCreationViewModel.numAttendeesText=it},hint = "Broj prisutnih", keyboardType = KeyboardType.Number,errorText = appointmentCreationViewModel.numAttendeesTextError,isScrolling = scrollableState.isScrollInProgress, explainedError =appointmentCreationViewModel.numAttendeesTextErrorExplained)
         }
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.8f)
         ) {
-            AppointmetnComboBox(com.google.android.material.R.drawable.mtrl_ic_arrow_drop_down)
+            AppointmetnComboBox(appointmentCreationViewModel.appointmentTypes,appointmentCreationViewModel.typeClassError)
         }
         if (classroom ==-1L) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(0.8f)
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -99,7 +102,7 @@ fun Appointment_Screen(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            CallendarPicker(){appointmentCreationViewModel.forDate=it}
+            CallendarPicker(datePickerState){appointmentCreationViewModel.forDate=it}
         }
 
         Column(

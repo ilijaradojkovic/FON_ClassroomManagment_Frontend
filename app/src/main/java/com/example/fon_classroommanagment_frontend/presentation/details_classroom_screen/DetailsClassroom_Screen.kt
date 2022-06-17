@@ -34,6 +34,9 @@ import kotlin.random.Random
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailsClassroom_Screen(navController: NavHostController) {
+
+    val datePickerState= rememberDatePickerState()
+
     Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
@@ -66,7 +69,8 @@ fun DetailsClassroom_Screen(navController: NavHostController) {
             Row(
                 modifier = Modifier
                     .height(200.dp)
-                    .fillMaxWidth().padding(15.dp,0.dp)
+                    .fillMaxWidth()
+                    .padding(15.dp, 0.dp)
             ) {
                 Statistics()
             }
@@ -94,7 +98,7 @@ fun DetailsClassroom_Screen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker(){}
+                CallendarPicker(datePickerState){}
             }
             Column() {
                 Schedule(

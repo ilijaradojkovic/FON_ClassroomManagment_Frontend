@@ -39,4 +39,7 @@ interface API {
     @POST("GetForDate")
     suspend fun  getReservationsForDate(@Body requestAppointmetDateDTO: RequestAppointmetDateDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<GetForDateAppointmentDTO>
 
+
+    @GET("allAppointmentTypes")
+    suspend fun  getAllAppointmentTypes(@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<AppointmentType>
 }

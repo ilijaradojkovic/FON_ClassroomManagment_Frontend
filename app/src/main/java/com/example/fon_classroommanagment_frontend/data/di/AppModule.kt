@@ -157,4 +157,7 @@ fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeType
     @Singleton
     fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForDateUseCse):AllReservationViewModel=AllReservationViewModel(getReservationsForDateUseCse)
 
+    @Provides
+    @Singleton
+    fun provideGetAllReservationTypesUseCase(commonDataRepository: CommonDataRepository):GetAllReservationTypesUseCase=GetAllReservationTypesUseCase(commonDataRepository)
 }

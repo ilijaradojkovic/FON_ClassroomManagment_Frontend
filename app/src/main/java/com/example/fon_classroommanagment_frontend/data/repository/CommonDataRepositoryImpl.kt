@@ -1,10 +1,7 @@
 package com.example.fon_classroommanagment_frontend.data.repository
 
-import com.example.fon_classroommanagment_frontend.domain.model.EducationTitle
-import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
-import com.example.fon_classroommanagment_frontend.domain.model.EmployeeType
 import com.example.fon_classroommanagment_frontend.data.remote.API
-import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
+import com.example.fon_classroommanagment_frontend.domain.model.*
 import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
 import javax.inject.Inject
 
@@ -29,6 +26,10 @@ class CommonDataRepositoryImpl @Inject constructor(
 
     override suspend fun getAllClassroomTypes(): List<ClassroomType> {
         return  api.GetAllClassroomTypes()
+    }
+
+    override suspend fun getAllAppointmentTypes(): List<AppointmentType> {
+      return  api.getAllAppointmentTypes()
     }
 
 

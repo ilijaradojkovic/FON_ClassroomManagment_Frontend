@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.screens
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -32,6 +33,7 @@ fun All_Classrooms(
 
     val networkState by allClassroomsViewModel.networkState
 
+    val isLoading_isError_DP= animateDpAsState(targetValue = if(networkState.isError || networkState.isLoading) 60.dp else 0.dp)
 
 
     LaunchedEffect(key1 = scrollContext.isBottom){
@@ -49,8 +51,6 @@ fun All_Classrooms(
                     seachedClassrooms else classrooms,
 
             ){index,item->
-
-
                     Row(
                         Modifier
                     ) {
@@ -60,32 +60,27 @@ fun All_Classrooms(
                             item.projector,
                             item.number_of_seats
                         ) { navHostController.navigate(Screen.DetailsClassroomScreen.route) }
-
                     }
-
-
-
-
             }
-
             item{
                 AnimatedVisibility(scrollContext.isBottom ) {
+
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(isLoading_isError_DP.value), horizontalArrangement = Arrangement.Center) {
+
                     if(networkState.isError)
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp), horizontalArrangement = Arrangement.Center){
                            LottieAnimation(lottieAnim = R.raw.no_wifi, iterations = LottieConstants.IterateForever)
 
-                        }
+
                     else if(networkState.isLoading){
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp), horizontalArrangement = Arrangement.Center){
+
                             LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations = LottieConstants.IterateForever)
 
-                        }
+
                     }
                 }
+            }
             }
 
         }

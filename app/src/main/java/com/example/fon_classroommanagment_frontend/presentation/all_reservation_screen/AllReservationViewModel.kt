@@ -39,7 +39,7 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
             result->
             when(result){
                 is Response.Success->{
-                    Log.i("cao",result.data.toString())
+
                     _uiState.value=UIRequestResponse(success = true)
                     val transofmed=result.data?.map { x->Event(x.typeName,x.classroomName, TransformToLocalDate(x.Start_timeInHours),TransformToLocalDate(x.End_timeInHours)) }
                     if (transofmed != null) {
@@ -49,11 +49,11 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
 
                 }
                 is Response.Error->{
-                    _uiState.value= UIRequestResponse(isError = true)
-                    Log.i("cao",result.message.toString())}
+
+                  }
                 is Response.Loading->{
                     _uiState.value=UIRequestResponse(isLoading = true)
-                    Log.i("cao","loading")}
+                   }
             }
         }
             .launchIn(viewModelScope)

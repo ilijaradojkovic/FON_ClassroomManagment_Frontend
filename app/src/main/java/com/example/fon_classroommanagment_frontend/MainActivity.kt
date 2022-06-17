@@ -53,11 +53,9 @@ class MainActivity :  ComponentActivity() {
                 LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT)
                 FON_ClassroomManagment_FrontendTheme() {
                     Navigation()
-                    //Appointment_Screen(-1, rememberNavController())
-                  // RequestContentPermission()
-                    //TypeEMP_EducationEMP_Screen(UserRegistrationDTO(), navHostController = rememberNavController(
-                   // ))
-                    //AllReservations_Screen(rememberNavController())
+
+                    //Appointment_Screen(classroom = -1, navHostController = rememberNavController(
+                    //) )
                 }
             }
     }

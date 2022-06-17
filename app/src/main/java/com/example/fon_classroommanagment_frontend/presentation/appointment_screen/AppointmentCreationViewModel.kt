@@ -5,24 +5,30 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
+import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
+import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllReservationTypesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.time.LocalDate
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class AppointmentCreationViewModel @Inject constructor():ViewModel() {
+class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase):ViewModel() {
 
 
     var nameText by  mutableStateOf("") 
     var reasonText by mutableStateOf("") 
     var numAttendeesText by mutableStateOf("") 
     var descriptionText by  mutableStateOf("") 
-    var typeClass by mutableStateOf(0) 
+    var typeClass by mutableStateOf(-1)
     var classrooms =  mutableStateListOf(0) 
     var startTime by   mutableStateOf("") 
     var endTime by  mutableStateOf("") 
@@ -42,11 +48,34 @@ class AppointmentCreationViewModel @Inject constructor():ViewModel() {
     var reasonTextErrorExplained by mutableStateOf("")
     var numAttendeesTextErrorExplained by mutableStateOf("")
     var descriptionTextErrorExplained by  mutableStateOf("")
-    var typeClassErrorExplained by mutableStateOf("")
+   // var typeClassErrorExplained by mutableStateOf("")
     var classroomsErrorExplained =  mutableStateListOf("")
     var startTimeErrorExplained by   mutableStateOf("")
     var endTimeErrorExplained by  mutableStateOf("")
     var forDateErrorExplained by   mutableStateOf(LocalDate.now())
+
+
+
+    private var _appointmentTypes = mutableStateListOf<AppointmentType>()
+    val appointmentTypes = _appointmentTypes
+    init {
+        getAllReservationTypes()
+    }
+
+    private fun getAllReservationTypes() {
+        getAllReservationTypesUseCase().onEach {
+        result->
+            when(result){
+                is Response.Loading->{}
+                is Response.Error->{}
+                is Response.Success->{
+                    result.data?.let { _appointmentTypes.addAll(it) }
+
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
     fun createAppointment(){
 
@@ -65,8 +94,18 @@ class AppointmentCreationViewModel @Inject constructor():ViewModel() {
         if(!validateAttendees()) result= false
        if(!validateStartTime()) result =false
        if(!validateEndTime()) result= false
+       if(!validateAppointmentType()) result=false
        return result
        
+    }
+
+    private fun validateAppointmentType(): Boolean {
+        if(typeClass==-1){
+
+            typeClassError="Please select appointment type"
+            return false
+        }
+        return true
     }
     //stavi da polja budu single line
 

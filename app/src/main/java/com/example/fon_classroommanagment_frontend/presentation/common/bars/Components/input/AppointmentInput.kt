@@ -43,8 +43,8 @@ fun AppointmentInput(
     trailingIcon:Int?=null,
     enabled:Boolean=true,
     errorText:String="",
-    isScrolling:Boolean,
-    explainedError:String
+    isScrolling:Boolean=false,
+    explainedError:String=""
     ){
 
     var showTooltip by remember{ mutableStateOf(false)}
@@ -115,7 +115,12 @@ fun AppointmentInput(
 
             onValueChange ={onTextChange(it)} )
 
-            ErrorField(errorText,Modifier.fillMaxWidth(0.7f))
+        Box(modifier=Modifier.fillMaxWidth().padding(10.dp,0.dp), contentAlignment = Alignment.CenterStart){
+            ErrorField(errorText,Modifier.fillMaxWidth())
+
+
+        }
+
 
 
     }

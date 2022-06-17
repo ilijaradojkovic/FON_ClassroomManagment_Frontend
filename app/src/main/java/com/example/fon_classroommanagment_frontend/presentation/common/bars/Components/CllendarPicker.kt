@@ -23,11 +23,11 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CallendarPicker(
-
+    datePickerState:DatePickerState,
     onDateChaned :(LocalDate)->Unit
                     ) {
 
-val datePicked = rememberDatePickerState()
+
 
     DatePickerTimeline(
         modifier = Modifier
@@ -38,7 +38,7 @@ val datePicked = rememberDatePickerState()
             onDateChaned(selectedDate)
         },
         backgroundColor = MaterialTheme.colorScheme.background,
-        state = datePicked,
+        state = datePickerState,
         orientation = Orientation.Horizontal,
         selectedBackgroundColor = MaterialTheme.colorScheme.secondary ,
         selectedTextColor = MaterialTheme.colorScheme.onSecondary,
@@ -49,8 +49,8 @@ val datePicked = rememberDatePickerState()
                 modifier = Modifier
                     .padding(10.dp)
                     .clickable {
-                        datePicked.smoothScrollToDate(LocalDate.now())
-                        onDateChaned(datePicked.initialDate)
+                        datePickerState.smoothScrollToDate(LocalDate.now())
+                        onDateChaned(datePickerState.initialDate)
                     },
                 text = "Today",
                 color = MaterialTheme.colorScheme.onBackground,

@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -41,11 +42,13 @@ fun AllReservations_Screen(
     val reservations =  allReservationViewModel.reservationForDay
 
     val state by allReservationViewModel.uiState
+    val datePicked = rememberDatePickerState()
 
     val heightAnim = animateDpAsState(targetValue = if(state.isError) 100.dp else 0.dp)
-    LaunchedEffect(key1 = true ){
-        allReservationViewModel.getReservationsForData(LocalDate.now())
+    LaunchedEffect(key1 = true){
+        allReservationViewModel.getReservationsForData(datePicked.initialDate)
     }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,7 +61,7 @@ fun AllReservations_Screen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker(){allReservationViewModel.getReservationsForData(it)}
+                CallendarPicker(datePicked){allReservationViewModel.getReservationsForData(it)}
             }
 
 
