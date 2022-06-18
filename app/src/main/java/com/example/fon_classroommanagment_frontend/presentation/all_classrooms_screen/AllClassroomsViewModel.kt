@@ -10,7 +10,7 @@ import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearched
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearchedUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearched):ViewModel() {
+class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase):ViewModel() {
 
     private var page:Int=1
     private var searchPage:Int=1

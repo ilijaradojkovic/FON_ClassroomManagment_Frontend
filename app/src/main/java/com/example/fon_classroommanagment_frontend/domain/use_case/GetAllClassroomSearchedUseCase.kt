@@ -10,7 +10,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetAllClassroomSearched @Inject constructor(private val classroomRepository: ClassroomRepository) {
+class GetAllClassroomSearchedUseCase @Inject constructor(private val classroomRepository: ClassroomRepository) {
 
     operator fun invoke(searchClassroomDTO: SearchClassroomDTO): Flow<Response<List<ClassroomCardDTO>>> = flow {
         try{
