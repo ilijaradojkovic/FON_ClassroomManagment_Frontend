@@ -69,9 +69,6 @@ class AppModule {
     fun provideSharedPref(app: Application): SharedPreferences {
         return app.getSharedPreferences("prefs", MODE_PRIVATE)
     }
-    @Singleton
-    @Provides
-    fun provideAuthRepository(api: API,sharedPreferences: SharedPreferences): AuthRepository = AuthRepositoryImpl(api,sharedPreferences)
 
     @Singleton
     @Provides
@@ -91,10 +88,6 @@ class AppModule {
     @Provides
     fun provideRegisterViewModel(registerUseCase: RegisterUseCase): RegisterViewModel = RegisterViewModel(registerUseCase)
 
-
-    @Singleton
-    @Provides
-    fun provideCommonDataRepository(api: API):CommonDataRepository=CommonDataRepositoryImpl(api)
 
     @Singleton
     @Provides
@@ -127,9 +120,6 @@ fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeType
     @Provides
     fun provideFilterViewModel(getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase):FilterViewModel=FilterViewModel(getAllClassroomTypesUserCase)
 
-    @Provides
-    @Singleton
-    fun provideClassroomRepository(api: API):ClassroomRepository=ClassroomRepositoryImpl(api)
 
     @Provides
     @Singleton
@@ -145,9 +135,6 @@ fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeType
         AllClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched)
 
 
-    @Provides
-    @Singleton
-    fun provideReservationRepositoryImpl(api: API):ReservationRepository=ReservationRepositoryImpl(api)
 
     @Provides
     @Singleton
