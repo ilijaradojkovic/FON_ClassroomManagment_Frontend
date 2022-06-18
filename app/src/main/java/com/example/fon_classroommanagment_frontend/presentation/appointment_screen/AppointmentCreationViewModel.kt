@@ -13,6 +13,7 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllReservationTypesUseCase
+import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ChipItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,7 +30,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     var numAttendeesText by mutableStateOf("") 
     var descriptionText by  mutableStateOf("") 
     var typeClass by mutableStateOf(-1)
-    var classrooms =  mutableStateListOf(0) 
+    var classrooms =  mutableStateListOf<ChipItem>()
     var startTime by   mutableStateOf("") 
     var endTime by  mutableStateOf("") 
     var forDate by   mutableStateOf(LocalDate.now()) 
@@ -39,7 +40,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     var numAttendeesTextError by mutableStateOf("")
     var descriptionTextError by  mutableStateOf("")
     var typeClassError by mutableStateOf("")
-    var classroomsError =  mutableStateListOf("")
+    var classroomsError by  mutableStateOf("")
     var startTimeError by   mutableStateOf("")
     var endTimeError by  mutableStateOf("")
     var forDateError by   mutableStateOf(LocalDate.now())
@@ -49,10 +50,10 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     var numAttendeesTextErrorExplained by mutableStateOf("")
     var descriptionTextErrorExplained by  mutableStateOf("")
    // var typeClassErrorExplained by mutableStateOf("")
-    var classroomsErrorExplained =  mutableStateListOf("")
+   // var classroomsErrorExplained =  mutableStateListOf("")
     var startTimeErrorExplained by   mutableStateOf("")
     var endTimeErrorExplained by  mutableStateOf("")
-    var forDateErrorExplained by   mutableStateOf(LocalDate.now())
+  //  var forDateErrorExplained by   mutableStateOf(LocalDate.now())
 
 
 
@@ -95,8 +96,18 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
        if(!validateStartTime()) result =false
        if(!validateEndTime()) result= false
        if(!validateAppointmentType()) result=false
+       if(!validateClassroomsAppointment()) result=false
        return result
        
+    }
+
+    private fun validateClassroomsAppointment(): Boolean {
+    if(classrooms.isEmpty()){
+        classroomsError="Please select at least one classroom"
+        return false
+    }
+        classroomsError=""
+        return true
     }
 
     private fun validateAppointmentType(): Boolean {
@@ -105,6 +116,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
             typeClassError="Please select appointment type"
             return false
         }
+        typeClassError=""
         return true
     }
     //stavi da polja budu single line

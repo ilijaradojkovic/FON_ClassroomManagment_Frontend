@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Icon
@@ -16,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
 
 @Composable
-fun  InformationChip(title: String) {
+fun  InformationChip(title: String, onDelete: () -> Boolean) {
     Surface(
         modifier = Modifier
             .padding(end = 16.dp, bottom = 16.dp)
@@ -41,7 +42,7 @@ fun  InformationChip(title: String) {
             Box(modifier = Modifier.padding(8.dp,8.dp)){
             Icon(painter = painterResource(id = R.drawable.close),
                 contentDescription ="",
-                modifier = Modifier.size(15.dp),
+                modifier = Modifier.size(15.dp).clickable{onDelete()},
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
                 }

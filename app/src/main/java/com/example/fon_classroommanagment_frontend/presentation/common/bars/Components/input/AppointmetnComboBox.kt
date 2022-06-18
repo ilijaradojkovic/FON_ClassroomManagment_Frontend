@@ -32,7 +32,8 @@ import com.github.skgmn.composetooltip.rememberTooltipStyle
 @Composable
 fun AppointmetnComboBox(
     dataList: SnapshotStateList<AppointmentType>,
-    errorText:String
+    errorText: String,
+    onSelect: (Int) -> Unit
 ) {
 
     var comboBoxOpened by remember {
@@ -106,6 +107,7 @@ fun AppointmetnComboBox(
 
                     selectedText = data.name
                     comboBoxOpened = !comboBoxOpened
+                    onSelect(data.id)
                 })
             }
         }

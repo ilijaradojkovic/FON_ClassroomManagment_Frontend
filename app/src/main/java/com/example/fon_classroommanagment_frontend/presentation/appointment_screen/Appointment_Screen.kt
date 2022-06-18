@@ -6,13 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -27,10 +24,8 @@ import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.InformationChip
+import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ClassroomInputChip
 import com.foreverrafs.datepicker.state.rememberDatePickerState
-import com.google.accompanist.flowlayout.FlowMainAxisAlignment
-import com.google.accompanist.flowlayout.FlowRow
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -73,7 +68,9 @@ fun Appointment_Screen(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
         ) {
-            AppointmetnComboBox(appointmentCreationViewModel.appointmentTypes,appointmentCreationViewModel.typeClassError)
+            AppointmetnComboBox(appointmentCreationViewModel.appointmentTypes,appointmentCreationViewModel.typeClassError) {
+                appointmentCreationViewModel.typeClass = it
+            }
         }
         if (classroom ==-1L) {
             Row(
@@ -84,17 +81,9 @@ fun Appointment_Screen(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    AppointmentInput("",{},"Classroom", trailingIcon = R.drawable.plus,isScrolling = scrollableState.isScrollInProgress, explainedError = "")
-                    FlowRow(
-                        Modifier.fillMaxWidth(),
-                        mainAxisAlignment = FlowMainAxisAlignment.Center
-                    ) {
-                        InformationChip("C001")
-                        InformationChip("B103")
+                    ClassroomInputChip(appointmentCreationViewModel.classroomsError,appointmentCreationViewModel.classrooms)
 
 
-
-                    }
                 }
             }
         }
