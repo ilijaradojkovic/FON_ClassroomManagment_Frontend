@@ -27,7 +27,7 @@ fun Text_Field(text:String, changeText:(String)->Unit, @DrawableRes leadingIcon:
             modifier = Modifier
                 .border(1.dp,if(errorMessage.isEmpty()) Color.Transparent else MaterialTheme.colorScheme.error,MaterialTheme.shapes.extraLarge),
             isError = errorMessage.isEmpty(),
-
+            singleLine=true,
             shape = MaterialTheme.shapes.extraLarge,
             onValueChange = { it -> changeText(it) },
             placeholder = { Text(hint, style = MaterialTheme.typography.bodyMedium) },
