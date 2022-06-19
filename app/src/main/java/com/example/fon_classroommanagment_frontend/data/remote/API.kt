@@ -42,4 +42,7 @@ interface API {
 
     @GET("allAppointmentTypes")
     suspend fun  getAllAppointmentTypes(@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<AppointmentType>
+
+   @GET("getClassroomsChip")
+    suspend fun GetClassroomsChip(@Query("name") name: String,@Header("Authorization") authHeader:String=TOKEN_VALIDATION): List<ClassroomChipDTO>
 }

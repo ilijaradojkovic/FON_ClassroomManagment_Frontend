@@ -1,8 +1,11 @@
 package com.example.fon_classroommanagment_frontend.data.di
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
@@ -52,5 +55,10 @@ class ViewModelDI {
     @Singleton
     fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForDateUseCse): AllReservationViewModel =
         AllReservationViewModel(getReservationsForDateUseCse)
+ @RequiresApi(Build.VERSION_CODES.O)
+ @Provides
+    @Singleton
+    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase): AppointmentCreationViewModel =
+     AppointmentCreationViewModel(getAllReservationTypesUseCase,getAllClassroomSearched)
 
 }

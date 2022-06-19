@@ -74,4 +74,9 @@ class UseCaseDI {
     fun provideGetAllReservationTypesUseCase(commonDataRepository: CommonDataRepository): GetAllReservationTypesUseCase =
         GetAllReservationTypesUseCase(commonDataRepository)
 
+    @Provides
+    @Singleton
+    fun provideGetClassroomChips(classroomRepository: ClassroomRepository): GetAllClassroomsChipUseCase =
+        GetAllClassroomsChipUseCase(classroomRepository)
+
 }

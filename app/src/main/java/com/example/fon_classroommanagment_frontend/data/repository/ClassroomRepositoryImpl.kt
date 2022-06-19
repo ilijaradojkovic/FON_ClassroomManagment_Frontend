@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.data.repository
 
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
 import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
 import javax.inject.Inject
@@ -13,6 +14,10 @@ class ClassroomRepositoryImpl @Inject constructor(private val api: API) :Classro
 
     override suspend fun getAllClassroomsSearchPage(searchClassroomDTO: SearchClassroomDTO): List<ClassroomCardDTO> {
         return  api.GetSearchClassrooms(searchClassroomDTO)
+    }
+
+    override suspend fun getAllClassroomsChip(name: String): List<ClassroomChipDTO> {
+        return  api.GetClassroomsChip(name)
     }
 
 

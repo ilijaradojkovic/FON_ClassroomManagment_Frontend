@@ -23,14 +23,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun ClassroomInputChip(
     errorText: String,
-    selectedItems: SnapshotStateList<ChipItem>,
-    classroomNames: SnapshotStateList<ClassroomCardDTO>,
+    selectedItems: SnapshotStateList<ClassroomChipDTO>,
+    classroomNames: SnapshotStateList<ClassroomChipDTO>,
     onTextChange: (String) -> Unit
 
 ){
@@ -64,7 +65,7 @@ fun ClassroomInputChip(
         ) {
 
             for (i in 0 until selectedItems.size) {
-                InformationChip(selectedItems[i].value) { selectedItems.remove(selectedItems[i]) }
+                InformationChip(selectedItems[i].name) { selectedItems.remove(selectedItems[i]) }
 
             }
 
@@ -76,9 +77,9 @@ fun ClassroomInputChip(
 @Composable
 fun CreateChipsInputFiled(
     text: String,
-    selectedItems: SnapshotStateList<ChipItem>,
+    selectedItems: SnapshotStateList<ClassroomChipDTO>,
     onTextChange: (String) -> Unit,
-    suggestions: SnapshotStateList<ClassroomCardDTO>,
+    suggestions: SnapshotStateList<ClassroomChipDTO>,
 
 ){
 
@@ -95,14 +96,22 @@ fun CreateChipsInputFiled(
             //Todo: call the view model method to update addressPlaceItemPredictions
         },
         predictions = suggestions.filter {x->x.name.startsWith(text.trim())  }     ,
-        onDoneActionClick = {},
+        onDoneActionClick = {
+
+                           val chip= suggestions.filter { x-> x.name == it }.firstOrNull()
+            chip?.let {
+                if(selectedItems.filter { x->x.name==chip.name }.firstOrNull()==null)
+                    selectedItems.add(chip)
+            }
+
+        },
         onItemClick = {
 
             //Todo: call the view model method to update the UI with the selection
                       onTextChange(it.name)
 
         },
-        selectedItems = selectedItems
+
     ) {
 
         //Define how the items need to be displayed
@@ -112,15 +121,14 @@ fun CreateChipsInputFiled(
 }
 
 @Composable
-fun <T> AutocompleteText(
+fun  AutocompleteText(
     modifier: Modifier,
     query: String,
     onQueryChanged: (String) -> Unit = {},
-    predictions: List<T>,
-    onDoneActionClick: () -> Unit = {},
-    onItemClick: (T) -> Unit = {},
-    selectedItems: SnapshotStateList<ChipItem>,
-    itemContent: @Composable (T) -> Unit = {}
+    predictions: List<ClassroomChipDTO>,
+    onDoneActionClick: (String) -> Unit = {},
+    onItemClick: (ClassroomChipDTO) -> Unit = {},
+    itemContent: @Composable (ClassroomChipDTO) -> Unit = {}
 
 ){
     val view = LocalView.current
@@ -136,9 +144,9 @@ fun <T> AutocompleteText(
                     onQueryChanged = onQueryChanged,
                     onDoneActionClick = {
                         view.clearFocus()
-                        onDoneActionClick()
+                        onDoneActionClick(query)
                     },
-                    selectedItems = selectedItems
+
                 )
             }
         }
@@ -172,9 +180,9 @@ fun <T> AutocompleteText(
 fun QuerySearch(
     modifier: Modifier = Modifier,
     query: String,
-    onDoneActionClick: () -> Unit = {},
+    onDoneActionClick: (String) -> Unit = {},
     onQueryChanged: (String) -> Unit,
-    selectedItems: SnapshotStateList<ChipItem>
+
 ) {
 
 
@@ -204,10 +212,10 @@ fun QuerySearch(
                     .clickable {
                         if (query
                                 .trim()
-                                .isNotEmpty() && !selectedItems.any { x -> x.value == query }
+                                .isNotEmpty()
                         ) {
                             val trimmedText = query.trim()
-                            selectedItems.add(ChipItem(trimmedText))
+                            onDoneActionClick(trimmedText)
                             onQueryChanged("")
                         }
                     }
@@ -215,7 +223,7 @@ fun QuerySearch(
         },
         singleLine = true,
         keyboardActions = KeyboardActions(onDone = {
-            onDoneActionClick()
+            onDoneActionClick(query.trim())
         }),
 
         keyboardOptions = KeyboardOptions(

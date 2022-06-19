@@ -10,13 +10,11 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearchedUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomsChipUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllReservationTypesUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomsUseCase
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ChipItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -28,7 +26,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,private val getAllClassroomSearchedUseCase: GetAllClassroomSearchedUseCase ):ViewModel() {
+class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase):ViewModel() {
 
 
     var nameText by  mutableStateOf("") 
@@ -36,7 +34,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     var numAttendeesText by mutableStateOf("") 
     var descriptionText by  mutableStateOf("") 
     var typeClass by mutableStateOf(-1)
-    var classrooms =  mutableStateListOf<ChipItem>()
+    var classrooms =  mutableStateListOf<ClassroomChipDTO>()
     var startTime by   mutableStateOf("") 
     var endTime by  mutableStateOf("") 
     var forDate by   mutableStateOf(LocalDate.now()) 
@@ -67,8 +65,8 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     private var _appointmentTypes = mutableStateListOf<AppointmentType>()
     val appointmentTypes = _appointmentTypes
 
-    private var _classroomNames = mutableStateListOf<ClassroomCardDTO>()
-    val classroomNames= _classroomNames
+    private var _classroomChips = mutableStateListOf<ClassroomChipDTO>()
+    val classroomNames= _classroomChips
 
 
     init {
@@ -77,15 +75,15 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     }
 
      fun getAllClassroomNamesSearched(query:String) {
-         _classroomNames.clear()
-        getAllClassroomSearchedUseCase(SearchClassroomDTO(query,1)).onEach {
+         _classroomChips.clear()
+         getAllClassroomsChipUseCase(query).onEach {
                 result->
             when(result){
                 is Response.Loading->{}
                 is Response.Error->{}
                 is Response.Success->{
 
-                    result.data?.let {_classroomNames.addAll(it) }
+                    result.data?.let {_classroomChips.addAll(it) }
 
                 }
             }
