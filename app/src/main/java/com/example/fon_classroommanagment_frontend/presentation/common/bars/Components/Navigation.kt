@@ -1,9 +1,11 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
 
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,8 +15,11 @@ import com.example.fon_classroommanagment_frontend.Login_Screen
 import com.example.fon_classroommanagment_frontend.MyClassroomRequests_Screen
 import com.example.fon_classroommanagment_frontend.SignUp_Screen
 import com.example.fon_classroommanagment_frontend.Splash_Screen
+import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
+import com.example.fon_classroommanagment_frontend.presentation.my_classroom_request_screen.RequestViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
@@ -25,6 +30,7 @@ fun Navigation() {
     val navController=rememberNavController()
     //Aditional_Info_Screen()
     //TypeEMP_EducationEMP_Screen()
+    val    requestViewMode: RequestViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
         composable(route = Screen.SplashScreen.route){
@@ -65,6 +71,7 @@ fun Navigation() {
             defaultValue=-1L
 
         })){
+
             val classroomId=it.arguments?.getLong("classroomId")
             if (classroomId != null) {
                 Appointment_Screen(classroomId,navController)
@@ -72,12 +79,18 @@ fun Navigation() {
         }
 
 
-        composable(route= Screen.MyClassroomRequests_Screen.route){
-            MyClassroomRequests_Screen(navController)
+        composable(route= Screen.MyClassroomRequests_Screen.route
+
+            ){
+            BackHandler(true) {
+
+            }
+            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<RequestReservastion>("reserveDTO")
+
+
+            MyClassroomRequests_Screen(navController,registerObject,requestViewMode)
         }
-        composable(route= Screen.MyClassroomRequests_Screen.route){
-            MyClassroomRequests_Screen(navController)
-        }
+
 
 
 

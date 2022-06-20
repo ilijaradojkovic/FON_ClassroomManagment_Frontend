@@ -70,7 +70,7 @@ fun TypeEMP_EducationEMP_Screen(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
-                .weight(1f)
+                .weight(1f).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
 

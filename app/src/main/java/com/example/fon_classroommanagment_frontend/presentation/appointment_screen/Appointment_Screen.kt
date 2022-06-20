@@ -23,6 +23,8 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
+import com.example.fon_classroommanagment_frontend.common.RequestReservastion
+import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ClassroomInputChip
 import com.foreverrafs.datepicker.state.rememberDatePickerState
@@ -36,6 +38,20 @@ fun Appointment_Screen(
 ) {
     val scrollableState = rememberScrollState()
     val datePickerState= rememberDatePickerState()
+
+    LaunchedEffect(key1 = true){
+        appointmentCreationViewModel.restart()
+    }
+    LaunchedEffect(key1 =appointmentCreationViewModel.creationState.value){
+        if(appointmentCreationViewModel.creationState.value) {
+            navHostController.currentBackStackEntry?.arguments?.putParcelable(
+                "reserveDTO",
+                RequestReservastion(appointmentCreationViewModel.reserveDTO.toList())
+            )
+            navHostController.navigate(Screen.MyClassroomRequests_Screen.route)
+        }
+
+    }
 
     Column(
         modifier = Modifier

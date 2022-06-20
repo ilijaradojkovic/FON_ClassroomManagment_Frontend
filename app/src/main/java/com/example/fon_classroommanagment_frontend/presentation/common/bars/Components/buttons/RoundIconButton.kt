@@ -14,8 +14,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
+
 @Composable
-fun RoundIconButton(@DrawableRes icon:Int, size:Dp,onClick:()->Unit={}){
+fun RoundIconButton(
+    @DrawableRes icon: Int,
+    size: Dp,
+    onClick: () -> Unit = {},
+
+){
 
     IconButton(onClick = { onClick() }) {
         Icon(painter = painterResource(id = icon),

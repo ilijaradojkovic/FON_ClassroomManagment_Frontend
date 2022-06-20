@@ -2,25 +2,46 @@ package com.example.fon_classroommanagment_frontend
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundIconButton
+import com.example.fon_classroommanagment_frontend.presentation.my_classroom_request_screen.RequestViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
-fun MyClassroomRequests_Screen(navController: NavHostController) {
+fun MyClassroomRequests_Screen(
+    navController: NavHostController,
+    requestReservation: RequestReservastion?,
+    requestViewMode: RequestViewModel
 
-    Column(modifier= Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+) {
+    LaunchedEffect(key1 = true){
+        if(requestReservation!=null){
+            requestViewMode.addRequest(requestReservation)
+        }
+    }
+
+    Column(modifier= Modifier
+        .fillMaxSize()
+        .background(MaterialTheme.colorScheme.background)) {
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .fillMaxHeight(0.2f)
+
                 ,
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
@@ -39,49 +60,66 @@ fun MyClassroomRequests_Screen(navController: NavHostController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+
                 ,
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            RoundIconButton(R.drawable.plus,24.dp){navController.navigate(Screen.AppointmentScreen.route)}
+            RoundIconButton(R.drawable.plus,24.dp) { navController.navigate(route=Screen.AppointmentScreen.route) }
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(5f)
-                .padding(10.dp)
-                ,
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            ClassromRequestCard()
+        LazyColumn(){
+            items(requestViewMode.reservations, key = {k->k.hashCode()}){
+                ClassromRequestCard(it.date,it.start_timeInHours,it.end_timeInHours,it.name,it.classroomName)
+
+            }
         }
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .weight(5f)
+//                .padding(10.dp)
+//                ,
+//            verticalAlignment = Alignment.Top,
+//            horizontalArrangement = Arrangement.Center
+//        ) {
+//        }
 
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ClassromRequestCard(){
-    Card(modifier=Modifier.padding(10.dp).height(100.dp)){
+fun ClassromRequestCard(
+    date: Date,
+    startTimeinhours: Int,
+    endTimeinhours: Int,
+    name: String,
+    classroomName: String
+) {
+    Card(modifier= Modifier
+        .padding(10.dp)
+        .height(100.dp)){
 
         Column(modifier = Modifier
             .fillMaxSize()
         ) {
-            Row(modifier = Modifier.weight(1f).padding(10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier
+                .weight(1f)
+                .padding(10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-                    Text(text = "C001", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary)
+                    Text(text =classroomName, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary)
                 }
                 Row(modifier = Modifier.weight(4f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-                    Text("Predavanje iz programiranja 2",style = MaterialTheme.typography.bodyLarge , color = MaterialTheme.colorScheme.onBackground)
+                    Text(name,style = MaterialTheme.typography.bodyLarge , color = MaterialTheme.colorScheme.onBackground)
                 }
             }
-            Row(modifier = Modifier.weight(1f).padding(10.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+            Row(modifier = Modifier
+                .weight(1f)
+                .padding(10.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
                     Row(modifier = Modifier.fillMaxWidth(0.8f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
                         Icon(painter = painterResource(id = R.drawable.callendar), contentDescription = "Calednar icon", modifier = Modifier.size(24.dp))
-                        Text("2020.2.2",style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
+                        Text(SimpleDateFormat("yyyy-MM-dd").format(date),style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
 
                     }
              }
@@ -98,7 +136,7 @@ fun ClassromRequestCard(){
                         )
 
                         Text(
-                            "14h-16h",
+                            "${startTimeinhours}h - ${endTimeinhours}h",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )

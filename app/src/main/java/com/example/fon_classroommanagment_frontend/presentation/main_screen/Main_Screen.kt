@@ -70,7 +70,12 @@ fun Main_Screen(
             bottomBar = { BottonBar(navHostController) },
             floatingActionButton = {
                if(navHostController.currentDestination!!.route==Screen.BottomBarScreens.ReservationScreen.route)
-                    androidx.compose.material3.FloatingActionButton(onClick = {navHostController.navigate(Screen.MyClassroomRequests_Screen.route)}) {
+                    androidx.compose.material3.FloatingActionButton(
+                        onClick = {
+                            navHostController.currentBackStackEntry?.arguments?.putParcelable("registerObject",null)
+
+                            navHostController.navigate(Screen.MyClassroomRequests_Screen.route)
+                        }) {
                     Icon(painter = painterResource(id = R.drawable.arrow_right), contentDescription ="" , modifier = Modifier.size(24.dp))
             }}
             ) {
@@ -87,11 +92,11 @@ fun Main_Screen(
                         All_Classrooms(navHostController,allClassroomsViewModel)
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
-                        displayTopBarElements=true
+                        displayTopBarElements=false
                         AllReservations_Screen(allReservationViewModel)
                     }
                     Screen.BottomBarScreens.UserProfileScreen.title->{
-                        displayTopBarElements=true
+                        displayTopBarElements=false
                         Profile_Screen(isAdmin = false, fullName ="Ilija Radojkovic" )
                     }
                 }

@@ -30,7 +30,6 @@ import com.foreverrafs.datepicker.state.rememberDatePickerState
 import java.time.LocalDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AllReservations_Screen(

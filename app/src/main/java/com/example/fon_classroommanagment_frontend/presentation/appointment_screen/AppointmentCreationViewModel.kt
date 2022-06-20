@@ -15,7 +15,6 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomsChipUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllReservationTypesUseCase
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ChipItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -68,7 +67,8 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     private var _classroomChips = mutableStateListOf<ClassroomChipDTO>()
     val classroomNames= _classroomChips
 
-
+    private var _creationState = mutableStateOf(false)
+    val creationState = _creationState
     init {
         getAllReservationTypes()
 
@@ -108,9 +108,13 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     fun createAppointment(){
 
         if(validate()){
-          //  reserveDTO.addAll(CreateReserveDTO())
+          classrooms.forEach { classroomChipDTO ->
+
+                reserveDTO.add(createReservationDTO(classroomChipDTO))
+          }
+            _creationState.value=true
         }
-    
+
 }
 
    // private fun CreateReserveDTO(): Collection<ReserveDTO> =
@@ -121,6 +125,19 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
         =Date.from(forDate.atStartOfDay(
             ZoneId.systemDefault()).toInstant())
 
+    private fun createReservationDTO(classroom: ClassroomChipDTO):ReserveDTO=
+        ReserveDTO("email neki",
+            classroom.id,
+            nameText,
+            getDateFromLocalDateTime(),
+            descriptionText,
+            reasonText,
+            numAttendeesText.toInt()
+            ,startTime.toInt()
+            ,endTime.toInt()
+            ,typeClass,
+            classroom.name
+            )
 
     private  fun validate():Boolean{
         
@@ -268,5 +285,19 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
         numAttendeesTextError=""
         return true
 
+    }
+
+    fun restart() {
+        _creationState.value=false
+        reserveDTO.clear()
+        nameText=""
+        reasonText=""
+        numAttendeesText=""
+        typeClass=-1
+        classrooms.clear()
+        forDate= LocalDate.now()
+        startTime=""
+        endTime=""
+        descriptionText=""
     }
 }

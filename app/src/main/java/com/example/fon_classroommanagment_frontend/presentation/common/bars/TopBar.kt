@@ -31,7 +31,9 @@ fun TopBar(
     search:(searchText:String)->Unit,
     searchText: String,
     changeSearchText:(String)->Unit,
-    searchLoading:Boolean
+    searchLoading:Boolean,
+    onBackClicked:()->Unit={},
+    displayBackIcon:Boolean=false
 ) {
 
     var widthOfSearchInput by remember {
@@ -154,6 +156,18 @@ fun TopBar(
 
                 }
             }
+
+            if(displayBackIcon)
+                Row(modifier = Modifier){
+                    IconButton(onClick = { onBackClicked() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.back),
+                            contentDescription = "Back icon",
+                            modifier = Modifier.size(24.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
     )
