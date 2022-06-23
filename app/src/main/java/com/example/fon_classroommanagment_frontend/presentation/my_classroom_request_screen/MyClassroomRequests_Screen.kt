@@ -1,17 +1,20 @@
 package com.example.fon_classroommanagment_frontend
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -30,6 +33,7 @@ import com.example.fon_classroommanagment_frontend.presentation.my_classroom_req
 import java.text.SimpleDateFormat
 import java.util.*
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MyClassroomRequests_Screen(
@@ -38,93 +42,118 @@ fun MyClassroomRequests_Screen(
     requestViewMode: RequestViewModel
 
 ) {
-    LaunchedEffect(key1 = true){
-        if(requestReservation!=null){
+
+    LaunchedEffect(key1 = true) {
+        if (requestReservation != null) {
             requestViewMode.addRequest(requestReservation)
+
         }
     }
 
-    Column(modifier= Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.background)) {
-
-        Row(
+//    Scaffold(scaffoldState=scaffoldState, modifier = Modifier.fillMaxSize()) {
+//
+//    }
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.2f)
-
-                ,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ) {
 
-            Button(onClick = { /*TODO*/ }, shape = MaterialTheme.shapes.medium) {
-                Text(
-                    "Complete",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.2f),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
 
+                Button(
+                    onClick = { requestViewMode.sendAppointments() },
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Text(
+                        "Complete",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
 
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-
-                ,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            RoundIconButton(R.drawable.plus,24.dp) { navController.navigate(route=Screen.AppointmentScreen.route) }
-        }
-
-        LazyColumn(){
-            items(requestViewMode.reservations, key = {k->k.hashCode()}){
-
-                val dismissState = rememberDismissState()
-                    LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)){
-                       if(dismissState.isDismissed(DismissDirection.EndToStart))
-                            requestViewMode.deleteRequest(it.reserveDTO)
-                    }
-                SwipeToDismiss(state = dismissState,
-                    background = {
-                        val color = when (dismissState.dismissDirection) {
-
-                            DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
-                            DismissDirection.StartToEnd -> Color.Transparent
-
-                            else -> {
-                                Color.Transparent
-                            }
-                        }
-
-                        Card(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp)
-                            .height(100.dp), colors = CardDefaults.elevatedCardColors(containerColor = color)) {
-                            Row(modifier= Modifier
-                                .fillMaxSize()
-                                .padding(0.dp, 0.dp, 15.dp, 0.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End){
-                                Icon(
-                                    Icons.Default.Delete,
-                                    "",
-
-                                    modifier = Modifier.size(24.dp),
-                                    tint = MaterialTheme.colorScheme.onErrorContainer
-                                )
-                            }
-
-                        }
-
-                    }, directions = setOf(DismissDirection.EndToStart)) {
-                    ClassromRequestCard(it.reserveDTO.date,it.reserveDTO.start_timeInHours,it.reserveDTO.end_timeInHours,it.reserveDTO.name,it.reserveDTO.classroomName,it.uiRequestResponse)
 
                 }
-
             }
-        }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                RoundIconButton(
+                    R.drawable.plus,
+                    24.dp
+                ) { navController.navigate(route = Screen.AppointmentScreen.route) }
+            }
+
+            LazyColumn() {
+                items(requestViewMode.reservations) {
+
+                    val dismissState = rememberDismissState()
+                    LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
+                        if (dismissState.isDismissed(DismissDirection.EndToStart))
+                            requestViewMode.deleteRequest(it.reserveDTO)
+                    }
+                    SwipeToDismiss(
+                        state = dismissState,
+                        background = {
+                            val color = when (dismissState.dismissDirection) {
+
+                                DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
+                                DismissDirection.StartToEnd -> Color.Transparent
+
+                                else -> {
+                                    Color.Transparent
+                                }
+                            }
+
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp)
+                                    .height(100.dp),
+                                colors = CardDefaults.elevatedCardColors(containerColor = color)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(0.dp, 0.dp, 15.dp, 0.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.End
+                                ) {
+                                    Icon(
+                                        Icons.Default.Delete,
+                                        "",
+
+                                        modifier = Modifier.size(24.dp),
+                                        tint = MaterialTheme.colorScheme.onErrorContainer
+                                    )
+                                }
+
+                            }
+
+                        }, directions = setOf(DismissDirection.EndToStart)
+                    ) {
+                        ClassromRequestCard(
+                            it.reserveDTO.date_appointment,
+                            it.reserveDTO.start_timeInHours,
+                            it.reserveDTO.end_timeInHours,
+                            it.reserveDTO.name,
+                            it.reserveDTO.classroomName,
+                            it.uiRequestResponse
+                        )
+
+                    }
+
+                }
+            }
 //        Row(
 //            modifier = Modifier
 //                .fillMaxWidth()
@@ -136,8 +165,10 @@ fun MyClassroomRequests_Screen(
 //        ) {
 //        }
 
+        }
+
     }
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClassromRequestCard(
@@ -176,7 +207,7 @@ fun ClassromRequestCard(
                        Box(contentAlignment = Alignment.BottomCenter){
                            Icon(painter = painterResource(id = R.drawable.callendar), contentDescription = "Calednar icon", modifier = Modifier.size(24.dp))
 
-                           if(uiRequestResponse.isError)Icon(Icons.Filled.Error, contentDescription = "",modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.error)
+                           if(uiRequestResponse.isError )Icon(Icons.Filled.Error, contentDescription = "",modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.error)
                             else if(uiRequestResponse.success) Icon(painter = painterResource(id = R.drawable.success), contentDescription = "",modifier = Modifier.size(15.dp), tint=Color.Green)
                        }
                         Text(SimpleDateFormat("yyyy-MM-dd").format(date),style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)

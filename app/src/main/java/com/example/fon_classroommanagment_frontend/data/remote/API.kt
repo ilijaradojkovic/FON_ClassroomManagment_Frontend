@@ -50,5 +50,8 @@ interface API {
     @POST("IsClassroomAvailableForDate")
     suspend fun  isClassroomAvailableForDate(@Body requestIsClassroomAvailableForDateDTO: RequestIsClassroomAvailableForDateDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):Boolean
 
+    @POST("reserve")
+    suspend fun reserve(@Body dto: List<ReserveDTO>, @Header("Authorization") authHeader:String=TOKEN_VALIDATION)
+
 
 }

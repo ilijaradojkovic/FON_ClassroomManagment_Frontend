@@ -11,8 +11,7 @@ data class ReserveDTO (
      val email: String? = null,
      val classroomId: Long,
      val name: String,
-
-     val date: Date,
+     val date_appointment: Date,
      val decription: String,
      val reason: String,
      val number_of_attendies:Int,
@@ -22,5 +21,6 @@ data class ReserveDTO (
      val type:Int,
      //dodato
      val classroomName:String,
+     val date:String=SimpleDateFormat("yyyy-MM-dd").format(date_appointment)
 
      ) : Parcelable

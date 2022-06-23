@@ -126,7 +126,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
             ZoneId.systemDefault()).toInstant())
 
     private fun createReservationDTO(classroom: ClassroomChipDTO):ReserveDTO=
-        ReserveDTO("email neki",
+        ReserveDTO("radojkovicika@gmail.com",
             classroom.id,
             nameText,
             getDateFromLocalDateTime(),

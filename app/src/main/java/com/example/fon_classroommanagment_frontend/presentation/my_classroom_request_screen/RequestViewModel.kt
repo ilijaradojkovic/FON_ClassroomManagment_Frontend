@@ -11,13 +11,14 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.MyAppointment
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.CheckAvailabilityClassroomForDateUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.ReserveAppointmetsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class RequestViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase):ViewModel() {
+class RequestViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase,private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase):ViewModel() {
 
 
 
@@ -39,30 +40,78 @@ fun addRequest(reserveDTO: RequestReservastion){
     }
 
     private fun checkAppointmentsAvailability() {
-        _reservations.forEach { x->
-            checkAvailabilityClassroomForDateUseCase(CreateRequestAvailabilityClassroomDTO(x.reserveDTO)).onEach {
-                result->
-                when(result){
-                    is Response.Success->{
-                        x.uiRequestResponse= UIRequestResponse(success = true)
-                        Log.i("cao","provera appointmenta ${result.data}")}
-                    is Response.Error->{
-                        x.uiRequestResponse=UIRequestResponse(isError = true)
-                        Log.i("cao","provera appointmenta error ${result.message}")}
-                    is Response.Loading->{
-                        x.uiRequestResponse=UIRequestResponse(isLoading = true)
-                        Log.i("cao","provera appointmenta loading")}
+
+
+        _reservations.forEachIndexed { index, x ->
+            checkAvailabilityClassroomForDateUseCase(CreateRequestAvailabilityClassroomDTO(x.reserveDTO)).onEach { result ->
+                when (result) {
+                    is Response.Success -> {
+                        if(!result.data!!) _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(isError = true))
+
+                        _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(success = true))
+                    }
+                    is Response.Error -> {
+                        _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(isError = true))
+
+                    }
+                    is Response.Loading -> {
+                        _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(isLoading = true))
+                    }
+
                 }
             }.launchIn(viewModelScope)
         }
     }
 
+
+
+
+
     private fun CreateRequestAvailabilityClassroomDTO(reserveDTO: ReserveDTO): RequestIsClassroomAvailableForDateDTO {
-    return RequestIsClassroomAvailableForDateDTO(reserveDTO.date,reserveDTO.classroomId)
+    return RequestIsClassroomAvailableForDateDTO(reserveDTO.date_appointment,reserveDTO.classroomId)
         }
 
     fun deleteRequest(it: ReserveDTO) {
         _reservations.removeIf { x-> x.reserveDTO==it }
 
     }
+
+    fun sendAppointments() {
+        if(_reservations.isEmpty()){
+            Log.i("cao","prazna")
+
+        }
+       else  if(validateAppointments()){
+            Log.i("cao","send reservation")
+            reserveAppointmetsUseCase(createList()).onEach {
+        result->
+                when(result){
+                    is Response.Success -> {
+                        Log.i("cao","success ${result.data}")
+
+                    }
+                    is Response.Error -> {
+                        Log.i("cao","error ${result.message}")
+
+                    }
+                    is Response.Loading -> {
+                        Log.i("cao","loading")
+                    }
+
+                }
+
+            }.launchIn(viewModelScope)
+        }
+        else{
+            Log.i("cao","myreservation show dialog")
+        }
+    }
+
+    private fun createList(): List<ReserveDTO>
+    =_reservations.map { it.reserveDTO }.toList()
+
+
+    private fun validateAppointments(): Boolean
+     =   _reservations.all { x-> x.uiRequestResponse.success } && _reservations.isNotEmpty()
+
 }
