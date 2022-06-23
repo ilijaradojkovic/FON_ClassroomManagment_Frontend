@@ -22,4 +22,9 @@ fun addRequest(reserveDTO: RequestReservastion){
     _reservations.addAll(reserveDTO.reqserveDTO)
 
 }
+
+    fun deleteRequest(it: ReserveDTO) {
+        _reservations.remove(it)
+
+    }
 }

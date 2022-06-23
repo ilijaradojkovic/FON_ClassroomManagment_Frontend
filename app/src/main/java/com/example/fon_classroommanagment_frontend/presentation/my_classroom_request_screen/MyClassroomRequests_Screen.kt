@@ -4,11 +4,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +27,7 @@ import com.example.fon_classroommanagment_frontend.presentation.my_classroom_req
 import java.text.SimpleDateFormat
 import java.util.*
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MyClassroomRequests_Screen(
     navController: NavHostController,
@@ -46,6 +54,7 @@ fun MyClassroomRequests_Screen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
+
             Button(onClick = { /*TODO*/ }, shape = MaterialTheme.shapes.medium) {
                 Text(
                     "Complete",
@@ -70,7 +79,46 @@ fun MyClassroomRequests_Screen(
 
         LazyColumn(){
             items(requestViewMode.reservations, key = {k->k.hashCode()}){
-                ClassromRequestCard(it.date,it.start_timeInHours,it.end_timeInHours,it.name,it.classroomName)
+
+                val dismissState = rememberDismissState()
+                    LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)){
+                       if(dismissState.isDismissed(DismissDirection.EndToStart))
+                            requestViewMode.deleteRequest(it)
+                    }
+                SwipeToDismiss(state = dismissState,
+                    background = {
+                        val color = when (dismissState.dismissDirection) {
+
+                            DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
+                            DismissDirection.StartToEnd -> Color.Transparent
+
+                            else -> {
+                                Color.Transparent
+                            }
+                        }
+
+                        Card(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                            .height(100.dp), colors = CardDefaults.elevatedCardColors(containerColor = color)) {
+                            Row(modifier= Modifier
+                                .fillMaxSize()
+                                .padding(0.dp, 0.dp, 15.dp, 0.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End){
+                                Icon(
+                                    Icons.Default.Delete,
+                                    "",
+
+                                    modifier = Modifier.size(24.dp),
+                                    tint = MaterialTheme.colorScheme.onErrorContainer
+                                )
+                            }
+
+                        }
+
+                    }, directions = setOf(DismissDirection.EndToStart)) {
+                    ClassromRequestCard(it.date,it.start_timeInHours,it.end_timeInHours,it.name,it.classroomName)
+
+                }
 
             }
         }
