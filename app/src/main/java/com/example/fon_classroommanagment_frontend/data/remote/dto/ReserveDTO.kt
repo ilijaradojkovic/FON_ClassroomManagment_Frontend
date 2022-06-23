@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.data.remote.dto
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Parcelize
@@ -10,6 +11,7 @@ data class ReserveDTO (
      val email: String? = null,
      val classroomId: Long,
      val name: String,
+
      val date: Date,
      val decription: String,
      val reason: String,
@@ -19,5 +21,6 @@ data class ReserveDTO (
      //appointmentType
      val type:Int,
      //dodato
-     val classroomName:String
-) : Parcelable
+     val classroomName:String,
+
+     ) : Parcelable

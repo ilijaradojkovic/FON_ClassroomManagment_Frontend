@@ -45,4 +45,10 @@ interface API {
 
    @GET("getClassroomsChip")
     suspend fun GetClassroomsChip(@Query("name") name: String,@Header("Authorization") authHeader:String=TOKEN_VALIDATION): List<ClassroomChipDTO>
+
+
+    @POST("IsClassroomAvailableForDate")
+    suspend fun  isClassroomAvailableForDate(@Body requestIsClassroomAvailableForDateDTO: RequestIsClassroomAvailableForDateDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):Boolean
+
+
 }

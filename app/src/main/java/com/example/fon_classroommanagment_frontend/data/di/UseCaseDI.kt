@@ -79,4 +79,8 @@ class UseCaseDI {
     fun provideGetClassroomChips(classroomRepository: ClassroomRepository): GetAllClassroomsChipUseCase =
         GetAllClassroomsChipUseCase(classroomRepository)
 
+    @Provides
+    @Singleton
+    fun ProvideCheckAvailabilityClassroomForDateUseCase(reservationRepository: ReservationRepository):CheckAvailabilityClassroomForDateUseCase=
+        CheckAvailabilityClassroomForDateUseCase(reservationRepository)
 }

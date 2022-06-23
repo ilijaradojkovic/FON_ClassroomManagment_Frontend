@@ -13,6 +13,7 @@ init {
     formatDate(datumToFormat)
 }
        lateinit var  datum: String
+
        fun formatDate(localDate: LocalDate){
           val date=Date.from(localDate.atStartOfDay(
               ZoneId.systemDefault()).toInstant())

@@ -9,6 +9,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,10 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundIconButton
 import com.example.fon_classroommanagment_frontend.presentation.my_classroom_request_screen.RequestViewModel
 import java.text.SimpleDateFormat
@@ -83,7 +86,7 @@ fun MyClassroomRequests_Screen(
                 val dismissState = rememberDismissState()
                     LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)){
                        if(dismissState.isDismissed(DismissDirection.EndToStart))
-                            requestViewMode.deleteRequest(it)
+                            requestViewMode.deleteRequest(it.reserveDTO)
                     }
                 SwipeToDismiss(state = dismissState,
                     background = {
@@ -116,7 +119,7 @@ fun MyClassroomRequests_Screen(
                         }
 
                     }, directions = setOf(DismissDirection.EndToStart)) {
-                    ClassromRequestCard(it.date,it.start_timeInHours,it.end_timeInHours,it.name,it.classroomName)
+                    ClassromRequestCard(it.reserveDTO.date,it.reserveDTO.start_timeInHours,it.reserveDTO.end_timeInHours,it.reserveDTO.name,it.reserveDTO.classroomName,it.uiRequestResponse)
 
                 }
 
@@ -142,7 +145,8 @@ fun ClassromRequestCard(
     startTimeinhours: Int,
     endTimeinhours: Int,
     name: String,
-    classroomName: String
+    classroomName: String,
+    uiRequestResponse: UIRequestResponse
 ) {
     Card(modifier= Modifier
         .padding(10.dp)
@@ -160,13 +164,21 @@ fun ClassromRequestCard(
                 Row(modifier = Modifier.weight(4f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
                     Text(name,style = MaterialTheme.typography.bodyLarge , color = MaterialTheme.colorScheme.onBackground)
                 }
+                Row(modifier = Modifier.weight(1f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+                    if(uiRequestResponse.isLoading) LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations = LottieConstants.IterateForever)
+                }
             }
             Row(modifier = Modifier
                 .weight(1f)
                 .padding(10.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
                     Row(modifier = Modifier.fillMaxWidth(0.8f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
-                        Icon(painter = painterResource(id = R.drawable.callendar), contentDescription = "Calednar icon", modifier = Modifier.size(24.dp))
+                       Box(contentAlignment = Alignment.BottomCenter){
+                           Icon(painter = painterResource(id = R.drawable.callendar), contentDescription = "Calednar icon", modifier = Modifier.size(24.dp))
+
+                           if(uiRequestResponse.isError)Icon(Icons.Filled.Error, contentDescription = "",modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.error)
+                            else if(uiRequestResponse.success) Icon(painter = painterResource(id = R.drawable.success), contentDescription = "",modifier = Modifier.size(15.dp), tint=Color.Green)
+                       }
                         Text(SimpleDateFormat("yyyy-MM-dd").format(date),style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
 
                     }
@@ -177,11 +189,13 @@ fun ClassromRequestCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.clock),
-                            contentDescription = "Calednar icon",
-                            modifier = Modifier.size(24.dp)
-                        )
+
+                            Icon(
+                                painter = painterResource(id = R.drawable.clock),
+                                contentDescription = "Calednar icon",
+                                modifier = Modifier.size(24.dp)
+                            )
+
 
                         Text(
                             "${startTimeinhours}h - ${endTimeinhours}h",
