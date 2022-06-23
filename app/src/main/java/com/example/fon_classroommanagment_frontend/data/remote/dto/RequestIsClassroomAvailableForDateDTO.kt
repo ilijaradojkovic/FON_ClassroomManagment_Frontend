@@ -6,6 +6,8 @@ import java.util.*
 data class RequestIsClassroomAvailableForDateDTO(
     val date_appointment:Date,
     val classroomId:Long,
+    val start_timeInHours:Int,
+    val end_timeInHours:Int,
     val date: String =SimpleDateFormat("yyyy-MM-dd").format(date_appointment)
 
 )

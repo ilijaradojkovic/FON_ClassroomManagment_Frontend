@@ -48,7 +48,7 @@ fun addRequest(reserveDTO: RequestReservastion){
                     is Response.Success -> {
                         if(!result.data!!) _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(isError = true))
 
-                        _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(success = true))
+                        else _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(success = true))
                     }
                     is Response.Error -> {
                         _reservations[index]= x.copy(uiRequestResponse = UIRequestResponse(isError = true))
@@ -68,7 +68,7 @@ fun addRequest(reserveDTO: RequestReservastion){
 
 
     private fun CreateRequestAvailabilityClassroomDTO(reserveDTO: ReserveDTO): RequestIsClassroomAvailableForDateDTO {
-    return RequestIsClassroomAvailableForDateDTO(reserveDTO.date_appointment,reserveDTO.classroomId)
+    return RequestIsClassroomAvailableForDateDTO(reserveDTO.date_appointment,reserveDTO.classroomId,reserveDTO.start_timeInHours,reserveDTO.end_timeInHours)
         }
 
     fun deleteRequest(it: ReserveDTO) {
