@@ -165,7 +165,7 @@ fun Appointment_Screen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            AppointmentMultyLineInput(appointmentCreationViewModel.descriptionText,{appointmentCreationViewModel.descriptionText=it},"Opis",errorText = appointmentCreationViewModel.descriptionTextError)
+            AppointmentMultyLineInput(appointmentCreationViewModel.descriptionText,{appointmentCreationViewModel.descriptionText=it},"Opis",errorText = appointmentCreationViewModel.descriptionTextError, isScrolling= scrollableState.isScrollInProgress, explainedError = appointmentCreationViewModel.descriptionTextErrorExplained)
         }
         Row(
             modifier = Modifier

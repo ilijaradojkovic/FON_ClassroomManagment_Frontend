@@ -1,6 +1,5 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -16,8 +15,8 @@ import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
-import com.example.fon_classroommanagment_frontend.presentation.common.bars.ErrorDialog
-import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessDialog
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.ErrorRegistrationDialog
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.components.ChoiseItem
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen.TypeEducationViewModel
 
@@ -77,7 +76,7 @@ fun TypeEMP_EducationEMP_Screen(
             if (dialog) {
                 if (registerState.success) {
 
-                    SuccessDialog(
+                    SuccessRegistrationDialog(
                         registerState.isLoading,
                         toNavigate = {},
                         title = "Registration Successful!",
@@ -104,7 +103,7 @@ fun TypeEMP_EducationEMP_Screen(
                         })
 
                 } else if (registerState.isLoading) {
-                    SuccessDialog(
+                    SuccessRegistrationDialog(
                         registerState.isLoading,
                         toNavigate = {},
                         title = "Registration Successful!",
@@ -132,7 +131,7 @@ fun TypeEMP_EducationEMP_Screen(
                 } else {
 
 
-                    ErrorDialog("Error", "Error occured please try again") {
+                    ErrorRegistrationDialog("Error", "Error occured please try again") {
                         typeEducationViewModel.restart()
                         navHostController.navigate(
                             Screen.LoginScreen.route

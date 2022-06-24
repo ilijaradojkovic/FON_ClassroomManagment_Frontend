@@ -71,6 +71,9 @@ fun Navigation() {
             defaultValue=-1L
 
         })){
+            BackHandler(true) {
+                navController.navigate(Screen.MyClassroomRequests_Screen.route)
+            }
 
             val classroomId=it.arguments?.getLong("classroomId")
             if (classroomId != null) {

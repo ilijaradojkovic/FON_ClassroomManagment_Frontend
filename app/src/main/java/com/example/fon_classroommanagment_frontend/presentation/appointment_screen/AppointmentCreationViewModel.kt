@@ -150,8 +150,20 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
        if(!validateEndTime()) result= false
        if(!validateAppointmentType()) result=false
        if(!validateClassroomsAppointment()) result=false
+        if(!validateDescription()) result=false
        return result
        
+    }
+
+    private fun validateDescription(): Boolean {
+    if(descriptionText.isEmpty()){
+        descriptionTextError="Please enter valid description"
+        descriptionTextErrorExplained="Description cant be empty"
+        return false
+    }
+        descriptionTextError=""
+        descriptionTextErrorExplained=""
+        return true
     }
 
     private fun validateClassroomsAppointment(): Boolean {
@@ -288,6 +300,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     }
 
     fun restart() {
+
         _creationState.value=false
         reserveDTO.clear()
         nameText=""
@@ -299,5 +312,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
         startTime=""
         endTime=""
         descriptionText=""
+
+
     }
 }

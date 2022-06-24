@@ -12,10 +12,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.airbnb.lottie.compose.*
 
 @Composable
-fun LottieAnimation( lottieAnim:Int, opacity:Float=1f,isPlating:Boolean=true,restartOnPlay:Boolean=true,iterations:Int=1,onComplete:()->Unit={}){
+fun LottieAnimation( modifier:Modifier=Modifier,lottieAnim:Int, opacity:Float=1f,isPlating:Boolean=true,restartOnPlay:Boolean=true,iterations:Int=1,onComplete:()->Unit={}){
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(lottieAnim))
     val progress by animateLottieCompositionAsState(composition)
     LaunchedEffect(key1 = progress){
@@ -27,7 +28,7 @@ fun LottieAnimation( lottieAnim:Int, opacity:Float=1f,isPlating:Boolean=true,res
     LottieAnimation(
         composition,
 
-        modifier = Modifier.alpha(opacity),
+        modifier = modifier.alpha(opacity).zIndex(10f),
         isPlating,
         restartOnPlay = restartOnPlay,
         iterations =iterations
