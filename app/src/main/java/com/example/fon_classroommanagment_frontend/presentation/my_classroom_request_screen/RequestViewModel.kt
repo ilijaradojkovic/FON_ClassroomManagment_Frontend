@@ -86,7 +86,7 @@ fun addRequest(reserveDTO: RequestReservastion){
     fun sendAppointments() {
         if(_reservations.isEmpty()){
 
-
+//obradi ovo
         }
        else  if(validateAppointments()){
 

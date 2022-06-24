@@ -28,30 +28,30 @@ interface API {
     suspend fun GetAllClassroomTypes():List<ClassroomType>
 
     @GET("getClassrooms")
-    suspend fun  GetAllClassroomsPaging(@Query("page") page:Int, @Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<ClassroomCardDTO>
+    suspend fun  GetAllClassroomsPaging(@Query("page") page:Int):List<ClassroomCardDTO>
 
     //@GET("searchClassroom")
 //    @HTTP(method = "GET", path = "searchClassroom", hasBody = true)
     //vidi za body i get
     @POST("searchClassroom")
-    suspend fun  GetSearchClassrooms(@Body searchClassroomDTO: SearchClassroomDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<ClassroomCardDTO>
+    suspend fun  GetSearchClassrooms(@Body searchClassroomDTO: SearchClassroomDTO,):List<ClassroomCardDTO>
 
     @POST("GetForDate")
-    suspend fun  getReservationsForDate(@Body requestAppointmetDateDTO: RequestAppointmetDateDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<GetForDateAppointmentDTO>
+    suspend fun  getReservationsForDate(@Body requestAppointmetDateDTO: RequestAppointmetDateDTO):List<GetForDateAppointmentDTO>
 
 
     @GET("allAppointmentTypes")
-    suspend fun  getAllAppointmentTypes(@Header("Authorization") authHeader:String=TOKEN_VALIDATION):List<AppointmentType>
+    suspend fun  getAllAppointmentTypes():List<AppointmentType>
 
    @GET("getClassroomsChip")
-    suspend fun GetClassroomsChip(@Query("name") name: String,@Header("Authorization") authHeader:String=TOKEN_VALIDATION): List<ClassroomChipDTO>
+    suspend fun GetClassroomsChip(@Query("name") name: String): List<ClassroomChipDTO>
 
 
     @POST("IsClassroomAvailableForDate")
-    suspend fun  isClassroomAvailableForDate(@Body requestIsClassroomAvailableForDateDTO: RequestIsClassroomAvailableForDateDTO,@Header("Authorization") authHeader:String=TOKEN_VALIDATION):Boolean
+    suspend fun  isClassroomAvailableForDate(@Body requestIsClassroomAvailableForDateDTO: RequestIsClassroomAvailableForDateDTO):Boolean
 
     @POST("reserve")
-    suspend fun reserve(@Body dto: List<ReserveDTO>, @Header("Authorization") authHeader:String=TOKEN_VALIDATION)
+    suspend fun reserve(@Body dto: List<ReserveDTO>)
 
 
 }

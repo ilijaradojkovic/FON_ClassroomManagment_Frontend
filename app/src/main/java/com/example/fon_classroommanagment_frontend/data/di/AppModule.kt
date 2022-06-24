@@ -3,6 +3,8 @@ package com.example.fon_classroommanagment_frontend.data.di
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.util.Log
+import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
 import com.example.fon_classroommanagment_frontend.common.Constants.URL
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
@@ -39,7 +41,7 @@ class AppModule {
 
 
           val newRequest  = it.request().newBuilder()
-                .addHeader("Authorization", "Bearer " + "Token")
+                .addHeader("Authorization", TOKEN_VALIDATION)
                 .build()
              it.proceed(newRequest)
         }
@@ -48,7 +50,7 @@ class AppModule {
     @Singleton
     @Provides
     fun provideApi(gson: Gson): API = Retrofit.Builder()
-      //  .client(provideHttpClient())
+      .client(provideHttpClient())
         .baseUrl(URL)
         .addConverterFactory(GsonConverterFactory.create(gson)).build().create(
         API::class.java)
