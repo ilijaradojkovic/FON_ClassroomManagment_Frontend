@@ -7,6 +7,7 @@ import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_s
 import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
+import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen.AditionalInfoViewModel
@@ -53,12 +54,18 @@ class ViewModelDI {
 
     @Provides
     @Singleton
-    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForDateUseCse,getAllClassroomChipsPaging: GetAllClassroomChipsPaging): AllReservationViewModel =
+    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForClassroomAndDateUseCse, getAllClassroomChipsPaging: GetAllClassroomChipsPaging): AllReservationViewModel =
         AllReservationViewModel(getReservationsForDateUseCse,getAllClassroomChipsPaging)
  @RequiresApi(Build.VERSION_CODES.O)
+
  @Provides
     @Singleton
     fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase): AppointmentCreationViewModel =
      AppointmentCreationViewModel(getAllReservationTypesUseCase,getAllClassroomSearched)
+
+    @Provides
+    @Singleton
+    fun provideDetailsClassromViewModel( getClassroomDetailsUseCase: GetClassroomDetailsUseCase,getReservationsForClassroomAndDateUseCse: GetReservationsForClassroomAndDateUseCse): DetailsClassromViewModel =
+        DetailsClassromViewModel(getClassroomDetailsUseCase,getReservationsForClassroomAndDateUseCse)
 
 }

@@ -13,7 +13,7 @@ import com.example.fon_classroommanagment_frontend.data.Event
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDaetForClassroomDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomChipsPaging
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForDateUseCse
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForClassroomAndDateUseCse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,7 +22,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class AllReservationViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForDateUseCse,private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
+class AllReservationViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForClassroomAndDateUseCse, private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
 
     private var page=1
 

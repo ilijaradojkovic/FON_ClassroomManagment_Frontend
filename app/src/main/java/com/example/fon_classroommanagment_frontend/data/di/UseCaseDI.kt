@@ -65,8 +65,8 @@ class UseCaseDI {
 
     @Provides
     @Singleton
-    fun provideGetReservationsForDateUseCse(reservationRepository: ReservationRepository): GetReservationsForDateUseCse =
-        GetReservationsForDateUseCse(reservationRepository)
+    fun provideGetReservationsForDateUseCse(reservationRepository: ReservationRepository): GetReservationsForClassroomAndDateUseCse =
+        GetReservationsForClassroomAndDateUseCse(reservationRepository)
 
 
     @Provides
@@ -87,4 +87,8 @@ class UseCaseDI {
     @Singleton
     fun ProvideGetAllClassroomChipsPaging(classroomRepository: ClassroomRepository):GetAllClassroomChipsPaging=
         GetAllClassroomChipsPaging(classroomRepository)
+    @Provides
+    @Singleton
+    fun ProvideGetClassroomDetailsUseCase(classroomRepository: ClassroomRepository):GetClassroomDetailsUseCase=
+        GetClassroomDetailsUseCase(classroomRepository)
 }

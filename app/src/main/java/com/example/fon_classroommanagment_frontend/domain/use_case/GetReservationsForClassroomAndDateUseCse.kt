@@ -13,7 +13,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 
-class GetReservationsForDateUseCse @Inject constructor(private  val reservationRepositoryImpl: ReservationRepository ) {
+class GetReservationsForClassroomAndDateUseCse @Inject constructor(private  val reservationRepositoryImpl: ReservationRepository ) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     operator  fun invoke(requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO): Flow<Response<List<GetForDateAppointmentDTO>>> = flow {

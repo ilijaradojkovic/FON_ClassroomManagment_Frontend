@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,15 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
+import com.example.fon_classroommanagment_frontend.No_Internet_Screen
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.data.Event
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
-import java.time.LocalDate
-import java.time.LocalDateTime
 import kotlin.random.Random
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -42,10 +41,25 @@ fun DetailsClassroom_Screen(
     detailsClassromViewModel: DetailsClassromViewModel = hiltViewModel()
 ) {
 
-    LaunchedEffect(key1 = true){
-        detailsClassromViewModel.getClassroom(classroomId)
-    }
+    val uiResponse = detailsClassromViewModel.uiResponseClassroomInfo
+    val detailsClassroom by detailsClassromViewModel.classroom
+
     val datePickerState= rememberDatePickerState()
+
+
+    LaunchedEffect(key1 = true){
+        detailsClassromViewModel.classroomId.value=classroomId
+
+        detailsClassromViewModel.getClassroom(classroomId)
+        detailsClassromViewModel.getAppointmentsForClassroom(datePickerState.initialDate)
+    }
+
+    if(uiResponse.value.isError){
+        No_Internet_Screen {
+                navController.navigate(Screen.MainScreen.route)
+        }
+    }
+    else
     Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
@@ -65,12 +79,12 @@ fun DetailsClassroom_Screen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "C001",
+                    detailsClassroom.name,
                     style = MaterialTheme.typography.displayMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    "Ucionica",
+                    detailsClassroom.type.name,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.surface
                 )
@@ -94,11 +108,13 @@ fun DetailsClassroom_Screen(
                         .fillMaxWidth(0.9f), mainAxisAlignment = MainAxisAlignment.Center
                 ) {
 
-                    CategoryChip_Outlined("Racunarksa")
-                    CategoryChip_Outlined("Projektor")
-                    CategoryChip_Outlined("30m2")
-                    CategoryChip_Outlined("1.Sprat")
-                    CategoryChip_Outlined("2 Table")
+                    CategoryChip_Outlined(detailsClassroom.type.name)
+                    if(detailsClassroom.projector)
+                        CategoryChip_Outlined("Projektor")
+
+                    CategoryChip_Outlined(detailsClassroom.povrsina.toString()+" m2")
+                    CategoryChip_Outlined(detailsClassroom.sprat.toString() + ".Sprat")
+                    CategoryChip_Outlined(detailsClassroom.br_tabli.toString() +" ${if(detailsClassroom.br_tabli==1) "tabla" else "table"}")
                 }
             }
 
@@ -107,24 +123,11 @@ fun DetailsClassroom_Screen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker(datePickerState){}
+                CallendarPicker(datePickerState){detailsClassromViewModel.getAppointmentsForClassroom(it)}
             }
             Column() {
                 Schedule(
-                    listOf(
-                        Event(
-                            type = "Predavanje",
-                            classroomName = "Programiranje 2",
-                            start = LocalDateTime.parse("2021-05-18T15:00:00"),
-                            end = LocalDateTime.parse("2021-05-18T17:00:00"),
-                        ),
-                        Event(
-                            type = "Predavanje",
-                            classroomName = "Napredna java",
-                            start = LocalDateTime.parse("2021-05-18T13:00:00"),
-                            end = LocalDateTime.parse("2021-05-18T15:00:00"),
-                        )
-                    )
+                    detailsClassromViewModel.appointmentsForClassroom
                 )
 
             }
