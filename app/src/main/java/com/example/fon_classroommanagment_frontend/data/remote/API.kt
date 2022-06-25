@@ -46,6 +46,8 @@ interface API {
    @GET("getClassroomsChip")
     suspend fun GetClassroomsChip(@Query("name") name: String): List<ClassroomChipDTO>
 
+    @GET("getClassroomsChipAll")
+    suspend fun GetAllClassroomsChip(@Query("page") page:Int): List<ClassroomChipDTO>
 
     @POST("IsClassroomAvailableForDate")
     suspend fun  isClassroomAvailableForDate(@Body requestIsClassroomAvailableForDateDTO: RequestIsClassroomAvailableForDateDTO):Boolean

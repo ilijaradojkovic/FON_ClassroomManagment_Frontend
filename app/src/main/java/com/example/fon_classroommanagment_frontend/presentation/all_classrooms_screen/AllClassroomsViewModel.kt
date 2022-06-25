@@ -70,7 +70,8 @@ var searchRequested= mutableStateOf(false)
                 when (result) {
                     is Response.Success -> {
                         result.data?.let {
-                            page++
+                            if(it.isNotEmpty())
+                                page++
                             //if(it.isEmpty()) Log.i("cao","nema vise podataka")
 
                             _networkState.value = UIRequestResponse(success = true)

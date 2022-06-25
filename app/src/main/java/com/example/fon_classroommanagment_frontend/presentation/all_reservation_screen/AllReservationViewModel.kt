@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen
+package com.example. fon_classroommanagment_frontend.presentation.all_reservation_screen
 
 import android.os.Build
 import android.util.Log
@@ -10,7 +10,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.Event
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDateDTO
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomChipsPaging
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomsChipUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForDateUseCse
 import com.foreverrafs.datepicker.state.DatePickerState
 import com.foreverrafs.datepicker.state.rememberDatePickerState
@@ -24,13 +27,42 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AllReservationViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForDateUseCse):ViewModel() {
+class AllReservationViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForDateUseCse,private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
 
+    private var page=1
     private val _reservationsForDay= mutableStateListOf<Event>()
     val reservationForDay = _reservationsForDay
 
+    private val _classrooms = mutableStateListOf<ClassroomChipDTO>()
+    val classrooms= _classrooms
+
+
     private  var _uiState = mutableStateOf(UIRequestResponse())
     val uiState= _uiState
+
+
+
+
+    fun getAllClassrooms() {
+        getAllClassroomChipsPaging(page).onEach {
+            result->
+                when(result){
+                    is Response.Success->{
+                        if(result.data?.size!! >0)
+                                page++
+                        Log.i("cao",result.data.toString())
+                        result.data.let { _classrooms.addAll(it) }
+                    }
+                    is Response.Error->{Log.i("cao","error pri uzimanju svih ucionica ")}
+                    is Response.Loading->{Log.i("cao","loading sve ucionice")}
+
+                }
+            Log.i("cao",result.message.toString())
+
+        }.launchIn(viewModelScope)
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun getReservationsForData(initialDate: LocalDate) {
         _reservationsForDay.clear()

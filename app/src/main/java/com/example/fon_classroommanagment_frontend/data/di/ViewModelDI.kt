@@ -53,8 +53,8 @@ class ViewModelDI {
 
     @Provides
     @Singleton
-    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForDateUseCse): AllReservationViewModel =
-        AllReservationViewModel(getReservationsForDateUseCse)
+    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForDateUseCse,getAllClassroomChipsPaging: GetAllClassroomChipsPaging): AllReservationViewModel =
+        AllReservationViewModel(getReservationsForDateUseCse,getAllClassroomChipsPaging)
  @RequiresApi(Build.VERSION_CODES.O)
  @Provides
     @Singleton

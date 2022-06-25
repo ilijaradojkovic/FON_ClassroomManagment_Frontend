@@ -1,9 +1,8 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
+import com.example.fon_classroommanagment_frontend.data.repository.ClassroomRepositoryImpl
 import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,14 +10,13 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetAllClassroomsChipUseCase @Inject constructor(private val classroomRepository: ClassroomRepository) {
-
-    operator fun invoke(name:String): Flow<Response<List<ClassroomChipDTO>>> = flow {
+class GetAllClassroomChipsPaging @Inject constructor(private val classroomRepository: ClassroomRepository) {
+    operator fun invoke(page:Int): Flow<Response<List<ClassroomChipDTO>>> = flow {
         try{
 
             emit(Response.Loading())
 
-            val classroomTypes=  classroomRepository.getClassroomsChip(name)
+            val classroomTypes=  classroomRepository.getAllClassroomsChip(page)
 
             emit(Response.Success(classroomTypes))
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

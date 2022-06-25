@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -7,7 +8,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.*
@@ -23,8 +27,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
 import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
+import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
 import com.github.skgmn.composetooltip.AnchorEdge
 import com.github.skgmn.composetooltip.Tooltip
@@ -128,10 +134,13 @@ fun AppointmetnComboBox(
 
 @Composable
 fun ClassroomComboBox(
-    dataList: List<ClassroomType>,
-    onSelect: (Int) -> Unit
+    getMoreData :()->Unit,
+    dataList: SnapshotStateList<ClassroomChipDTO>,
+    onSelect: (Long) -> Unit,
+
 ) {
 
+    val verticalscrollState= rememberScrollState()
     var comboBoxOpened by remember {
         mutableStateOf(false)
     }
@@ -139,6 +148,11 @@ fun ClassroomComboBox(
 
     var selectedText by remember { mutableStateOf("") }
     val animRotation = animateFloatAsState(targetValue = if (comboBoxOpened) 0f else 180f)
+LaunchedEffect(key1 = verticalscrollState.value==verticalscrollState.maxValue){
+    Log.i("cao","stigao do dole")
+    getMoreData()
+
+}
 
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -147,7 +161,9 @@ fun ClassroomComboBox(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
 
-                .clickable(interactionSource, indication = null) { comboBoxOpened = !comboBoxOpened },
+                .clickable(interactionSource, indication = null) {
+                    comboBoxOpened = !comboBoxOpened
+                },
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -201,10 +217,13 @@ fun ClassroomComboBox(
                     expanded = comboBoxOpened,
                     onDismissRequest = { comboBoxOpened = false },
                     modifier = Modifier
+                        .verticalScroll(verticalscrollState)
                         .fillMaxWidth(0.8f)
+                        .requiredSizeIn(maxHeight = 200.dp)
 
 
                 ) {
+
                     dataList.forEach { data ->
                         DropdownMenuItem(text = { Text(data.name) }, onClick = {
 
