@@ -40,6 +40,7 @@ class DetailsClassromViewModel @Inject constructor(private val getClassroomDetai
     var classroomId = mutableStateOf(-1L)
     fun getClassroom(classroomId: Long) {
         getClassroomDetailsUseCase(classroomId).onEach {
+
             result->
             when(result){
                 is Response.Loading->{
@@ -60,7 +61,7 @@ class DetailsClassromViewModel @Inject constructor(private val getClassroomDetai
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAppointmentsForClassroom(initDate:LocalDate){
-
+        _appointmentsForClassroom.clear()
         getReservationsForClassroomAndDateUseCse(CreateRequestAppointmetDateDTO(initDate)).onEach {
             result->
             when(result){

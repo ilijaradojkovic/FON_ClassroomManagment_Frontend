@@ -78,6 +78,7 @@ fun Main_Screen(
                         }) {
                     Icon(painter = painterResource(id = R.drawable.arrow_right), contentDescription ="" , modifier = Modifier.size(24.dp))
             }}
+
             ) {
             Column(
                 modifier = Modifier

@@ -25,6 +25,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIM
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ClassroomInputChip
@@ -33,7 +34,7 @@ import com.foreverrafs.datepicker.state.rememberDatePickerState
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Appointment_Screen(
-    classroom:Long,
+    classroom: ClassroomChipDTO?,
     reserveDTO: ReserveDTO?,
     navHostController: NavHostController,
     appointmentCreationViewModel: AppointmentCreationViewModel = hiltViewModel()
@@ -44,6 +45,8 @@ fun Appointment_Screen(
     LaunchedEffect(key1 = true){
         if(reserveDTO==null)
             appointmentCreationViewModel.restart()
+        if(classroom!=null)
+            appointmentCreationViewModel.addClassroom(classroom)
     }
     LaunchedEffect(key1 =appointmentCreationViewModel.creationState.value){
         if(appointmentCreationViewModel.creationState.value) {
@@ -96,7 +99,7 @@ fun Appointment_Screen(
                 appointmentCreationViewModel.typeClass = it
             }
         }
-        if (classroom ==-1L) {
+        if (classroom ==null) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)

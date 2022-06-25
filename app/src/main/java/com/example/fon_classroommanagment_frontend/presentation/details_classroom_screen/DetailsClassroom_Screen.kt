@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.presentation.common.bars.Com
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -25,6 +26,7 @@ import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.No_Internet_Screen
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowRow
@@ -60,7 +62,9 @@ fun DetailsClassroom_Screen(
         }
     }
     else
-    Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
+    Scaffold(floatingActionButton = { FloatingActionButton(onClick = {
+        navController.navigate(Screen.AppointmentScreen.route+"?classroomId=$classroomId&name=${detailsClassroom.name}")
+    }) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
 
@@ -123,7 +127,9 @@ fun DetailsClassroom_Screen(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CallendarPicker(datePickerState){detailsClassromViewModel.getAppointmentsForClassroom(it)}
+                CallendarPicker(datePickerState){
+                    detailsClassromViewModel.getAppointmentsForClassroom(it)
+                }
             }
             Column() {
                 Schedule(

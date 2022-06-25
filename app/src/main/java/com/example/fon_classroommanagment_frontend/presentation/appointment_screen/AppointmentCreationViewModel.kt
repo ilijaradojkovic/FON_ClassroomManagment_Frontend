@@ -315,4 +315,9 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
 
 
     }
+
+    fun addClassroom(classroom: ClassroomChipDTO) {
+        classrooms.add(classroom)
+
+    }
 }
