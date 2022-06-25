@@ -87,7 +87,7 @@ fun Navigation() {
         composable(route= Screen.DetailsClassroomScreen.route){
 
             val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")
-            Log.i("cao",it.destination.arguments.toString())
+            //Log.i("cao",it.destination.arguments.toString())
             DetailsClassroom_Screen(navController)
         }
 
@@ -100,7 +100,7 @@ fun Navigation() {
             }
             val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<RequestReservastion>("RequestReservastion")
             val saved=navController.previousBackStackEntry?.arguments?.getBoolean("saved")
-            Log.i("cao",saved.toString())
+           // Log.i("cao",saved.toString())
 
             MyClassroomRequests_Screen(navController,registerObject,requestViewMode,saved)
         }

@@ -136,6 +136,7 @@ fun AppointmetnComboBox(
 fun ClassroomComboBox(
     getMoreData :()->Unit,
     dataList: SnapshotStateList<ClassroomChipDTO>,
+    selected:Long,
     onSelect: (Long) -> Unit,
 
 ) {
@@ -146,10 +147,9 @@ fun ClassroomComboBox(
     }
     val interactionSource = remember { MutableInteractionSource() }
 
-    var selectedText by remember { mutableStateOf("") }
+    var selectedText by remember { mutableStateOf("Selected")}
     val animRotation = animateFloatAsState(targetValue = if (comboBoxOpened) 0f else 180f)
 LaunchedEffect(key1 = verticalscrollState.value==verticalscrollState.maxValue){
-    Log.i("cao","stigao do dole")
     getMoreData()
 
 }
@@ -167,49 +167,51 @@ LaunchedEffect(key1 = verticalscrollState.value==verticalscrollState.maxValue){
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(
-                value = selectedText,
-                enabled = false,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .height(50.dp)
-                    .drawBehind {
-                        val strokeWidth = 10f
-                        val y = size.height - strokeWidth / 2
-                        drawLine(
-                            Color.LightGray,
-                            Offset(0f, y),
-                            Offset(size.width, y),
-                            strokeWidth
+            (if(selectedText=="Selected" && dataList.size!=0) dataList.firstOrNull{ x->x.id==selected}?.name else selectedText)?.let {
+                TextField(
+                    value = it,
+                    enabled = false,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .height(50.dp)
+                        .drawBehind {
+                            val strokeWidth = 10f
+                            val y = size.height - strokeWidth / 2
+                            drawLine(
+                                Color.LightGray,
+                                Offset(0f, y),
+                                Offset(size.width, y),
+                                strokeWidth
+                            )
+                        },
+                    textStyle = MaterialTheme.typography.labelLarge,
+                    trailingIcon = {
+                        Icon(
+                            painterResource(id = R.drawable.arrow_down_dropdown),
+                            "",
+                            modifier = Modifier
+                                .size(24.dp)
+                                .rotate(animRotation.value)
                         )
                     },
-                textStyle = MaterialTheme.typography.labelLarge,
-                trailingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.arrow_down_dropdown),
-                        "",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .rotate(animRotation.value)
-                    )
-                },
 
-                colors = TextFieldDefaults.textFieldColors(
+                    colors = TextFieldDefaults.textFieldColors(
 
-                    containerColor = Color.Transparent,
-                    disabledTextColor = MaterialTheme.colorScheme.onBackground,
-                    disabledTrailingIconColor = MaterialTheme.colorScheme.onBackground
-                ),
-                placeholder = {
-                    Text(
-                        "Select",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
-                        modifier = Modifier
-                    )
-                },
+                        containerColor = Color.Transparent,
+                        disabledTextColor = MaterialTheme.colorScheme.onBackground,
+                        disabledTrailingIconColor = MaterialTheme.colorScheme.onBackground
+                    ),
+                    placeholder = {
+                        Text(
+                            "Select",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                            modifier = Modifier
+                        )
+                    },
 
-                onValueChange = {})
+                    onValueChange = {})
+            }
             Row(modifier = Modifier
                 .fillMaxWidth()
                 , horizontalArrangement = Arrangement.Center) {

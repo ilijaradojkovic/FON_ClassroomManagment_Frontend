@@ -73,33 +73,11 @@ fun AllReservations_Screen(
                 horizontalArrangement = Arrangement.Center  ,
                 verticalAlignment = Alignment.CenterVertically) {
 
-                ClassroomComboBox({allReservationViewModel.getAllClassrooms()},allReservationViewModel.classrooms) {
-                     Log.i("cao", "selected $it")
+                ClassroomComboBox({allReservationViewModel.getAllClassrooms()},allReservationViewModel.classrooms,allReservationViewModel.selectedClassroom.value) {
+                     allReservationViewModel.selectClassroom(it)
+                    allReservationViewModel.getReservationsForData(datePicked.initialDate)
                 }
-//            Row(modifier = Modifier
-//                .fillMaxWidth(0.5f)
-//
-//                .background(Color.Red).height(50.dp) .padding(10.dp),
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                verticalAlignment = Alignment.CenterVertically) {
-//
-//                Row(modifier = Modifier.weight(4f)) {
-//                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-//                        DropdownMenuItem(text = { Text("cao") }, onClick = { /*TODO*/ })
-//                        DropdownMenuItem(text = { Text("cao1") }, onClick = { /*TODO*/ })
-//
-//                    }
-//                }
-//                Row(modifier = Modifier.background(Color.Green)) {
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.arrow_down_dropdown),
-//                        contentDescription = "",
-//
-//                        modifier = Modifier.size(24.dp).clickable { expanded=!expanded }
-//                    )
-//                }
 
-//            }
 
             }
             Row(modifier = Modifier) {

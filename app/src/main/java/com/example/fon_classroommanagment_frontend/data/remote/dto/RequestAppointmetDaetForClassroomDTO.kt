@@ -3,22 +3,22 @@ package com.example.fon_classroommanagment_frontend.data.remote.dto
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 
-  class RequestAppointmetDateDTO(
-         datumToFormat: LocalDate
+  class RequestAppointmetDaetForClassroomDTO(
+      datel: LocalDate,
+      private val classroomId:Long
 ){
 init {
-    formatDate(datumToFormat)
+    formatDate(datel)
 }
-       lateinit var  datum: String
+       lateinit var  date: String
 
        fun formatDate(localDate: LocalDate){
           val date=Date.from(localDate.atStartOfDay(
               ZoneId.systemDefault()).toInstant())
 
-           datum=SimpleDateFormat("yyyy-MM-dd").format(date)
+           this.date =SimpleDateFormat("yyyy-MM-dd").format(date)
 
 
        }

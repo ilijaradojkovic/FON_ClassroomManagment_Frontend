@@ -1,9 +1,7 @@
 package com.example.fon_classroommanagment_frontend.data.remote
 
-import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
 import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 import com.example.fon_classroommanagment_frontend.domain.model.*
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForDateUseCse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -36,8 +34,8 @@ interface API {
     @POST("searchClassroom")
     suspend fun  GetSearchClassrooms(@Body searchClassroomDTO: SearchClassroomDTO,):List<ClassroomCardDTO>
 
-    @POST("GetForDate")
-    suspend fun  getReservationsForDate(@Body requestAppointmetDateDTO: RequestAppointmetDateDTO):List<GetForDateAppointmentDTO>
+    @POST("GetForDateAndClassroom")
+    suspend fun  getReservationsForDate(@Body requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO):List<GetForDateAppointmentDTO>
 
 
     @GET("allAppointmentTypes")

@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.data.Event
 import java.time.format.DateTimeFormatter
@@ -18,6 +19,7 @@ val EventTimeFormatter = DateTimeFormatter.ofPattern("h:mm a")
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
+
 fun BasicEvent(
     event: Event,
     modifier: Modifier = Modifier,
@@ -27,7 +29,7 @@ fun BasicEvent(
             .fillMaxSize()
             .padding(10.dp)
             .background(MaterialTheme.colorScheme.secondary, shape = MaterialTheme.shapes.medium)
-            .padding(10.dp), verticalArrangement = Arrangement.Center
+            .padding(10.dp), verticalArrangement = Arrangement.Top
 
     ) {
 
@@ -54,12 +56,7 @@ fun BasicEvent(
 
             )
         }
-        Text(
-            text ="Ubaci kao da li je odobrena",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSecondary
 
-        )
 
 
     }

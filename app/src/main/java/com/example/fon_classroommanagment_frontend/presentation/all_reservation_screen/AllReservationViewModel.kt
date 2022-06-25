@@ -11,25 +11,24 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.Event
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDateDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDaetForClassroomDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomChipsPaging
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomsChipUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForDateUseCse
-import com.foreverrafs.datepicker.state.DatePickerState
-import com.foreverrafs.datepicker.state.rememberDatePickerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AllReservationViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForDateUseCse,private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
 
     private var page=1
+
+    private var _selectedClassroom = mutableStateOf(1L)
+    val selectedClassroom = _selectedClassroom
+
     private val _reservationsForDay= mutableStateListOf<Event>()
     val reservationForDay = _reservationsForDay
 
@@ -50,21 +49,21 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
                     is Response.Success->{
                         if(result.data?.size!! >0)
                                 page++
-                        Log.i("cao",result.data.toString())
                         result.data.let { _classrooms.addAll(it) }
                     }
                     is Response.Error->{Log.i("cao","error pri uzimanju svih ucionica ")}
                     is Response.Loading->{Log.i("cao","loading sve ucionice")}
 
                 }
-            Log.i("cao",result.message.toString())
+
 
         }.launchIn(viewModelScope)
 
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getReservationsForData(initialDate: LocalDate) {
+    fun getReservationsForData(initialDate: LocalDate,) {
+
         _reservationsForDay.clear()
         getReservationsForDateUseCase(CreateRequestAppointmetDateDTO(initialDate)).onEach {
 
@@ -87,8 +86,8 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
                     _uiState.value=UIRequestResponse(isLoading = true)
                    }
             }
-        }
-            .launchIn(viewModelScope)
+
+        }.launchIn(viewModelScope)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -102,7 +101,13 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun CreateRequestAppointmetDateDTO(localDate: LocalDate)= RequestAppointmetDateDTO(localDate)
+    private fun CreateRequestAppointmetDateDTO(localDate: LocalDate)= RequestAppointmetDaetForClassroomDTO(localDate,_selectedClassroom.value)
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun selectClassroom(it: Long) {
+        //ispravi
+        _selectedClassroom.value=it
+
+    }
 
 
 }
