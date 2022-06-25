@@ -3,8 +3,6 @@ package com.example.fon_classroommanagment_frontend.presentation.main_screen.com
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,7 +42,8 @@ fun Main_Screen(
     val searchText by allClassroomsViewModel.searchText
     val coroutineScope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-    var displayTopBarElements by remember{mutableStateOf(false)}
+    var displayTopBarBackElement by remember{mutableStateOf(false)}
+    var displayTopBarIconsElements by remember{mutableStateOf(false)}
     var filterDTO = allClassroomsViewModel.filterDto.value
 
 
@@ -62,11 +60,16 @@ fun Main_Screen(
        sheetBackgroundColor = Color.Transparent,
 
     ) {
-        Scaffold(topBar = { TopBar(displayTopBarElements,{coroutineScope.launch {
-            if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded)
-                modalBottomSheetState.hide() else modalBottomSheetState.show()}},
+        Scaffold(topBar = { TopBar(
+            displayTopBarIconsElements,
+            {coroutineScope.launch { if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded) modalBottomSheetState.hide() else modalBottomSheetState.show()}},
             {  allClassroomsViewModel.changeSearchText(it)
-                allClassroomsViewModel.searchClassrooms()},searchText,{allClassroomsViewModel.changeSearchText(it)},allClassroomsViewModel.networkStateSearch.value.isLoading) },
+                allClassroomsViewModel.searchClassrooms()},
+            searchText,
+            {allClassroomsViewModel.changeSearchText(it)}
+            ,allClassroomsViewModel.networkStateSearch.value.isLoading,
+            {},
+            displayTopBarBackElement) },
             bottomBar = { BottonBar(navHostController) },
             floatingActionButton = {
                if(navHostController.currentDestination!!.route==Screen.BottomBarScreens.ReservationScreen.route)
@@ -89,15 +92,18 @@ fun Main_Screen(
 
                 when(Title){
                     Screen.BottomBarScreens.AllClassroomsScreen.title->{
-                        displayTopBarElements=false
+                        displayTopBarBackElement=false
+                        displayTopBarIconsElements=true
                         All_Classrooms(navHostController,allClassroomsViewModel)
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
-                        displayTopBarElements=false
+                        displayTopBarBackElement=false
+                        displayTopBarIconsElements=false
                         AllReservations_Screen(allReservationViewModel)
                     }
                     Screen.BottomBarScreens.UserProfileScreen.title->{
-                        displayTopBarElements=false
+                        displayTopBarBackElement=false
+                        displayTopBarIconsElements=false
                         Profile_Screen(isAdmin = false, fullName ="Ilija Radojkovic" )
                     }
                 }

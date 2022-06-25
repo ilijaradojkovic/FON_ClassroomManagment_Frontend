@@ -26,7 +26,7 @@ import kotlinx.coroutines.Job
 
 @Composable
 fun TopBar(
-    souldHide: Boolean,
+    displayTopBarIconsElements: Boolean,
     onFilterClick: () -> Job,
     search:(searchText:String)->Unit,
     searchText: String,
@@ -44,7 +44,7 @@ fun TopBar(
 
     SmallTopAppBar(
         {
-            if (!souldHide) {
+            if (displayTopBarIconsElements) {
                 Row(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
