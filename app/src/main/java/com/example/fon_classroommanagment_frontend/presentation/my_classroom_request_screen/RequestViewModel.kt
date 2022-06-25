@@ -130,4 +130,12 @@ fun addRequest(reserveDTO: RequestReservastion){
         _reservantionState.value=UIRequestResponse()
     }
 
+    fun saveRequest(requestReservation: RequestReservastion) {
+        Log.i("cao",requestReservation.toString())
+         requestReservation.reqserveDTO.forEach {
+             _reservations.firstOrNull{x-> x.reserveDTO.classroomId==it.classroomId && x.reserveDTO.start_timeInHours==it.start_timeInHours && x.reserveDTO.end_timeInHours==it.end_timeInHours && x.reserveDTO.date_appointment.equals(it.date_appointment)}
+
+         }
+    }
+
 }

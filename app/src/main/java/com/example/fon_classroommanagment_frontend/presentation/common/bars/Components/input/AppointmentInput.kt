@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
@@ -56,6 +57,7 @@ fun AppointmentInput(
 
         TextField(value =text,
             enabled=enabled,
+
             modifier= modifier
                 .padding(10.dp)
                 .height(50.dp)
@@ -105,7 +107,7 @@ fun AppointmentInput(
                         modifier = Modifier.size(24.dp))
                              },
             isError = errorText.isNotEmpty(),
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType, capitalization = KeyboardCapitalization.Sentences),
             colors = TextFieldDefaults.textFieldColors(textColor = MaterialTheme.colorScheme.onBackground,containerColor = Color.Transparent, errorIndicatorColor = MaterialTheme.colorScheme.errorContainer),
             placeholder = {
                 Text(hint,

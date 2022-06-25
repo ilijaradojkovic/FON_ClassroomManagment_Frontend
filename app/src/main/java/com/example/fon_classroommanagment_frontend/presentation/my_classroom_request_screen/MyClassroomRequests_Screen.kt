@@ -1,7 +1,9 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,6 +30,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundIconButton
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.ErrorReservationDialog
@@ -43,7 +46,8 @@ import java.util.*
 fun MyClassroomRequests_Screen(
     navController: NavHostController,
     requestReservation: RequestReservastion?,
-    requestViewMode: RequestViewModel
+    requestViewMode: RequestViewModel,
+    saved:Boolean?
 
 ) {
 val scaffoldState = rememberScaffoldState()
@@ -51,8 +55,16 @@ val scaffoldState = rememberScaffoldState()
     var appointmentLoading by remember{ mutableStateOf(false)}
     LaunchedEffect(key1 = true) {
         if (requestReservation != null) {
-            requestViewMode.addRequest(requestReservation)
-            coroutine.launch { scaffoldState.snackbarHostState.showSnackbar("Appointment added",)
+            if(saved !=null && saved){
+                requestViewMode.saveRequest(requestReservation)
+                coroutine.launch {
+                    scaffoldState.snackbarHostState.showSnackbar("Appointment changed",)
+                }
+            }
+            else { requestViewMode.addRequest(requestReservation)
+            coroutine.launch {
+                scaffoldState.snackbarHostState.showSnackbar("Appointment added",)
+            }
             }
         }
     }
@@ -187,7 +199,15 @@ val scaffoldState = rememberScaffoldState()
                                 it.reserveDTO.name,
                                 it.reserveDTO.classroomName,
                                 it.uiRequestResponse
-                            )
+                            ) {
+
+                                navController.currentBackStackEntry?.arguments?.putParcelable(
+                                    "reserveDTO",
+                                    it.reserveDTO
+                                )
+
+                                navController.navigate(Screen.DetailsClassroomScreen.route)
+                            }
 
                         }
 
@@ -219,11 +239,14 @@ fun ClassromRequestCard(
     endTimeinhours: Int,
     name: String,
     classroomName: String,
-    uiRequestResponse: UIRequestResponse
+    uiRequestResponse: UIRequestResponse,
+    onClick:()->Unit
 ) {
     Card(modifier= Modifier
         .padding(10.dp)
-        .height(100.dp)){
+        .height(100.dp).clickable {
+            onClick()
+        }){
 
         Column(modifier = Modifier
             .fillMaxSize()

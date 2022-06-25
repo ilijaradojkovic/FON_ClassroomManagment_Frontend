@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
+import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
 import com.github.skgmn.composetooltip.AnchorEdge
 import com.github.skgmn.composetooltip.Tooltip
@@ -125,6 +126,102 @@ fun AppointmetnComboBox(
     }
 }
 
+@Composable
+fun ClassroomComboBox(
+    dataList: List<ClassroomType>,
+    onSelect: (Int) -> Unit
+) {
+
+    var comboBoxOpened by remember {
+        mutableStateOf(false)
+    }
+    val interactionSource = remember { MutableInteractionSource() }
+
+    var selectedText by remember { mutableStateOf("") }
+    val animRotation = animateFloatAsState(targetValue = if (comboBoxOpened) 0f else 180f)
+
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        , horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+
+                .clickable(interactionSource, indication = null) { comboBoxOpened = !comboBoxOpened },
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TextField(
+                value = selectedText,
+                enabled = false,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .height(50.dp)
+                    .drawBehind {
+                        val strokeWidth = 10f
+                        val y = size.height - strokeWidth / 2
+                        drawLine(
+                            Color.LightGray,
+                            Offset(0f, y),
+                            Offset(size.width, y),
+                            strokeWidth
+                        )
+                    },
+                textStyle = MaterialTheme.typography.labelLarge,
+                trailingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.arrow_down_dropdown),
+                        "",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(animRotation.value)
+                    )
+                },
+
+                colors = TextFieldDefaults.textFieldColors(
+
+                    containerColor = Color.Transparent,
+                    disabledTextColor = MaterialTheme.colorScheme.onBackground,
+                    disabledTrailingIconColor = MaterialTheme.colorScheme.onBackground
+                ),
+                placeholder = {
+                    Text(
+                        "Select",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                        modifier = Modifier
+                    )
+                },
+
+                onValueChange = {})
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                , horizontalArrangement = Arrangement.Center) {
+                DropdownMenu(
+                    expanded = comboBoxOpened,
+                    onDismissRequest = { comboBoxOpened = false },
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+
+
+                ) {
+                    dataList.forEach { data ->
+                        DropdownMenuItem(text = { Text(data.name) }, onClick = {
+
+                            selectedText = data.name
+                            comboBoxOpened = !comboBoxOpened
+                            onSelect(data.id)
+                        })
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
+}
 
 
 

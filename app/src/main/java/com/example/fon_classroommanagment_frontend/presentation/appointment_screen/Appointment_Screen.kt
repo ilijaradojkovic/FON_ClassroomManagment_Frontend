@@ -25,6 +25,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIM
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ClassroomInputChip
 import com.foreverrafs.datepicker.state.rememberDatePickerState
@@ -33,6 +34,7 @@ import com.foreverrafs.datepicker.state.rememberDatePickerState
 @Composable
 fun Appointment_Screen(
     classroom:Long,
+    reserveDTO: ReserveDTO?,
     navHostController: NavHostController,
     appointmentCreationViewModel: AppointmentCreationViewModel = hiltViewModel()
 ) {
@@ -40,14 +42,20 @@ fun Appointment_Screen(
     val datePickerState= rememberDatePickerState()
 
     LaunchedEffect(key1 = true){
-        appointmentCreationViewModel.restart()
+        if(reserveDTO==null)
+            appointmentCreationViewModel.restart()
     }
     LaunchedEffect(key1 =appointmentCreationViewModel.creationState.value){
         if(appointmentCreationViewModel.creationState.value) {
             navHostController.currentBackStackEntry?.arguments?.putParcelable(
-                "reserveDTO",
+                "RequestReservastion",
                 RequestReservastion(appointmentCreationViewModel.reserveDTO.toList())
             )
+            if(reserveDTO!=null)
+                navHostController.currentBackStackEntry?.arguments?.putBoolean(
+                    "saved",
+                   true
+                )
             navHostController.navigate(Screen.MyClassroomRequests_Screen.route)
         }
 
@@ -174,11 +182,18 @@ fun Appointment_Screen(
             horizontalArrangement = Arrangement.Center
         ) {
             Row(modifier = Modifier.fillMaxWidth(0.4f)) {
-                TextIconButton("Reserve", R.drawable.advance){
-                    appointmentCreationViewModel.createAppointment()
+                if(reserveDTO==null)
+                    TextIconButton("Reserve", R.drawable.advance){
+                        appointmentCreationViewModel.createAppointment()
 
 
-                }
+                    }
+                else
+                    TextIconButton("Save", R.drawable.save){
+                        appointmentCreationViewModel.createAppointment()
+
+
+                    }
             }
 
         }
