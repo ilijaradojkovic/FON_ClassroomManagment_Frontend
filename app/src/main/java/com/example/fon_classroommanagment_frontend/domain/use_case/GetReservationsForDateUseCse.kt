@@ -31,7 +31,7 @@ class GetReservationsForDateUseCse @Inject constructor(private  val reservationR
         catch (io: IOException){
 
             //ako nemamo net ne moze da prica sa api
-            emit(Response.Error("Nema neta"))
+            emit(Response.Error("No internet"))
         }catch (e:Exception){
 
             emit(Response.Error(e.localizedMessage ?:"neocekivana greska"))

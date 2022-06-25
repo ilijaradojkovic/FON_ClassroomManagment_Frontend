@@ -17,7 +17,6 @@ import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_s
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.ClassroomCard
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun All_Classrooms(
     navHostController: NavHostController,
@@ -59,7 +58,7 @@ fun All_Classrooms(
                             item.isRC,
                             item.projector,
                             item.number_of_seats
-                        ) { navHostController.navigate(Screen.DetailsClassroomScreen.route) }
+                        ) { navHostController.navigate(Screen.DetailsClassroomScreen.route+"?classroomId="+item.id) }
                     }
             }
             item{

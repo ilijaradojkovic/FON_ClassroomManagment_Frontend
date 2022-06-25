@@ -52,6 +52,8 @@ interface API {
 
     @POST("reserve")
     suspend fun reserve(@Body dto: List<ReserveDTO>)
+    @GET("classroomDetails")
+    suspend fun getClassroomDetails(@Query("classroomId") classroomId: Long): ClassroomDetailsDTO
 
 
 }

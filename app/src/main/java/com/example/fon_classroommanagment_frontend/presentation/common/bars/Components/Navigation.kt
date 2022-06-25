@@ -62,9 +62,16 @@ fun Navigation() {
             }
         }
 
-//        composable(route= Screen.DetailsClassroomScreen.route){
-//            DetailsClassroom_Screen(navController)
-//        }
+        composable(route= Screen.DetailsClassroomScreen.route+"?classroomId={classroomId}",
+        arguments = listOf(navArgument("classroomId"){
+            type= NavType.LongType
+        })){
+            val classroomId=it.arguments?.getLong("classroomId")
+
+            if (classroomId != null) {
+                DetailsClassroom_Screen(navController,classroomId)
+            }
+        }
         composable(route= Screen.AppointmentScreen.route+"?classroomId={classroomId}",
             arguments = listOf(navArgument("classroomId"){
             type= NavType.LongType
@@ -84,12 +91,12 @@ fun Navigation() {
 
             }
         }
-        composable(route= Screen.DetailsClassroomScreen.route){
-
-            val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")
-            //Log.i("cao",it.destination.arguments.toString())
-            DetailsClassroom_Screen(navController)
-        }
+//        composable(route= Screen.DetailsClassroomScreen.route){
+//
+//            val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")
+//            //Log.i("cao",it.destination.arguments.toString())
+//            DetailsClassroom_Screen(navController)
+//        }
 
 
         composable(route= Screen.MyClassroomRequests_Screen.route

@@ -51,7 +51,7 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
                                 page++
                         result.data.let { _classrooms.addAll(it) }
                     }
-                    is Response.Error->{Log.i("cao","error pri uzimanju svih ucionica ")}
+                    is Response.Error->{_uiState.value=UIRequestResponse(isError = true)}
                     is Response.Loading->{Log.i("cao","loading sve ucionice")}
 
                 }
@@ -80,7 +80,7 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
 
                 }
                 is Response.Error->{
-
+                    if(!_uiState.value.isError)_uiState.value=UIRequestResponse(isError = true)
                   }
                 is Response.Loading->{
                     _uiState.value=UIRequestResponse(isLoading = true)

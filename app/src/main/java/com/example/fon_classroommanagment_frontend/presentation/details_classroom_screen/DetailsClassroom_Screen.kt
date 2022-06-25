@@ -11,17 +11,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.Event
+import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
@@ -33,10 +36,16 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailsClassroom_Screen(navController: NavHostController) {
+fun DetailsClassroom_Screen(
+    navController: NavHostController,
+    classroomId:Long,
+    detailsClassromViewModel: DetailsClassromViewModel = hiltViewModel()
+) {
 
+    LaunchedEffect(key1 = true){
+        detailsClassromViewModel.getClassroom(classroomId)
+    }
     val datePickerState= rememberDatePickerState()
-
     Scaffold(floatingActionButton = { FloatingActionButton(onClick = { navController.navigate(Screen.AppointmentScreen.route+"/2")}) {
         Icon(painter = painterResource(id = R.drawable.reserve), contentDescription = "Icon FAB", modifier = Modifier.size(24.dp))
     }}) {
