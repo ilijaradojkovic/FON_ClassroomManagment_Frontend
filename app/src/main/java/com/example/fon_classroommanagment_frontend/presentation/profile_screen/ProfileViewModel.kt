@@ -42,7 +42,8 @@ init {
             result->
             when(result){
                 is Response.Loading->{
-                    Log.i("cao","loadgin")}
+                   // Log.i("cao","loadgin")
+                }
                 is Response.Error->{Log.i("cao",result.message.toString()+"ovde")}
                 is Response.Success->{
 
@@ -57,7 +58,8 @@ init {
             result->
             when(result){
                 is Response.Loading->{
-                    Log.i("cao","loadgin")}
+                    //lloading
+                    }
                 is Response.Error->{Log.i("cao",result.message.toString()+ "safa")}
                 is Response.Success->{
 
@@ -72,15 +74,19 @@ return null
        // return userDetails.value.image?.let { BitmapFactory.decodeByteArray(userDetails.value.image, 0, it.size).asImageBitmap() }
     }
 
-    fun deleteAppointment(id: UUID) {
+    fun deleteAppointment(appointment: AppointmentsForUserDTO) {
 
-        deleteAppointmentUseCase(id).onEach {
+        deleteAppointmentUseCase(appointment.id).onEach {
             result->
             when(result){
-                is Response.Success->{_appointmentsForUser.removeIf { x->x.id==id }}
-                is Response.Error->{Log.i("cao",result.message.toString())}
-                is Response.Loading->{Log.i("cao","loading")}
-            }
+                is Response.Success->{_appointmentsForUser.remove(appointment)
+                    Log.i("cao",_appointmentsForUser.size.toString())}
+                is Response.Error->{Log.i("cao",result.message.toString()+"ge")}
+                is Response.Loading->{
+                //loading
+                }
+                 }
+
         }.launchIn(viewModelScope)
 
     }

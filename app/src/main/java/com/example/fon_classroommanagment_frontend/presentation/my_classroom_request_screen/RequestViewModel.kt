@@ -95,6 +95,7 @@ fun addRequest(reserveDTO: RequestReservastion){
                 when(result){
                     is Response.Success -> {
                         _reservantionState.value= UIRequestResponse(success = true)
+                        _reservations.clear()
                         Log.i("cao","success ${result.data}")
 
                     }
@@ -131,7 +132,7 @@ fun addRequest(reserveDTO: RequestReservastion){
     }
 
     fun saveRequest(requestReservation: RequestReservastion) {
-        Log.i("cao",requestReservation.toString())
+        //Log.i("cao",requestReservation.toString())
          requestReservation.reqserveDTO.forEach {
              _reservations.firstOrNull{x-> x.reserveDTO.classroomId==it.classroomId && x.reserveDTO.start_timeInHours==it.start_timeInHours && x.reserveDTO.end_timeInHours==it.end_timeInHours && x.reserveDTO.date_appointment.equals(it.date_appointment)}
 

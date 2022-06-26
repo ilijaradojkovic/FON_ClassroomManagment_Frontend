@@ -63,7 +63,7 @@ interface API {
     suspend fun GetAllAppointmentsForUser(): List<AppointmentsForUserDTO>
 
     @DELETE("DeleteReservation")
-    suspend fun deleteAppointment(@Query("id") id: UUID):Call<Unit>
+    suspend fun deleteAppointment(@Query("id") id: UUID)
 
 
 }

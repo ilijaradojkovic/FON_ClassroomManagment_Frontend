@@ -1,11 +1,13 @@
 package com.example.fon_classroommanagment_frontend.data.repository
 
+import android.util.Log
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.data.remote.dto.GetForDateAppointmentDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDaetForClassroomDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.repository.AppointmentRepository
+import retrofit2.awaitResponse
 import java.util.*
 import javax.inject.Inject
 
@@ -29,7 +31,8 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
     }
 
     override suspend fun deleteAppointment(id: UUID) {
-        api.deleteAppointment(id)
+       api.deleteAppointment(id)
+        //Log.i("cao","repo "+res.awaitResponse().headers())
     }
 
 }

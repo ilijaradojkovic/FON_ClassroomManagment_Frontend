@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
+import android.util.Log
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.domain.repository.AppointmentRepository

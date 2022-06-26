@@ -122,13 +122,14 @@ fun Profile_Screen(
             }
         }
         if(shouldShow)
-            items(profileViewModel.appointmentsForUser) {
+            items(profileViewModel.appointmentsForUser, key = {k->k.id}) {
                 val dismissState = rememberDismissState()
                 LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
                     if (dismissState.isDismissed(DismissDirection.EndToStart))
-                       profileViewModel.deleteAppointment(it.id)
+                        profileViewModel.deleteAppointment(it)
                 }
                 Box(modifier = Modifier.padding(10.dp)) {
+
                     SwipeToDismiss(
                         state = dismissState,
                         background = {
@@ -168,18 +169,18 @@ fun Profile_Screen(
 
                         }, directions = setOf(DismissDirection.EndToStart)
                     ) {
-
                         AppointmentProfileCard(
                             AppointmentStatus.Accepted(isSystemInDarkTheme()),
                             it
                         )
+                    }
 
                     }
                 }
 
 
 
-            }
+
         item {
 
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
