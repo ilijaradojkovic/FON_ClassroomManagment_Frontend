@@ -104,7 +104,7 @@ fun Main_Screen(
                     Screen.BottomBarScreens.UserProfileScreen.title->{
                         displayTopBarBackElement=false
                         displayTopBarIconsElements=false
-                        Profile_Screen(isAdmin = false, fullName ="Ilija Radojkovic" )
+                        Profile_Screen(isAdmin = false )
                     }
                 }
 

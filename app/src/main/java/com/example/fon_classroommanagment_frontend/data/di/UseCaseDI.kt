@@ -1,9 +1,6 @@
 package com.example.fon_classroommanagment_frontend.data.di
 
-import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
-import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
-import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
-import com.example.fon_classroommanagment_frontend.domain.repository.ReservationRepository
+import com.example.fon_classroommanagment_frontend.domain.repository.*
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.Module
 import dagger.Provides
@@ -91,4 +88,9 @@ class UseCaseDI {
     @Singleton
     fun ProvideGetClassroomDetailsUseCase(classroomRepository: ClassroomRepository):GetClassroomDetailsUseCase=
         GetClassroomDetailsUseCase(classroomRepository)
+
+    @Provides
+    @Singleton
+    fun ProvideUserDetailsUseCase(userRepository: UserRepository):UserDetailsUseCase=
+        UserDetailsUseCase(userRepository)
 }

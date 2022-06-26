@@ -7,27 +7,48 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 
 @Composable
-fun Profile_Screen(isAdmin:Boolean,fullName:String){
+fun Profile_Screen(
+    isAdmin:Boolean,
+    profileViewModel: ProfileViewModel= hiltViewModel()
+
+){
+    val userDetails  by profileViewModel.userDetails
+    val userImage by remember{
+        mutableStateOf(profileViewModel.byteArrayToBitmap())}
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(0.dp, 10.dp, 0.dp, 0.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .weight(2f), horizontalArrangement = Arrangement.Center) {
-            Image(painter = painterResource(id = R.drawable.avatar),
+          // if(userImage==null)
+            Image(painter = painterResource(id = R.drawable.avatar) ,
                 contentDescription = "Profile_Image",
                 modifier = Modifier
                     .clip(CircleShape)
                     .border(2.dp, Color.White, shape = CircleShape))
+//            else
+//                Image(bitmap = userImage!!,
+//               contentDescription = "Profile_Image",
+//               modifier = Modifier
+//                   .clip(CircleShape)
+//                   .border(2.dp, Color.White, shape = CircleShape))
+
         }
 
         Column(modifier = Modifier
@@ -35,8 +56,8 @@ fun Profile_Screen(isAdmin:Boolean,fullName:String){
             .weight(1f)
             .padding(0.dp, 10.dp), horizontalAlignment = Alignment.CenterHorizontally){
 
-            Text(fullName, style = MaterialTheme.typography.headlineMedium)
-            Text("Professor", style = MaterialTheme.typography.bodyMedium)
+            Text("${userDetails.firstName}  ${userDetails.lastName}", style = MaterialTheme.typography.headlineMedium)
+            Text(userDetails.workType, style = MaterialTheme.typography.bodyMedium)
 
         }
 

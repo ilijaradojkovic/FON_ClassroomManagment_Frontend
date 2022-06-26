@@ -55,5 +55,8 @@ interface API {
     @GET("classroomDetails")
     suspend fun getClassroomDetails(@Query("classroomId") classroomId: Long): ClassroomDetailsDTO
 
+    @GET("UserDetails")
+     suspend fun getUserDetails():UserDetailsDTO
+
 
 }
