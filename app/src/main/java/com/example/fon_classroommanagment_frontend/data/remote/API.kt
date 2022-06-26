@@ -4,6 +4,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 import com.example.fon_classroommanagment_frontend.domain.model.*
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.*
 
 interface API {
     @FormUrlEncoded
@@ -60,6 +61,9 @@ interface API {
 
      @GET("getAppointmentsForUser")
     suspend fun GetAllAppointmentsForUser(): List<AppointmentsForUserDTO>
+
+    @DELETE("DeleteReservation")
+    suspend fun deleteAppointment(@Query("id") id: UUID):Call<Unit>
 
 
 }

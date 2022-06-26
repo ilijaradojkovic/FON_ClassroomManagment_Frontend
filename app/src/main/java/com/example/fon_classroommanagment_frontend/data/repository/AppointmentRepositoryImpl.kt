@@ -5,10 +5,11 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.GetForDateApp
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDaetForClassroomDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
-import com.example.fon_classroommanagment_frontend.domain.repository.ReservationRepository
+import com.example.fon_classroommanagment_frontend.domain.repository.AppointmentRepository
+import java.util.*
 import javax.inject.Inject
 
-class ReservationRepositoryImpl @Inject constructor(private val api: API) :ReservationRepository  {
+class AppointmentRepositoryImpl @Inject constructor(private val api: API) :AppointmentRepository  {
     override suspend fun getReservationsForDate(
         requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO,
     ):
@@ -25,6 +26,10 @@ class ReservationRepositoryImpl @Inject constructor(private val api: API) :Reser
         api.reserve(appointmets)
 
 
+    }
+
+    override suspend fun deleteAppointment(id: UUID) {
+        api.deleteAppointment(id)
     }
 
 }

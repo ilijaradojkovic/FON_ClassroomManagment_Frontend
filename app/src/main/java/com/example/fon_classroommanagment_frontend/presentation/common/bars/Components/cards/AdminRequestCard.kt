@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Preview
 fun AdminRequestCard(){
 
     Card() {

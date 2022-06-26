@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.data.remote.dto
 import java.util.*
 
 data class AppointmentsForUserDTO (
+    val id:UUID,
     val classroomName:String,
     val appointmentName:String,
     val date : Date,

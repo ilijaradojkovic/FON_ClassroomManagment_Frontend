@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="accepted_light">#FF006A66</color>
+    <color name="accepted_dark">#FF4EDAD4</color>
+    <color name="pending_light">#FF815600</color>
+    <color name="pending_dark">#FFFEBA4B</color>
+    <color name="declined_light">#FFBA1A1A</color>
+    <color name="declined_dark">#FFFFB4AB</color>
 </resources>

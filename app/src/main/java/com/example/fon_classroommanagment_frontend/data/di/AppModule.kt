@@ -3,15 +3,9 @@ package com.example.fon_classroommanagment_frontend.data.di
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
 import com.example.fon_classroommanagment_frontend.common.Constants.URL
 import com.example.fon_classroommanagment_frontend.data.remote.API
-import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
-import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
-import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
-import com.example.fon_classroommanagment_frontend.domain.repository.ReservationRepository
-import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

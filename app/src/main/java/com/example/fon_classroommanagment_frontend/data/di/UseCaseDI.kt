@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.data.di
 
+import com.example.fon_classroommanagment_frontend.data.repository.AppointmentRepositoryImpl
 import com.example.fon_classroommanagment_frontend.domain.repository.*
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.Module
@@ -62,7 +63,7 @@ class UseCaseDI {
 
     @Provides
     @Singleton
-    fun provideGetReservationsForDateUseCse(reservationRepository: ReservationRepository): GetReservationsForClassroomAndDateUseCse =
+    fun provideGetReservationsForDateUseCse(reservationRepository: AppointmentRepository): GetReservationsForClassroomAndDateUseCse =
         GetReservationsForClassroomAndDateUseCse(reservationRepository)
 
 
@@ -78,7 +79,7 @@ class UseCaseDI {
 
     @Provides
     @Singleton
-    fun ProvideCheckAvailabilityClassroomForDateUseCase(reservationRepository: ReservationRepository):CheckAvailabilityClassroomForDateUseCase=
+    fun ProvideCheckAvailabilityClassroomForDateUseCase(reservationRepository: AppointmentRepository):CheckAvailabilityClassroomForDateUseCase=
         CheckAvailabilityClassroomForDateUseCase(reservationRepository)
     @Provides
     @Singleton
@@ -97,4 +98,9 @@ class UseCaseDI {
     @Singleton
     fun ProvideGetAppointmentsForUserUseCase(userRepository: UserRepository):GetAppointmentsForUserUseCase=
         GetAppointmentsForUserUseCase(userRepository)
+
+    @Provides
+    @Singleton
+    fun ProvideDeleteAppointmentUseCase(appointmentRepository: AppointmentRepository):DeleteAppointmentUseCase=
+        DeleteAppointmentUseCase(appointmentRepository)
 }

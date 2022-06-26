@@ -29,8 +29,8 @@ class RepositoryDI {
 
     @Provides
     @Singleton
-    fun provideReservationRepositoryImpl(api: API): ReservationRepository =
-        ReservationRepositoryImpl(api)
+    fun provideReservationRepositoryImpl(api: API): AppointmentRepository =
+        AppointmentRepositoryImpl(api)
 
     @Provides
     @Singleton

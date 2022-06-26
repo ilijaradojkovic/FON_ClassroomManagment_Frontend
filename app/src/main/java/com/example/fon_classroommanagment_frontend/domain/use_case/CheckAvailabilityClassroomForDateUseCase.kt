@@ -2,14 +2,14 @@ package com.example.fon_classroommanagment_frontend.domain.use_case
 
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
-import com.example.fon_classroommanagment_frontend.domain.repository.ReservationRepository
+import com.example.fon_classroommanagment_frontend.domain.repository.AppointmentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class CheckAvailabilityClassroomForDateUseCase @Inject constructor(private val reservationRepositoryImpl: ReservationRepository) {
+class CheckAvailabilityClassroomForDateUseCase @Inject constructor(private val reservationRepositoryImpl: AppointmentRepository) {
 
 //promeni povratni tip
     operator fun invoke(requestIsClassroomAvailableForDateDTO: RequestIsClassroomAvailableForDateDTO): Flow<Response<Boolean>> = flow {
