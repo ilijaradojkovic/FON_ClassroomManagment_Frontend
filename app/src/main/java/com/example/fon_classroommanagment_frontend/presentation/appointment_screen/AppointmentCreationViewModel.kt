@@ -1,11 +1,13 @@
 package com.example.fon_classroommanagment_frontend.presentation.appointment_screen
 
+import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
@@ -25,7 +27,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase):ViewModel() {
+class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase,   sharedPreferences: SharedPreferences):ViewModel() {
 
     var nameText by  mutableStateOf("") 
     var reasonText by mutableStateOf("") 
@@ -59,7 +61,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
 
     var reserveDTO= mutableStateListOf<ReserveDTO>()
 
-    var myEmail by mutableStateOf("")
+    var myEmail by mutableStateOf(sharedPreferences.getString(Constants.EMAIL_KEY,""))
 
     private var _appointmentTypes = mutableStateListOf<AppointmentType>()
     val appointmentTypes = _appointmentTypes
@@ -109,8 +111,8 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
 
         if(validate()){
           classrooms.forEach { classroomChipDTO ->
-
-                reserveDTO.add(createReservationDTO(classroomChipDTO))
+               
+               reserveDTO.add(createReservationDTO(classroomChipDTO))
           }
             _creationState.value=true
         }
@@ -159,7 +161,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     }
 
     private fun validateEmail(): Boolean {
-        if(myEmail.isEmpty() ) return false
+        if(myEmail.isNullOrEmpty() ) return false
         return true
     }
 

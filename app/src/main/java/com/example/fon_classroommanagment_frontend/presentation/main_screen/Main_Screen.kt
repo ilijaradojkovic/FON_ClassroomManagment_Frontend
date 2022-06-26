@@ -26,6 +26,7 @@ import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_s
 import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
+import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
 import com.example.fon_classroommanagment_frontend.screens.All_Classrooms
 import kotlinx.coroutines.launch
@@ -39,7 +40,8 @@ fun Main_Screen(
     navHostController: NavHostController,
     Title: String,
     allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel(),
-    allReservationViewModel: AllReservationViewModel = hiltViewModel()
+    allReservationViewModel: AllReservationViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel= hiltViewModel()
     ){
 
     val searchText by allClassroomsViewModel.searchText
@@ -106,7 +108,7 @@ fun Main_Screen(
                     Screen.BottomBarScreens.UserProfileScreen.title->{
                         displayTopBarBackElement=false
                         displayTopBarIconsElements=false
-                        Profile_Screen(isAdmin = false )
+                        Profile_Screen(profileViewModel )
                     }
                 }
 

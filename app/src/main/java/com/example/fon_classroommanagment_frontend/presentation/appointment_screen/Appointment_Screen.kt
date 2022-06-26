@@ -44,12 +44,7 @@ fun Appointment_Screen(
 ) {
     val scrollableState = rememberScrollState()
     val datePickerState= rememberDatePickerState()
-    val context= LocalContext.current
-    val email=StoreUserEmail(context).getEmail.collectAsState(initial = "")
 
-    LaunchedEffect(key1 = email){
-        email.value?.let { appointmentCreationViewModel.setEmail(it) }
-    }
     LaunchedEffect(key1 = true){
 
 

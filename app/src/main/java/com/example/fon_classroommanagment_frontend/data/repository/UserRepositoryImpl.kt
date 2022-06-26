@@ -14,4 +14,8 @@ class UserRepositoryImpl @Inject constructor(private val api: API) :UserReposito
     override suspend fun getUserAppointments(): List<AppointmentsForUserDTO> {
         return api.GetAllAppointmentsForUser()
     }
+
+    override suspend fun isUserAdmin(): Boolean {
+       return api.isUserAdmin()
+    }
 }

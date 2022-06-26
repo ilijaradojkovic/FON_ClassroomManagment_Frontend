@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.data.di
 
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
@@ -28,7 +29,7 @@ class ViewModelDI {
 
     @Singleton
     @Provides
-    fun provideLoginViewModel(loginUseCase: LoginUseCase): LoginViewModel = LoginViewModel(loginUseCase)
+    fun provideLoginViewModel(loginUseCase: LoginUseCase,sharedPreferences: SharedPreferences): LoginViewModel = LoginViewModel(loginUseCase,sharedPreferences)
 
     @Singleton
     @Provides
@@ -63,8 +64,8 @@ class ViewModelDI {
 
  @Provides
     @Singleton
-    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase): AppointmentCreationViewModel =
-     AppointmentCreationViewModel(getAllReservationTypesUseCase,getAllClassroomSearched)
+    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase,sharedPreferences: SharedPreferences): AppointmentCreationViewModel =
+     AppointmentCreationViewModel(getAllReservationTypesUseCase,getAllClassroomSearched,sharedPreferences)
 
     @Provides
     @Singleton

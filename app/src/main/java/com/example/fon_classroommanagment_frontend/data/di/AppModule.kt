@@ -3,7 +3,8 @@ package com.example.fon_classroommanagment_frontend.data.di
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.example.fon_classroommanagment_frontend.common.Constants.TOKEN_VALIDATION
+import com.example.fon_classroommanagment_frontend.common.Constants
+
 import com.example.fon_classroommanagment_frontend.common.Constants.URL
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.google.gson.Gson
@@ -31,11 +32,11 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient():OkHttpClient = OkHttpClient.Builder().addInterceptor( Interceptor() {
+    fun provideHttpClient(sharedPreferences: SharedPreferences):OkHttpClient = OkHttpClient.Builder().addInterceptor( Interceptor() {
 
 
           val newRequest  = it.request().newBuilder()
-                .addHeader("Authorization", TOKEN_VALIDATION)
+                .addHeader("Authorization", sharedPreferences.getString(Constants.VALIDATION_TOKEN_KEY,"")?:"")
                 .build()
              it.proceed(newRequest)
         }
@@ -43,8 +44,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApi(gson: Gson): API = Retrofit.Builder()
-      .client(provideHttpClient())
+    fun provideApi(gson: Gson,sharedPreferences: SharedPreferences): API = Retrofit.Builder()
+      .client(provideHttpClient(sharedPreferences))
         .baseUrl(URL)
         .addConverterFactory(GsonConverterFactory.create(gson)).build().create(
         API::class.java)

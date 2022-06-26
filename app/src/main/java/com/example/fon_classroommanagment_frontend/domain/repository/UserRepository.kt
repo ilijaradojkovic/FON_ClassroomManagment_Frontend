@@ -7,4 +7,5 @@ interface UserRepository {
 
     suspend fun  getUserDetails():UserDetailsDTO
     suspend fun getUserAppointments(): List<AppointmentsForUserDTO>
+    suspend fun isUserAdmin(): Boolean
 }

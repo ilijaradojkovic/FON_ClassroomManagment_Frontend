@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.login_screen
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,10 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
-import com.example.fon_classroommanagment_frontend.common.TokenResponse
-import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
+import com.example.fon_classroommanagment_frontend.common.*
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
+    private val sharedPreferences: SharedPreferences
 
 ) :ViewModel() {
 
@@ -41,7 +40,7 @@ class LoginViewModel @Inject constructor(
                 when(result){
                     //neka vraca token popravi ovo
                     is Response.Success->{
-
+                        sharedPreferences.edit().putString(Constants.EMAIL_KEY,email).apply()
                         _state.value= UIRequestResponse(success = true)
 
                     }

@@ -65,5 +65,8 @@ interface API {
     @DELETE("DeleteReservation")
     suspend fun deleteAppointment(@Query("id") id: UUID)
 
+    @GET("isAdmin")
+    suspend fun isUserAdmin(): Boolean
+
 
 }

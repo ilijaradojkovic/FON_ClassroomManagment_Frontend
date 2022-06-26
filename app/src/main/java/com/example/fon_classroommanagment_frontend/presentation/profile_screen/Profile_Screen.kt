@@ -32,8 +32,8 @@ import com.example.fon_classroommanagment_frontend.presentation.profile_screen.P
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun Profile_Screen(
-    isAdmin:Boolean,
-    profileViewModel: ProfileViewModel= hiltViewModel()
+
+    profileViewModel: ProfileViewModel
 
 ) {
     val userDetails by profileViewModel.userDetails
@@ -89,7 +89,7 @@ fun Profile_Screen(
             }
         }
         item {
-            if (isAdmin) {
+            if (true) {
 
                 Item(R.drawable.callendar, "Requests", true, 5, R.drawable.refresh)
                 Divider(
