@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.presentation.main_screen.com
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
@@ -45,7 +48,6 @@ fun Main_Screen(
     var displayTopBarBackElement by remember{mutableStateOf(false)}
     var displayTopBarIconsElements by remember{mutableStateOf(false)}
     var filterDTO = allClassroomsViewModel.filterDto.value
-
 
 
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,

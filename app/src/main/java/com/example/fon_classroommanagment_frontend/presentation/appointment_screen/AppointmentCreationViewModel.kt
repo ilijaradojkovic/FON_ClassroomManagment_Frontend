@@ -27,7 +27,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase):ViewModel() {
 
-
     var nameText by  mutableStateOf("") 
     var reasonText by mutableStateOf("") 
     var numAttendeesText by mutableStateOf("") 
@@ -60,6 +59,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
 
     var reserveDTO= mutableStateListOf<ReserveDTO>()
 
+    var myEmail by mutableStateOf("")
 
     private var _appointmentTypes = mutableStateListOf<AppointmentType>()
     val appointmentTypes = _appointmentTypes
@@ -126,7 +126,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
             ZoneId.systemDefault()).toInstant())
 
     private fun createReservationDTO(classroom: ClassroomChipDTO):ReserveDTO=
-        ReserveDTO("radojkovicika@gmail.com",
+        ReserveDTO(myEmail,
             classroom.id,
             nameText,
             getDateFromLocalDateTime(),
@@ -151,8 +151,16 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
        if(!validateAppointmentType()) result=false
        if(!validateClassroomsAppointment()) result=false
         if(!validateDescription()) result=false
+        if(!validateEmail()) {
+            Log.i("cao","email nije ok")
+            result=false}
        return result
        
+    }
+
+    private fun validateEmail(): Boolean {
+        if(myEmail.isEmpty() ) return false
+        return true
     }
 
     private fun validateDescription(): Boolean {
@@ -319,5 +327,9 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
     fun addClassroom(classroom: ClassroomChipDTO) {
         classrooms.add(classroom)
 
+    }
+
+    fun setEmail(email: String) {
+        myEmail=email
     }
 }

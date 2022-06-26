@@ -10,9 +10,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.datastore.dataStoreFile
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
@@ -25,6 +27,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIM
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
@@ -41,8 +44,15 @@ fun Appointment_Screen(
 ) {
     val scrollableState = rememberScrollState()
     val datePickerState= rememberDatePickerState()
+    val context= LocalContext.current
+    val email=StoreUserEmail(context).getEmail.collectAsState(initial = "")
 
+    LaunchedEffect(key1 = email){
+        email.value?.let { appointmentCreationViewModel.setEmail(it) }
+    }
     LaunchedEffect(key1 = true){
+
+
         if(reserveDTO==null)
             appointmentCreationViewModel.restart()
         if(classroom!=null)

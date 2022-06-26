@@ -4,9 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response
+import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.common.TokenResponse
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
@@ -20,11 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+
 ) :ViewModel() {
 
-//    private val resultChannel= Channel<Response<TokenResponse>>()
-//    val authResult= resultChannel.receiveAsFlow()
 
     private val _state= mutableStateOf(UIRequestResponse())
     val state: State<UIRequestResponse> = _state
@@ -40,6 +41,7 @@ class LoginViewModel @Inject constructor(
                 when(result){
                     //neka vraca token popravi ovo
                     is Response.Success->{
+
                         _state.value= UIRequestResponse(success = true)
 
                     }

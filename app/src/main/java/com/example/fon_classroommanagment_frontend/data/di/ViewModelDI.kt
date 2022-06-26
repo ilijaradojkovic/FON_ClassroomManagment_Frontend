@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend.data.di
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
@@ -15,12 +16,14 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.ty
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ViewModelDI {
+
 
 
     @Singleton

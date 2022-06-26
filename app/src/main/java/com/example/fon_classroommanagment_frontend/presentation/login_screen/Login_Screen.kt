@@ -17,6 +17,7 @@ import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.IconRoundBorder
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.Text_Field
@@ -42,13 +44,17 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
 
 
     ) {
+    val context=LocalContext.current
     val colorBcg=MaterialTheme.colorScheme.background
     var emailText by remember{ mutableStateOf("")}
     var passwordText by remember{ mutableStateOf("")}
     val loginState by loginViewModel.state
     LaunchedEffect(key1 =loginState.success) {
-        if(loginState.success)
+        if(loginState.success){
+            val dataStore = StoreUserEmail(context)
+            dataStore.saveEmail(emailText)
             navController.navigate(route = Screen.MainScreen.route)
+        }
     }
       
     Column(modifier = Modifier.animateContentSize(tween(500))) {
