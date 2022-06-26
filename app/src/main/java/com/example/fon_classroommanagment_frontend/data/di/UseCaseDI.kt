@@ -93,4 +93,8 @@ class UseCaseDI {
     @Singleton
     fun ProvideUserDetailsUseCase(userRepository: UserRepository):UserDetailsUseCase=
         UserDetailsUseCase(userRepository)
+    @Provides
+    @Singleton
+    fun ProvideGetAppointmentsForUserUseCase(userRepository: UserRepository):GetAppointmentsForUserUseCase=
+        GetAppointmentsForUserUseCase(userRepository)
 }
