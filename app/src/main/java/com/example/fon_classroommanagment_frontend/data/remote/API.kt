@@ -58,5 +58,8 @@ interface API {
     @GET("UserDetails")
      suspend fun getUserDetails():UserDetailsDTO
 
+     @GET("getAppointmentsForUser")
+    suspend fun GetAllAppointmentsForUser(): List<AppointmentsForUserDTO>
+
 
 }
