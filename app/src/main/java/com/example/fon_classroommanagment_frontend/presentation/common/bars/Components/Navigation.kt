@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
 
 import android.os.Build
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -86,7 +85,7 @@ fun Navigation() {
         )){
 
             BackHandler(true) {
-                navController.navigate(Screen.MyClassroomRequests_Screen.route)
+                navController.navigate(Screen.MyClassroomRequestsScreen.route)
             }
             var classroomChipDTO:ClassroomChipDTO?=null
             val classroomId=it.arguments?.getLong("classroomId")
@@ -108,7 +107,7 @@ fun Navigation() {
 //        }
 
 
-        composable(route= Screen.MyClassroomRequests_Screen.route
+        composable(route= Screen.MyClassroomRequestsScreen.route
 
             ){
             BackHandler(true) {

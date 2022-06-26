@@ -103,8 +103,5 @@ class UseCaseDI {
     @Singleton
     fun ProvideDeleteAppointmentUseCase(appointmentRepository: AppointmentRepository):DeleteAppointmentUseCase=
         DeleteAppointmentUseCase(appointmentRepository)
-    @Provides
-    @Singleton
-    fun ProvideIsUserAdminUseCase(userRepository: UserRepository):IsUserAdminUseCase=
-        IsUserAdminUseCase(userRepository)
+
 }

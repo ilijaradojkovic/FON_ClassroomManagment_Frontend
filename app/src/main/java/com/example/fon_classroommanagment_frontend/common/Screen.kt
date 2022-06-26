@@ -13,7 +13,7 @@ sealed class Screen(val route:String) {
     object AppointmentScreen: Screen("Appointment_Screen")
     object AditionalInfoScreen: Screen("Aditional_Info_Screen")
     object TypeEMPEducationEMPScreen: Screen("TypeEMP_EducationEMP_Screen")
-    object MyClassroomRequests_Screen: Screen("MyClassroomRequests_Screen")
+    object MyClassroomRequestsScreen: Screen("MyClassroomRequests_Screen")
 
 
 

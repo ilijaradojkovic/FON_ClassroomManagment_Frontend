@@ -10,11 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.datastore.dataStoreFile
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
@@ -27,7 +25,6 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIM
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
@@ -64,7 +61,7 @@ fun Appointment_Screen(
                     "saved",
                    true
                 )
-            navHostController.navigate(Screen.MyClassroomRequests_Screen.route)
+            navHostController.navigate(Screen.MyClassroomRequestsScreen.route)
         }
 
     }

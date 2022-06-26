@@ -1,13 +1,10 @@
 package com.example.fon_classroommanagment_frontend.presentation.profile_screen
 
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants
@@ -17,7 +14,6 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsF
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.DeleteAppointmentUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAppointmentsForUserUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.IsUserAdminUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.UserDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -28,13 +24,13 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase,private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,private val deleteAppointmentUseCase: DeleteAppointmentUseCase,private val isUserAdminUseCase: IsUserAdminUseCase) :ViewModel() {
+class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase,private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,private val deleteAppointmentUseCase: DeleteAppointmentUseCase,private  val sharedPreferences: SharedPreferences) :ViewModel() {
 
     private var _userDetails= mutableStateOf(UserDetailsDTO())
     val userDetails=_userDetails
 
-//    private var _isAdmin = mutableStateOf(false)
-   // val isAdmin=_isAdmin
+
+    val isAdmin = mutableStateOf(sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
 
     private var _appointmentsForUser= mutableStateListOf<AppointmentsForUserDTO>()
     val appointmentsForUser=_appointmentsForUser
@@ -42,43 +38,30 @@ class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserD
     private var _networkState = mutableStateOf(UIRequestResponse())
     val networkState=_networkState
 
+    private var _deleteState= mutableStateOf(UIRequestResponse())
+    val deleteState = _deleteState
+
 init {
 
     getUserDetails()
     getUserAppointments()
-    //isUserAdmin()
+
 }
 
-    private fun isUserAdmin() {
-        isUserAdminUseCase().onEach {
-            result->
-            when(result){
-                is Response.Loading->{_networkState.value=UIRequestResponse(isLoading = true)}
-                is Response.Error->{_networkState.value= UIRequestResponse(isError = true)
-                }
-                is Response.Success->{
-                    _networkState.value=UIRequestResponse(success = true)
-                    result.data?.let{
-
-//                     _isAdmin.value   =it
-                    }
-
-
-                }
-            }
-
-        }.launchIn(viewModelScope)
-    }
 
     private fun getUserDetails() {
         userDetailsUseCase().onEach {
             result->
             when(result){
                 is Response.Loading->{
-                   // Log.i("cao","loadgin")
+                    _networkState.value=UIRequestResponse(isLoading = true)
+
                 }
-                is Response.Error->{Log.i("cao",result.message.toString()+"ovde")}
+                is Response.Error->{
+                    _networkState.value= UIRequestResponse(isError = true)
+                }
                 is Response.Success->{
+                    _networkState.value=UIRequestResponse(success = true)
 
                     _userDetails.value= result.data!!
 
@@ -91,11 +74,14 @@ init {
             result->
             when(result){
                 is Response.Loading->{
-                    //lloading
+                    _networkState.value= UIRequestResponse(isLoading = true)
                     }
-                is Response.Error->{Log.i("cao",result.message.toString()+ "safa")}
-                is Response.Success->{
+                is Response.Error->{
+                    _networkState.value= UIRequestResponse(isError = true)
 
+                }
+                is Response.Success->{
+                    _networkState.value= UIRequestResponse(success = true)
                     result.data?.let { _appointmentsForUser.addAll(it) }
 
                 }
@@ -113,9 +99,13 @@ return null
             result->
             when(result){
                 is Response.Success->{_appointmentsForUser.remove(appointment)
-                    Log.i("cao",_appointmentsForUser.size.toString())}
-                is Response.Error->{Log.i("cao",result.message.toString()+"ge")}
+                    _deleteState.value=UIRequestResponse(success = true)}
+                is Response.Error->{
+                    _deleteState.value=UIRequestResponse(isError = true)
+
+                }
                 is Response.Loading->{
+                    _deleteState.value=UIRequestResponse(isLoading = true)
                 //loading
                 }
                  }
