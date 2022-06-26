@@ -111,7 +111,7 @@ class AppointmentCreationViewModel @Inject constructor(private val getAllReserva
 
         if(validate()){
           classrooms.forEach { classroomChipDTO ->
-               
+
                reserveDTO.add(createReservationDTO(classroomChipDTO))
           }
             _creationState.value=true
