@@ -1,9 +1,6 @@
 package com.example.fon_classroommanagment_frontend.domain.repository
 
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomDetailsDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 
 interface ClassroomRepository {
 
@@ -15,5 +12,6 @@ interface ClassroomRepository {
     suspend fun getAllClassroomsChip(page:Int):List<ClassroomChipDTO>
 
     suspend fun getclassroomDetails(classroomId: Long): ClassroomDetailsDTO
+    suspend fun filter(filterDTO: FilterDTO): List<ClassroomCardDTO>?
 
 }

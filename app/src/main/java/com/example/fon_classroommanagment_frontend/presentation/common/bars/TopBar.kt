@@ -87,6 +87,7 @@ fun TopBar(
                             onValueChange = { changeSearchText(it) },
                             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
                             decorationBox = { innerTextField ->
+
                                 Row(
                                     Modifier
 

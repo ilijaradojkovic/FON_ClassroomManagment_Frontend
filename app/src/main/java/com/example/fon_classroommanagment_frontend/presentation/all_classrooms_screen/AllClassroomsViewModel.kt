@@ -10,6 +10,7 @@ import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
+import com.example.fon_classroommanagment_frontend.domain.use_case.FilterUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearchedUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase):ViewModel() {
+class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase,private val filterUseCase: FilterUseCase):ViewModel() {
 
     private var page:Int=1
     private var searchPage:Int=1
@@ -59,8 +60,14 @@ var searchRequested= mutableStateOf(false)
       //  getAllClassrooms()
     }
 
-    fun filter(){
-        Log.i("cao",filterDto.toString())
+    fun filter(_filterDTO: FilterDTO) {
+        if(filterDto.value!=_filterDTO){
+            filterDto.value=_filterDTO
+            //filterUseCase() ubaci filter obj u search i getall kao parametre ne bi trebal oda postoji posebna filter funkcija sve je to deo ovih
+        }
+
+
+
     }
 
     fun getAllClassrooms(){
@@ -132,6 +139,10 @@ var searchRequested= mutableStateOf(false)
     fun shouldDisplaySeachData(): Boolean {
 
      return searchRequested.value
+    }
+
+    fun restartFilter() {
+        filterDto.value=FilterDTO()
     }
 
 

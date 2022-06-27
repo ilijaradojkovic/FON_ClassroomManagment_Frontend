@@ -153,7 +153,8 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                     Column(modifier = Modifier
                         .fillMaxWidth()
 
-                        , horizontalAlignment = Alignment.CenterHorizontally) {
+                        , horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(15.dp)) {
 
                         Text_Field(emailText,{emailText=it},R.drawable.email,hint="Email", errorMessage = loginViewModel.errorMessageEmail)
                         Password_Text_Field(passwordText,{passwordText=it},leadingIcon = R.drawable.padlock, trailingIcon = R.drawable.hide_password, trailingIconToggle = R.drawable.show_password,hint="Password", visualTransformation = PasswordVisualTransformation(), errorMessage =loginViewModel.errorMessagePassword)

@@ -14,25 +14,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.google.accompanist.flowlayout.FlowRow
-import java.util.*
 
 
 @Composable
 fun Bottom_Sheet_Content(
-    _filterDTO:FilterDTO,
-    applyFilters:(FilterDTO)->Unit,
-    filterViewModel: FilterViewModel = hiltViewModel(),
-    closeFilter: () -> Unit,
+    onApplyFilters:(FilterDTO)->Unit,
+    filterViewModel: FilterViewModel,
+    onRestart:() ->Unit,
+    onCloseFilter: () -> Unit,
 
-) {
+    ) {
+
+
 
     val classroomTypes = filterViewModel.classroomTypes
     val scrollstate = rememberScrollState()
@@ -75,7 +73,7 @@ fun Bottom_Sheet_Content(
                             contentDescription = "Close icon",
                             modifier = Modifier
                                 .size(20.dp)
-                                .clickable { closeFilter() },
+                                .clickable { onCloseFilter() },
                             tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -99,15 +97,12 @@ fun Bottom_Sheet_Content(
                             .fillMaxHeight(), horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            "Done",
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable {
-                                //applyFilters(filterDTO)
-                                closeFilter()
-                            }
-                        )
+                        Icon(painter = painterResource(id = R.drawable.refresh),
+                            contentDescription = "",
+                            modifier = Modifier.size(24.dp).clickable {
+                                onRestart()
+                        }, tint = MaterialTheme.colorScheme.secondary)
+
 
                     }
                 }
@@ -117,6 +112,7 @@ fun Bottom_Sheet_Content(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+            ,
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
@@ -166,9 +162,9 @@ fun Bottom_Sheet_Content(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(2f)
+                    .weight(1f)
             ) {
-                Column(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
                     Text(
                         "Tip",
                         style = MaterialTheme.typography.headlineSmall,
@@ -178,13 +174,14 @@ fun Bottom_Sheet_Content(
                 }
                 Column(
                     modifier = Modifier
-                        .weight(5f)
+                        .weight(1f)
                         .fillMaxWidth(), verticalArrangement = Arrangement.Center
                 ) {
                     FlowRow() {
                         for (i in 0 until classroomTypes.size) {
                             CategoryChip(
                                 classroomTypes[i].name,
+
                                 filterViewModel.shouldShowCoosenType(classroomTypes[i])
                             ) { filterViewModel.handleClassroomTypeChoosen(classroomTypes[i]) }
                         }
@@ -250,6 +247,19 @@ fun Bottom_Sheet_Content(
 
 
                     }
+                }
+            }
+            Column(modifier= Modifier
+                .fillMaxWidth()
+
+                ) {
+                Button(onClick = {
+                    onApplyFilters(filterViewModel.filter())
+                    onCloseFilter()},
+                    modifier=Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.small,
+                    colors = ButtonDefaults.buttonColors()) {
+                    Text("Done")
                 }
             }
         }

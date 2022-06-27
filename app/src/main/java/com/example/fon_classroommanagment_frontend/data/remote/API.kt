@@ -8,6 +8,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_RES
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_AVAILABILITY
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_PARTIAL_INFO
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_DETAILS
+import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_FILTER
 import com.example.fon_classroommanagment_frontend.common.Routes.COMMON_ALL_APPOINTMENT_TYPES
 import com.example.fon_classroommanagment_frontend.common.Routes.COMMON_ALL_CLASSROOM_TYPES
 import com.example.fon_classroommanagment_frontend.common.Routes.COMMON_ALL_EDUCATION_TITLES
@@ -90,6 +91,9 @@ interface API {
 
     @GET(USER_REQUESTED_APPOINTMENTS)
     suspend fun getRequestedAppointments(): List<RequestedAppointmentsDTO>
+
+    @POST(CLASSROOM_FILTER)
+    suspend fun filterClassrooms(@Body() filterDTO: FilterDTO): List<ClassroomCardDTO>?
 
 
 }

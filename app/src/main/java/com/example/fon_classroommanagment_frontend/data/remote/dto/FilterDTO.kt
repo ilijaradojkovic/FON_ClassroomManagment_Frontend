@@ -10,6 +10,6 @@ data  class FilterDTO(
     var maxCapacity:Int= MAX_CAPACITY,
     var aircondition:Boolean=true,
     var projeector:Boolean=true,
-    val types: LinkedList<ClassroomType> = LinkedList(),
+    val types: List<ClassroomType> = LinkedList(),
     var sortByCapacity:Boolean=false
 )

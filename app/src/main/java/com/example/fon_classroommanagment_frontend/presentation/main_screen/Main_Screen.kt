@@ -23,6 +23,7 @@ import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_s
 import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
 import com.example.fon_classroommanagment_frontend.screens.All_Classrooms
@@ -38,7 +39,8 @@ fun Main_Screen(
     Title: String,
     allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel(),
     allReservationViewModel: AllReservationViewModel = hiltViewModel(),
-    profileViewModel: ProfileViewModel= hiltViewModel()
+    profileViewModel: ProfileViewModel= hiltViewModel(),
+    filterViewModel: FilterViewModel= hiltViewModel()
     ){
 
     val searchText by allClassroomsViewModel.searchText
@@ -46,15 +48,18 @@ fun Main_Screen(
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     var displayTopBarBackElement by remember{mutableStateOf(false)}
     var displayTopBarIconsElements by remember{mutableStateOf(false)}
-    var filterDTO = allClassroomsViewModel.filterDto.value
+    val filterDTO = allClassroomsViewModel.filterDto.value
 
 
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,
 
         sheetContent =  {
-         Bottom_Sheet_Content(filterDTO,{_filterDTO->
-             filterDTO=_filterDTO
-             allClassroomsViewModel.filter()
+         Bottom_Sheet_Content(
+             {_filterDTO->
+                allClassroomsViewModel.filter(_filterDTO)
+         },filterViewModel,{
+                 allClassroomsViewModel.restartFilter()
+                 filterViewModel.setFilterDTO(filterDTO)
          }){ coroutineScope.launch{ modalBottomSheetState.hide()} }
         },
 
@@ -63,7 +68,13 @@ fun Main_Screen(
     ) {
         Scaffold(topBar = { TopBar(
             displayTopBarIconsElements,
-            {coroutineScope.launch { if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded) modalBottomSheetState.hide() else modalBottomSheetState.show()}},
+            {coroutineScope.launch {
+                if(modalBottomSheetState.targetValue==ModalBottomSheetValue.Expanded)
+                    modalBottomSheetState.hide()
+                else{
+                    filterViewModel.setFilterDTO(filterDTO)
+                    modalBottomSheetState.show()}}
+            },
             {  allClassroomsViewModel.changeSearchText(it)
                 allClassroomsViewModel.searchClassrooms()},
             searchText,
