@@ -35,6 +35,6 @@ class RepositoryDI {
     @Provides
     @Singleton
     fun provideUserRepositoryImpl(api: API): UserRepository =
-        UserRepositoryImpl(api)
+        UserRepositorImpl(api)
 
 }

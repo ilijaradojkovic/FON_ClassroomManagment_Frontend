@@ -1,6 +1,8 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -29,6 +31,7 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -117,7 +120,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.d
                     if (profileViewModel.isAdmin.value) {
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             Box(modifier = Modifier.padding(10.dp, 0.dp)) {
-                                Item(R.drawable.callendar, "Requests", true, 5, R.drawable.refresh)
+                                Item(R.drawable.callendar, "Requests", true, 5, R.drawable.refresh){profileViewModel.getRequestedAppointments()}
                             }
                             Divider(
                                 modifier = Modifier

@@ -14,7 +14,7 @@ class ClassroomRepositoryImpl @Inject constructor(private val api: API) :Classro
     }
 
     override suspend fun getAllClassroomsSearchPage(searchClassroomDTO: SearchClassroomDTO): List<ClassroomCardDTO> {
-        return  api.GetSearchClassrooms(searchClassroomDTO)
+        return  api.getSearchClassrooms(searchClassroomDTO.page,searchClassroomDTO.name)
     }
 
     override suspend fun getClassroomsChip(name: String): List<ClassroomChipDTO> {

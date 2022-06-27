@@ -7,29 +7,45 @@ object Routes {
     const val  REGISTER:String="register"
 
     //classroom
-    const val CLASSROOMS="getClassrooms"
-    const val CLASSROOM_TYPES="allClassroomTypes"
-    const val CLASSROOMS_DATE="GetForDateAndClassroom"
-    const val CLASSROOM_CHIP="getClassroomsChip"
-    const val CLASSROOMS_CHIP="getClassroomsChipAll"
-    const val CLASSROOM_AVAILABILITY="IsClassroomAvailableForDate"
-    const val CLASSROOM_DETAILS="classroomDetails"
-    const val SEACH_CLASSROOMS="searchClassroom"
+    const val CLASSROOM_PREFIX="classroom"
+    const val CLASSROOM_FILTER="${CLASSROOM_PREFIX}/filter"
+    const val CLASSROOM_PAGING="${CLASSROOM_PREFIX}/{page}"
+
+    const val CLASSROOM_PARTIAL_INFO="${CLASSROOM_PREFIX}/main-info"
+    const val CLASSROOM_PAGING_PARTIAL_INFO="${CLASSROOM_PREFIX}/main-info/{page}"
+    const val CLASSROOM_DETAILS= CLASSROOM_PREFIX
+    const val CLASSROOM_SEARCH="${CLASSROOM_PREFIX}/{page}/search"
 
     //appointments
-    const val RESERVE="reserve"
-    const val APPOINTMENT_TYPES="allAppointmentTypes"
-    const val APPOINTMENT_DELETE="DeleteReservation"
+    const val APPOINTMENT_PREFIX="appointment"
+    const val APPOINTMENT_DELETE = APPOINTMENT_PREFIX
+    const val APPOINTMENTS= APPOINTMENT_PREFIX
+    const val APPOINTMENT_CONFIRM = "${APPOINTMENT_PREFIX}/confirm"
+    const val APPOINTMENT_CONFIRM_ALL = "${APPOINTMENT_PREFIX}/confirm/all"
+    const val APPOINTMENT_RESERVE = "${APPOINTMENT_PREFIX}/reserve"
+    const val APPOINTMENT_SEARCH = "${APPOINTMENT_PREFIX}/search"
+    const val APPOINTMENT_ClASSROOM="${APPOINTMENT_PREFIX}/appointments"
+    const val APPOINTMENT_AVAILABILITY="${APPOINTMENT_PREFIX}/available"
+    const val APPOINTMENT_DATE = "${APPOINTMENT_PREFIX}/{date}"
+    const val APPOINTMENT_UPDATE = APPOINTMENT_PREFIX
 
 
     //user
-    const val USER_DETAILS="UserDetails"
-    const val USER_APPOINTMENTS="getAppointmentsForUser"
+    private  const val USER_PREFIX="user"
+    const val USER_DETAILS= USER_PREFIX
+    const val USER_APPOINTMENTS="${USER_PREFIX}/appointments"
+    const val PASSWORD_RESET="${USER_PREFIX}/password/reset"
+    const val EMAIL_RESET="${USER_PREFIX}/email/reset"
+    const val IS_USER_ADMIN="${USER_PREFIX}/admin"
+    const val USER_REQUESTED_APPOINTMENTS = "${USER_PREFIX}/appointments-requested"
 
-    //employee
-    const val EMPLOYEE_DEPARTMANTS="allEmployeeDepartment"
-    const val EDUCATION_TITLES="allEducationTitle"
-    const val EMPLOYEE_TYPES="allEmployeeTypes"
+
+    const val COMMON_PREFIX = "/common"
+    const val COMMON_ALL_EMPLOYEE_TYPES = "${COMMON_PREFIX}/employee/types"
+    const val COMMON_ALL_EDUCATION_TITLES = "${COMMON_PREFIX}/education/titles"
+    const val COMMON_ALL_EMPLOYEE_DEPARTMENTS = "${COMMON_PREFIX}/employee/departments"
+    const val COMMON_ALL_CLASSROOM_TYPES = "${COMMON_PREFIX}/classroom/types"
+    const val COMMON_ALL_APPOINTMENT_TYPES = "${COMMON_PREFIX}/appointment/types"
 
 
 }

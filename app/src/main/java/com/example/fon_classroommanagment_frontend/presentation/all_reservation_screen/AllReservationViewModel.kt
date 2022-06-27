@@ -80,6 +80,7 @@ class AllReservationViewModel @Inject constructor(private val getReservationsFor
 
                 }
                 is Response.Error->{
+                    Log.i("cao",result.message.toString())
                     if(!_uiState.value.isError)_uiState.value=UIRequestResponse(isError = true)
                   }
                 is Response.Loading->{

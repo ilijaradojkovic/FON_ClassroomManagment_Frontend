@@ -38,7 +38,7 @@ class LoginViewModel @Inject constructor(
             loginUseCase(userLoginDTO).onEach {
                 result->
                 when(result){
-                    //neka vraca token popravi ovo
+
                     is Response.Success->{
                         sharedPreferences.edit().putString(Constants.EMAIL_KEY,email).apply()
                         _state.value= UIRequestResponse(success = true)

@@ -1,7 +1,9 @@
 package com.example.fon_classroommanagment_frontend.presentation.profile_screen
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
@@ -14,6 +16,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsF
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.DeleteAppointmentUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAppointmentsForUserUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetRequestedAppointmentsUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.UserDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -23,8 +26,9 @@ import javax.inject.Inject
 
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase,private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,private val deleteAppointmentUseCase: DeleteAppointmentUseCase,private  val sharedPreferences: SharedPreferences) :ViewModel() {
+class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase, private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase, private val deleteAppointmentUseCase: DeleteAppointmentUseCase, private val getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, private  val sharedPreferences: SharedPreferences) :ViewModel() {
 
     private var _userDetails= mutableStateOf(UserDetailsDTO())
     val userDetails=_userDetails
@@ -45,6 +49,8 @@ init {
 
     getUserDetails()
     getUserAppointments()
+    if(isAdmin.value)
+        getRequestedAppointments()
 
 }
 
@@ -114,5 +120,29 @@ return null
 
     }
 
+     fun getRequestedAppointments() {
+        getRequestedAppointmentsUseCase().onEach {
+                result->
+            when(result){
+                is Response.Loading->{
+                    Log.i("cao","uzimam requets")
+                    _networkState.value= UIRequestResponse(isLoading = true)
+                }
+                is Response.Error->{
+                    Log.i("cao",result.message.toString())
+
+                    _networkState.value= UIRequestResponse(isError = true)
+
+                }
+                is Response.Success->{
+                    Log.i("cao",result.data.toString())
+
+                    _networkState.value= UIRequestResponse(success = true)
+
+
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
 }
