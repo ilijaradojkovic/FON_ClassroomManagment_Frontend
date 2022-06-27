@@ -1,11 +1,10 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
-import android.util.Log
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,7 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -52,6 +50,8 @@ fun Profile_Screen(
     val scaffoldState  = rememberScaffoldState()
     val deleteState = profileViewModel.deleteState
 
+val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShow) 100.dp else 0.dp)
+val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.dp else 0.dp)
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
             coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Please check your internet")}
@@ -111,124 +111,131 @@ fun Profile_Screen(
 
                 }
             }
-            item {
-                if (profileViewModel.isAdmin.value) {
 
-                    Item(R.drawable.callendar, "Requests", true, 5, R.drawable.refresh)
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, MaterialTheme.colorScheme.onBackground)
-                    )
-                }
-            }
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-
-                    Box(modifier = Modifier.padding(10.dp, 0.dp)) {
-                        Item(
-                            R.drawable.callendar,
-                            "Appointments",
-                            true,
-                            profileViewModel.appointmentsForUser.size
-                        )
-                        {
-                            shouldShow = !shouldShow
-                        }
-                    }
-
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, MaterialTheme.colorScheme.onBackground)
-                    )
-                }
-            }
-            if (shouldShow)
-                items(profileViewModel.appointmentsForUser, key = { k -> k.id }) {
-                    val dismissState = rememberDismissState()
-                    LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
-                        if (dismissState.isDismissed(DismissDirection.EndToStart))
-                            profileViewModel.deleteAppointment(it)
-                    }
-                    Box(modifier = Modifier.padding(10.dp)) {
-
-                        SwipeToDismiss(
-                            state = dismissState,
-                            background = {
-                                val color = when (dismissState.dismissDirection) {
-
-                                    DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
-                                    DismissDirection.StartToEnd -> Color.Transparent
-
-                                    else -> {
-                                        Color.Transparent
-                                    }
-                                }
-
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(100.dp),
-                                    colors = CardDefaults.elevatedCardColors(containerColor = color)
-                                ) {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .padding(0.dp, 0.dp, 15.dp, 0.dp),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.End
-                                    ) {
-                                        Icon(
-                                            Icons.Default.Delete,
-                                            "",
-
-                                            modifier = Modifier.size(24.dp),
-                                            tint = MaterialTheme.colorScheme.onErrorContainer
-                                        )
-                                    }
-
-                                }
-
-                            }, directions = setOf(DismissDirection.EndToStart)
-                        ) {
-                            AppointmentProfileCard(
-                                AppointmentStatus.Accepted(isSystemInDarkTheme()),
-                                it
+                    if (profileViewModel.isAdmin.value) {
+                        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+                                Item(R.drawable.callendar, "Requests", true, 5, R.drawable.refresh)
+                            }
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(1.dp, MaterialTheme.colorScheme.onBackground)
                             )
+
+                        }
+                    }
+                    Column() {
+
+
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+
+                        Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+                            Item(
+                                R.drawable.callendar,
+                                "Appointments",
+                                true,
+                                profileViewModel.appointmentsForUser.size
+                            )
+                            {
+                                shouldShow = !shouldShow
+                            }
                         }
 
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .border(1.dp, MaterialTheme.colorScheme.onBackground)
+                        )
+
+                    }
+                    profileViewModel.appointmentsForUser.forEach {
+                        val dismissState = rememberDismissState()
+                        LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
+                            if (dismissState.isDismissed(DismissDirection.EndToStart))
+                                profileViewModel.deleteAppointment(it)
+                        }
+                        Box(
+                            modifier = Modifier
+                                .padding(animatepaddingMyRequests.value)
+                                .height(animateheightMyRequests.value)
+
+                        ) {
+
+                            SwipeToDismiss(
+                                state = dismissState,
+                                background = {
+                                    val color = when (dismissState.dismissDirection) {
+
+                                        DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
+                                        DismissDirection.StartToEnd -> Color.Transparent
+
+                                        else -> {
+                                            Color.Transparent
+                                        }
+                                    }
+
+                                    Card(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(100.dp),
+                                        colors = CardDefaults.elevatedCardColors(containerColor = color)
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(0.dp, 0.dp, 15.dp, 0.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.End
+                                        ) {
+                                            Icon(
+                                                Icons.Default.Delete,
+                                                "",
+
+                                                modifier = Modifier.size(24.dp),
+                                                tint = MaterialTheme.colorScheme.onErrorContainer
+                                            )
+                                        }
+
+                                    }
+
+                                }, directions = setOf(DismissDirection.EndToStart)
+                            ) {
+                                AppointmentProfileCard(
+                                    AppointmentStatus.Accepted(isSystemInDarkTheme()),
+                                    it
+                                )
+                            }
+
+                        }
                     }
                 }
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+
+                        Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+
+                            Item(R.drawable.settings, "Settings", false)
+                        }
 
 
-
-
-            item {
-
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-
-                    Box(modifier = Modifier.padding(10.dp, 0.dp)) {
-
-                        Item(R.drawable.settings, "Settings", false)
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .border(1.dp, MaterialTheme.colorScheme.onBackground)
+                        )
                     }
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
+                        Box(modifier = Modifier.padding(10.dp, 0.dp)) {
 
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, MaterialTheme.colorScheme.onBackground)
-                    )
+                            Item(R.drawable.logout, "Logout", false)
+                        }
+                    }
                 }
             }
 
-            item {
-
-                Box(modifier = Modifier.padding(10.dp, 0.dp)) {
-
-                    Item(R.drawable.logout, "Logout", false)
-                }
-            }
 
 
         }
