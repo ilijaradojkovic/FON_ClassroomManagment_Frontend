@@ -13,6 +13,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.DeleteAppointmentUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAppointmentsForUserUseCase
@@ -44,6 +45,10 @@ class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserD
 
     private var _deleteState= mutableStateOf(UIRequestResponse())
     val deleteState = _deleteState
+
+    private var _appointmentsRequested=mutableStateListOf<RequestedAppointmentsDTO>()
+    val appointmentsRequested=_appointmentsRequested
+
 
 init {
 
@@ -87,6 +92,7 @@ init {
 
                 }
                 is Response.Success->{
+                    _appointmentsForUser.clear()
                     _networkState.value= UIRequestResponse(success = true)
                     result.data?.let { _appointmentsForUser.addAll(it) }
 
@@ -122,10 +128,10 @@ return null
 
      fun getRequestedAppointments() {
         getRequestedAppointmentsUseCase().onEach {
+
                 result->
             when(result){
                 is Response.Loading->{
-                    Log.i("cao","uzimam requets")
                     _networkState.value= UIRequestResponse(isLoading = true)
                 }
                 is Response.Error->{
@@ -135,9 +141,10 @@ return null
 
                 }
                 is Response.Success->{
-                    Log.i("cao",result.data.toString())
+                    _appointmentsRequested.clear()
 
                     _networkState.value= UIRequestResponse(success = true)
+                    result.data?.let { _appointmentsRequested.addAll(it) }
 
 
                 }

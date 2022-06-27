@@ -28,39 +28,60 @@ import androidx.compose.ui.unit.dp
 @Preview
 fun AdminRequestCard(){
 
-    Card() {
-       Column(modifier = Modifier.fillMaxWidth()) {
-           Box(modifier = Modifier
-               .fillMaxWidth()
-               .weight(3f),  ){
-               Image(
-                   painter = painterResource(R.drawable.classroomimage),
-                   contentDescription = "avatar",
-                   contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                   modifier = Modifier
-                       .align(Alignment.Center)
-                       .drawBehind {
-                           drawCircle(
-                               Color.Yellow,
-                               radius = 40f,
-                               center = Offset(2 * this.center.x, this.center.y / 2f)
-                           )
+    Column(Modifier.padding(10.dp)) {
 
-                       }
-                       .size(100.dp)
-                       .clip(CircleShape)
-                       // clip to the circle shape
-                       .border(2.dp, MaterialTheme.colorScheme.tertiary, CircleShape)
-                       // add a border (optional)
-               )
-               Text("2", style = MaterialTheme.typography.bodyMedium, modifier = Modifier .align(Alignment.Center).absoluteOffset(50.dp,-27.dp))
-           }
-           Row(modifier = Modifier
-               .fillMaxWidth()
-               .weight(1f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Top){
-               Text("Ilija Radojkovic", style = MaterialTheme.typography.bodyMedium,color=MaterialTheme.colorScheme.onBackground)
-           }
-       }
+
+        Card(modifier = Modifier.padding(10.dp)) {
+            Column(
+                Modifier.fillMaxWidth().padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Box() {
+                    Image(
+                        painter = painterResource(R.drawable.classroomimage),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .drawBehind {
+                                drawCircle(
+                                    Color.Yellow,
+                                    radius = 40f,
+                                    center = Offset(
+                                        2 * this.center.x,
+                                        this.center.y / 2f
+                                    )
+                                )
+
+                            }
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            // clip to the circle shape
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.tertiary,
+                                CircleShape
+                            )
+                        // add a border (optional)
+                    )
+                    Text(
+                        "2",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .absoluteOffset(50.dp, -27.dp)
+                    )
+
+                }
+
+                Text(
+                    "Ilija Radojkovic",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+
+            }
+        }
+    }
     }
 
-}

@@ -7,6 +7,11 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -22,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.common.Screen
@@ -42,7 +49,10 @@ fun Profile_Screen(
 
 ) {
     val userDetails by profileViewModel.userDetails
-    var shouldShow by remember {
+    var shouldShowMyRequest by remember {
+        mutableStateOf(false)
+    }
+    var shouldShowRequests by remember {
         mutableStateOf(false)
     }
     val userImage by remember {
@@ -53,8 +63,10 @@ fun Profile_Screen(
     val scaffoldState  = rememberScaffoldState()
     val deleteState = profileViewModel.deleteState
 
-val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShow) 100.dp else 0.dp)
-val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.dp else 0.dp)
+val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 100.dp else 0.dp)
+val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
+
+    val animateheightRequests= animateDpAsState(targetValue = if(shouldShowRequests) 100.dp else 0.dp)
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
             coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Please check your internet")}
@@ -120,7 +132,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.d
                     if (profileViewModel.isAdmin.value) {
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             Box(modifier = Modifier.padding(10.dp, 0.dp)) {
-                                Item(R.drawable.callendar, "Requests", true, 5, R.drawable.refresh){profileViewModel.getRequestedAppointments()}
+                                Item(R.drawable.callendar, "Requests", true, profileViewModel.appointmentsRequested.size, R.drawable.refresh,{profileViewModel.getRequestedAppointments()},{shouldShowRequests=!shouldShowRequests})
                             }
                             Divider(
                                 modifier = Modifier
@@ -129,6 +141,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.d
                             )
 
                         }
+                        AppointmentList(profileViewModel,animateheightRequests.value)
                     }
                     Column() {
 
@@ -143,7 +156,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.d
                                 profileViewModel.appointmentsForUser.size
                             )
                             {
-                                shouldShow = !shouldShow
+                                shouldShowMyRequest = !shouldShowMyRequest
                             }
                         }
 
@@ -154,66 +167,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.d
                         )
 
                     }
-                    profileViewModel.appointmentsForUser.forEach {
-                        val dismissState = rememberDismissState()
-                        LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
-                            if (dismissState.isDismissed(DismissDirection.EndToStart))
-                                profileViewModel.deleteAppointment(it)
-                        }
-                        Box(
-                            modifier = Modifier
-                                .padding(animatepaddingMyRequests.value)
-                                .height(animateheightMyRequests.value)
-
-                        ) {
-
-                            SwipeToDismiss(
-                                state = dismissState,
-                                background = {
-                                    val color = when (dismissState.dismissDirection) {
-
-                                        DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
-                                        DismissDirection.StartToEnd -> Color.Transparent
-
-                                        else -> {
-                                            Color.Transparent
-                                        }
-                                    }
-
-                                    Card(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(100.dp),
-                                        colors = CardDefaults.elevatedCardColors(containerColor = color)
-                                    ) {
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(0.dp, 0.dp, 15.dp, 0.dp),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.End
-                                        ) {
-                                            Icon(
-                                                Icons.Default.Delete,
-                                                "",
-
-                                                modifier = Modifier.size(24.dp),
-                                                tint = MaterialTheme.colorScheme.onErrorContainer
-                                            )
-                                        }
-
-                                    }
-
-                                }, directions = setOf(DismissDirection.EndToStart)
-                            ) {
-                                AppointmentProfileCard(
-                                    AppointmentStatus.Accepted(isSystemInDarkTheme()),
-                                    it
-                                )
-                            }
-
-                        }
-                    }
+                 AppointmentListDissmisable(profileViewModel,animateheightMyRequests.value,animatepaddingMyRequests.value)
                 }
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
@@ -245,6 +199,95 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShow) 10.d
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp, animatepaddingMyRequests: Dp) {
+    Box(modifier=Modifier.height(animateheightMyRequests)) {
+        LazyColumn() {
+            items(profileViewModel.appointmentsForUser, key = { it -> it.id }) {
+
+                val dismissState = rememberDismissState()
+                LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
+                    if (dismissState.isDismissed(DismissDirection.EndToStart))
+                        profileViewModel.deleteAppointment(it)
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(animatepaddingMyRequests)
+                        .height(animateheightMyRequests)
+
+                ) {
+
+                    SwipeToDismiss(
+                        state = dismissState,
+                        background = {
+                            val color = when (dismissState.dismissDirection) {
+
+                                DismissDirection.EndToStart -> MaterialTheme.colorScheme.errorContainer
+                                DismissDirection.StartToEnd -> Color.Transparent
+
+                                else -> {
+                                    Color.Transparent
+                                }
+                            }
+
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp),
+                                colors = CardDefaults.elevatedCardColors(containerColor = color)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(0.dp, 0.dp, 15.dp, 0.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.End
+                                ) {
+                                    Icon(
+                                        Icons.Default.Delete,
+                                        "",
+
+                                        modifier = Modifier.size(24.dp),
+                                        tint = MaterialTheme.colorScheme.onErrorContainer
+                                    )
+                                }
+
+                            }
+
+                        }, directions = setOf(DismissDirection.EndToStart)
+                    ) {
+                        AppointmentProfileCard(
+                            AppointmentStatus.Accepted(isSystemInDarkTheme()),
+                            it
+                        )
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun AppointmentList(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp) {
+    val widthDp = LocalContext.current.resources.displayMetrics.run { widthPixels / density }
+    Box(modifier=Modifier.height(animateheightMyRequests)) {
+        LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2)) {
+            items(profileViewModel.appointmentsRequested) {
+
+                      AdminRequestCard()
+
+            }
+        }
+    }
+}
+
 
 @Composable
 fun Item(
@@ -253,6 +296,7 @@ fun Item(
     hasCircleText: Boolean,
     circleTextNumber: Int? = null,
     refresh: Int?=null,
+    onIconClicked :()->Unit={},
     onClick:()->Unit={}
 ){
     Row(modifier = Modifier
@@ -294,8 +338,11 @@ fun Item(
                     Icon(
                         painter = painterResource(id = refresh),
                         contentDescription = "Refres Icon",
-                        modifier = Modifier.size(24.dp),
-                        tint = MaterialTheme.colorScheme.onBackground
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable { onIconClicked() },
+                        tint = MaterialTheme.colorScheme.onBackground,
+
                     )
                 }
             }
