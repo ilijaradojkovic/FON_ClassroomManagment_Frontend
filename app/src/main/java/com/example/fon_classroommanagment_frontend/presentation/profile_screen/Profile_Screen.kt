@@ -8,7 +8,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -63,10 +62,10 @@ fun Profile_Screen(
     val scaffoldState  = rememberScaffoldState()
     val deleteState = profileViewModel.deleteState
 
-val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 100.dp else 0.dp)
+val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) (profileViewModel.appointmentsForUser.size*120).dp else 0.dp)
 val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
 
-    val animateheightRequests= animateDpAsState(targetValue = if(shouldShowRequests) 100.dp else 0.dp)
+    val animateheightRequests= animateDpAsState(targetValue = if(shouldShowRequests) (profileViewModel.appointmentsRequested.size*200).dp else 0.dp)
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
             coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Please check your internet")}
@@ -204,7 +203,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
 @Composable
 fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp, animatepaddingMyRequests: Dp) {
     Box(modifier=Modifier.height(animateheightMyRequests)) {
-        LazyColumn() {
+        LazyColumn(userScrollEnabled = false) {
             items(profileViewModel.appointmentsForUser, key = { it -> it.id }) {
 
                 val dismissState = rememberDismissState()
@@ -215,7 +214,7 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
                 Box(
                     modifier = Modifier
                         .padding(animatepaddingMyRequests)
-                        .height(animateheightMyRequests)
+
 
                 ) {
 
@@ -278,10 +277,10 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
 fun AppointmentList(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp) {
     val widthDp = LocalContext.current.resources.displayMetrics.run { widthPixels / density }
     Box(modifier=Modifier.height(animateheightMyRequests)) {
-        LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2)) {
+        LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false) {
             items(profileViewModel.appointmentsRequested) {
 
-                      AdminRequestCard()
+                      AdminRequestCard("${it.firstName} ${it.lastName}",it.number_of_requests)
 
             }
         }

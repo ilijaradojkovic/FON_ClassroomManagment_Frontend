@@ -145,7 +145,7 @@ val scaffoldState = rememberScaffoldState()
                 }
 
                 LazyColumn() {
-                    items(requestViewMode.reservations) {
+                    items(requestViewMode.reservations, key = {it->it.reserveDTO.classroomId}) {
 
                         val dismissState = rememberDismissState()
                         LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
@@ -257,7 +257,7 @@ fun ClassromRequestCard(
                 Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
                     Text(text =classroomName, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary)
                 }
-                Row(modifier = Modifier.weight(4f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+                Row(modifier = Modifier.weight(3f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
                     Text(name,style = MaterialTheme.typography.bodyLarge , color = MaterialTheme.colorScheme.onBackground)
                 }
                 Row(modifier = Modifier.weight(1f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
@@ -294,7 +294,7 @@ fun ClassromRequestCard(
 
 
                         Text(
-                            "${startTimeinhours}h - ${endTimeinhours}h",
+                            if(startTimeinhours>9) "${startTimeinhours}h" else "0${startTimeinhours}h"+ if(endTimeinhours>9)"${endTimeinhours}h" else "0${endTimeinhours}h",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )

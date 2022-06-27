@@ -25,9 +25,10 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
-fun AdminRequestCard(){
 
+fun AdminRequestCard(fillName: String, numberOfRequests: Long?) {
+
+  val  circleBorderColor=MaterialTheme.colorScheme.tertiary
     Column(Modifier.padding(10.dp)) {
 
 
@@ -45,7 +46,7 @@ fun AdminRequestCard(){
                         modifier = Modifier
                             .drawBehind {
                                 drawCircle(
-                                    Color.Yellow,
+                                    circleBorderColor,
                                     radius = 40f,
                                     center = Offset(
                                         2 * this.center.x,
@@ -65,17 +66,18 @@ fun AdminRequestCard(){
                         // add a border (optional)
                     )
                     Text(
-                        "2",
+                        numberOfRequests.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .absoluteOffset(50.dp, -27.dp)
+                            .absoluteOffset(50.dp, -27.dp),
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
 
                 }
 
                 Text(
-                    "Ilija Radojkovic",
+                    fillName,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
