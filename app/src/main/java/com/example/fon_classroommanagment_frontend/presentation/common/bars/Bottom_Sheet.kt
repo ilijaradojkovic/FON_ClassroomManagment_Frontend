@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.google.accompanist.flowlayout.FlowRow
@@ -135,7 +136,7 @@ fun Bottom_Sheet_Content(
                             horizontalArrangement = Arrangement.Start
                         ) {
                             Text(
-                                filterViewModel.sliderPositionConverted.value.start.toString(),
+                                (filterViewModel.sliderPosition.start* Constants.MAX_CAPACITY).toInt().toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.secondary
                             )
@@ -145,7 +146,7 @@ fun Bottom_Sheet_Content(
                             horizontalArrangement = Arrangement.End
                         ) {
                             Text(
-                                filterViewModel.sliderPositionConverted.value.endInclusive.toString(),
+                                (filterViewModel.sliderPosition.endInclusive* Constants.MAX_CAPACITY).toInt().toString(),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.secondary
                             )

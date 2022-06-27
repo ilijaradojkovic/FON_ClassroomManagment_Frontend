@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase,private val filterUseCase: FilterUseCase):ViewModel() {
+class AllClassroomsViewModel @Inject constructor( private val getClassroomsUseCase: GetClassroomsUseCase,private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase):ViewModel() {
 
     private var page:Int=1
     private var searchPage:Int=1
@@ -39,7 +39,7 @@ var searchRequested= mutableStateOf(false)
     val networkStateSearch=_networkStateSearch
 
 
-    private var _classrooms = mutableStateListOf<ClassroomCardDTO>()
+    private var _classrooms = mutableSetOf<ClassroomCardDTO>()
     val classrooms=_classrooms
 
 
@@ -62,7 +62,14 @@ var searchRequested= mutableStateOf(false)
 
     fun filter(_filterDTO: FilterDTO) {
         if(filterDto.value!=_filterDTO){
+            Log.i("cao",_filterDTO.toString())
             filterDto.value=_filterDTO
+            page=1
+            _classrooms.clear()
+
+            getAllClassrooms()
+
+
             //filterUseCase() ubaci filter obj u search i getall kao parametre ne bi trebal oda postoji posebna filter funkcija sve je to deo ovih
         }
 
@@ -73,7 +80,7 @@ var searchRequested= mutableStateOf(false)
     fun getAllClassrooms(){
 
         if(!networkState.value.isLoading) {
-            getClassroomsUseCase(page).onEach { result ->
+            getClassroomsUseCase(page,filterDto).onEach { result ->
                 when (result) {
                     is Response.Success -> {
                         result.data?.let {
@@ -82,6 +89,7 @@ var searchRequested= mutableStateOf(false)
                             //if(it.isEmpty()) Log.i("cao","nema vise podataka")
 
                             _networkState.value = UIRequestResponse(success = true)
+
                             _classrooms.addAll(it)
 
                         }

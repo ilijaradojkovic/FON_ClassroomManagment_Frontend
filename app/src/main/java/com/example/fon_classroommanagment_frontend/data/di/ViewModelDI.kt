@@ -55,7 +55,7 @@ class ViewModelDI {
 
     @Provides
     @Singleton
-    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase): AllClassroomsViewModel =
+    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase,filterUseCase: FilterUseCase): AllClassroomsViewModel =
         AllClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched)
 
     @Provides

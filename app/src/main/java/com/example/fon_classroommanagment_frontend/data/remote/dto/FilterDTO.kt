@@ -6,10 +6,10 @@ import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
 import java.util.*
 
 data  class FilterDTO(
-    var minCapacity:Int=MIN_CAPACITY,
-    var maxCapacity:Int= MAX_CAPACITY,
+    var min_capacity:Int=MIN_CAPACITY,
+    var max_capacity:Int= MAX_CAPACITY,
     var aircondition:Boolean=true,
-    var projeector:Boolean=true,
-    val types: List<ClassroomType> = LinkedList(),
+    var projector:Boolean=true,
+    var types: List<ClassroomType> = emptyList(),
     var sortByCapacity:Boolean=false
 )

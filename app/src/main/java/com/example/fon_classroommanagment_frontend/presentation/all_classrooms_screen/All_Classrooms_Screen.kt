@@ -47,7 +47,7 @@ fun All_Classrooms(
         LazyColumn(state = layoutState,modifier=Modifier, contentPadding = PaddingValues(15.dp), verticalArrangement = Arrangement.spacedBy(15.dp)){
             itemsIndexed(
                 if(allClassroomsViewModel.shouldDisplaySeachData())
-                    seachedClassrooms else classrooms,
+                    seachedClassrooms else classrooms.toList(),
 
             ){index,item->
                     Row(

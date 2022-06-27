@@ -17,9 +17,9 @@ class FilterUseCase@Inject constructor(private val classroomRepository: Classroo
 
             emit(Response.Loading())
 
-            val classroomTypes=  classroomRepository.filter(filterDTO)
+          //  val classroomTypes=  classroomRepository.filter(filterDTO)
 
-            emit(Response.Success(classroomTypes))
+          //  emit(Response.Success(classroomTypes))
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod
             emit(Response.Error(httpException.localizedMessage ?:"neocekivana greska"))
         }

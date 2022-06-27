@@ -2,17 +2,14 @@ package com.example.fon_classroommanagment_frontend.presentation.common.bars
 
 import android.util.Log
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomTypesUserCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -50,14 +47,26 @@ class FilterViewModel @Inject constructor(private val getAllClassroomTypesUserCa
         getAllClassroomTypes()
     }
 
-    fun filter():FilterDTO= FilterDTO(sliderPositionConverted.value.start,sliderPositionConverted.value.endInclusive,_aircontition.value,_projector.value,_classroomTypesChoosen.toList(),_sortByCapacity.value)
-    private fun getAllClassroomTypes() {
+    fun filter():FilterDTO
+        {
+
+            return FilterDTO(
+                sliderPositionConverted.value.first,
+                sliderPositionConverted.value.last,
+                _aircontition.value,
+                _projector.value,
+                _classroomTypesChoosen.toList(),
+                _sortByCapacity.value
+            )
+        }
+            private fun getAllClassroomTypes() {
         getAllClassroomTypesUserCase().onEach {
                 result->
             when(result){
                 is Response.Success->{
 
                     result.data?.let { _classroomTypes.addAll(it)
+                        //_filterDTO.value.types=_classroomTypes
                     }
                 }
                 is Response.Error->{
@@ -103,11 +112,13 @@ class FilterViewModel @Inject constructor(private val getAllClassroomTypesUserCa
     fun setFilterDTO(_filterDTO: FilterDTO) {
         _classroomTypesChoosen.clear()
         _classroomTypesChoosen.addAll(_filterDTO.types)
-        _projector.value=_filterDTO.projeector
+        _projector.value=_filterDTO.projector
         _aircontition.value=_filterDTO.aircondition
-        _sliderPosition.value= _filterDTO.minCapacity/ MAX_CAPACITY.toFloat().._filterDTO.maxCapacity/ MAX_CAPACITY.toFloat()
-        sliderPositionConverted.value=_filterDTO.minCapacity.._filterDTO.maxCapacity
+        _sliderPosition.value= _filterDTO.min_capacity/ MAX_CAPACITY.toFloat().._filterDTO.max_capacity/ MAX_CAPACITY.toFloat()
+        sliderPositionConverted.value=_filterDTO.min_capacity.._filterDTO.max_capacity
         _sortByCapacity.value=_filterDTO.sortByCapacity
+       // _classroomTypesChoosen=_classroomTypes
+
     }
 
 }

@@ -49,8 +49,8 @@ interface API {
     @GET(COMMON_ALL_CLASSROOM_TYPES)
     suspend fun GetAllClassroomTypes():List<ClassroomType>
 
-    @GET(CLASSROOM_PAGING)
-    suspend fun  GetAllClassroomsPaging(@Path("page") page:Int):List<ClassroomCardDTO>
+    @POST(CLASSROOM_PAGING)
+    suspend fun  GetAllClassroomsPaging(@Path("page") page:Int,@Body filterDTO: FilterDTO):List<ClassroomCardDTO>
 
     //@GET("searchClassroom")
 //    @HTTP(method = "GET", path = "searchClassroom", hasBody = true)
