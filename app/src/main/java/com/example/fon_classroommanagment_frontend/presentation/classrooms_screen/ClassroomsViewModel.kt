@@ -10,7 +10,9 @@ import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
+import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearchedUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomTypesUserCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -18,18 +20,20 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ClassroomsViewModel @Inject constructor(private val getClassroomsUseCase: GetClassroomsUseCase, private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase):ViewModel() {
+class ClassroomsViewModel @Inject constructor(private val getClassroomsUseCase: GetClassroomsUseCase, private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase,private val getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase):ViewModel() {
 
     private var page:Int=1
     private var searchPage:Int=1
 
+    private var _classroomTypes= mutableStateListOf<ClassroomType>()
+    val classroomTypes =_classroomTypes
 
     var filterDto = mutableStateOf(FilterDTO())
 
-   private  var _searchText = mutableStateOf("")
+    private  var _searchText = mutableStateOf("")
     var searchText = _searchText
 
-var searchRequested= mutableStateOf(false)
+    var searchRequested= mutableStateOf(false)
 
     private var _searchClassrooms= mutableStateListOf<ClassroomCardDTO>()
     val searchedClassrooms= _searchClassrooms
@@ -46,6 +50,9 @@ var searchRequested= mutableStateOf(false)
     private var _networkState= mutableStateOf(UIRequestResponse())
     val networkState=_networkState
 
+    private var _allClassroomsTypeState= mutableStateOf(UIRequestResponse())
+    val allClassroomsTypeState =_allClassroomsTypeState
+
 //handle kada je error pri searchu
      fun changeSearchText(searchText: String){
         if(searchText.isEmpty()) {
@@ -55,13 +62,13 @@ var searchRequested= mutableStateOf(false)
     searchPage=1
         this._searchText.value=searchText
     }
-    init {
-      //  getAllClassrooms()
+    init{
+        getAllClassroomTypes()
+
     }
 
     fun filter(_filterDTO: FilterDTO) {
-        if(filterDto.value!=_filterDTO){
-            Log.i("cao",_filterDTO.toString())
+
             filterDto.value=_filterDTO
             page=1
             _classrooms.clear()
@@ -69,12 +76,38 @@ var searchRequested= mutableStateOf(false)
             getAllClassrooms()
 
 
-            //filterUseCase() ubaci filter obj u search i getall kao parametre ne bi trebal oda postoji posebna filter funkcija sve je to deo ovih
-        }
 
 
 
     }
+    private fun getAllClassroomTypes() {
+        getAllClassroomTypesUserCase().onEach {
+                result->
+            when(result){
+                is Response.Success->{
+                    result.data?.let {
+                        filterDto.value.types=it
+                        _classroomTypes.clear()
+                        _classroomTypes.addAll(it)
+                        _allClassroomsTypeState.value= UIRequestResponse(success = true)
+                        filter(filterDto.value)
+                        //_filterDTO.value.types=_classroomTypes
+
+                    }
+                }
+                is Response.Error->{
+                    _allClassroomsTypeState.value=UIRequestResponse(isError = true)
+                }
+                is Response.Loading->{
+                    _allClassroomsTypeState.value=UIRequestResponse(isLoading = true)
+                }
+
+            }
+            //dobijam 401 mozda ne saljem token
+
+        }.launchIn(viewModelScope)
+    }
+
 
     fun getAllClassrooms(){
 
@@ -85,7 +118,6 @@ var searchRequested= mutableStateOf(false)
                         result.data?.let {
                             if(it.isNotEmpty())
                                 page++
-                            //if(it.isEmpty()) Log.i("cao","nema vise podataka")
 
                             _networkState.value = UIRequestResponse(success = true)
 
@@ -150,6 +182,7 @@ var searchRequested= mutableStateOf(false)
 
     fun restartFilter() {
         filterDto.value=FilterDTO()
+        filterDto.value.types=classroomTypes.toList()
     }
 
 

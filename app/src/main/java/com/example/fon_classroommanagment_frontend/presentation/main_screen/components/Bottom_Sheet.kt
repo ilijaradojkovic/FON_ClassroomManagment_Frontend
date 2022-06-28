@@ -18,7 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
-import com.example.fon_classroommanagment_frontend.presentation.main_screen.FilterViewModel
+import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
+import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.FilterViewModel
 import com.google.accompanist.flowlayout.FlowRow
 
 
@@ -100,9 +101,11 @@ fun Bottom_Sheet_Content(
                     ) {
                         Icon(painter = painterResource(id = R.drawable.refresh),
                             contentDescription = "",
-                            modifier = Modifier.size(24.dp).clickable {
-                                onRestart()
-                        }, tint = MaterialTheme.colorScheme.secondary)
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable {
+                                    onRestart()
+                                }, tint = MaterialTheme.colorScheme.secondary)
 
 
                     }
@@ -165,7 +168,9 @@ fun Bottom_Sheet_Content(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)) {
                     Text(
                         "Tip",
                         style = MaterialTheme.typography.headlineSmall,

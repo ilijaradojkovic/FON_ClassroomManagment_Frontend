@@ -8,7 +8,7 @@ import com.example.fon_classroommanagment_frontend.presentation.admin_request_sc
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.AppointmentInsertionViewModel
-import com.example.fon_classroommanagment_frontend.presentation.main_screen.FilterViewModel
+import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
@@ -48,13 +48,13 @@ class ViewModelDI {
 
     @Singleton
     @Provides
-    fun provideFilterViewModel(getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase): FilterViewModel =
-        FilterViewModel(getAllClassroomTypesUserCase)
+    fun provideFilterViewModel(): FilterViewModel =
+        FilterViewModel()
 
     @Provides
     @Singleton
-    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase,filterUseCase: FilterUseCase): ClassroomsViewModel =
-        ClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched)
+    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase,getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase): ClassroomsViewModel =
+        ClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched,getAllClassroomTypesUserCase)
 
     @Provides
     @Singleton

@@ -23,7 +23,7 @@ import com.example.fon_classroommanagment_frontend.presentation.classrooms_scree
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
-import com.example.fon_classroommanagment_frontend.presentation.main_screen.FilterViewModel
+import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import com.example.fon_classroommanagment_frontend.screens.Appointments_Screen
 import com.example.fon_classroommanagment_frontend.screens.Classrooms_Screen
@@ -37,10 +37,11 @@ import kotlinx.coroutines.launch
 fun Main_Screen(
     navHostController: NavHostController,
     Title: String,
+    filterViewModel: FilterViewModel = hiltViewModel(),
     allClassroomsViewModel: ClassroomsViewModel= hiltViewModel(),
     allReservationViewModel: AppointmentViewModel = hiltViewModel(),
     profileViewModel: ProfileViewModel= hiltViewModel(),
-    filterViewModel: FilterViewModel = hiltViewModel()
+
     ){
 
     val searchText by allClassroomsViewModel.searchText
@@ -49,18 +50,25 @@ fun Main_Screen(
     var displayTopBarBackElement by remember{mutableStateOf(false)}
     var displayTopBarIconsElements by remember{mutableStateOf(false)}
     val filterDTO = allClassroomsViewModel.filterDto.value
-
-
+    val allClassroomTypesState by allClassroomsViewModel.allClassroomsTypeState
+    LaunchedEffect(key1 = allClassroomTypesState){
+        if(allClassroomTypesState.success)
+         filterViewModel.setAllClassrooms(allClassroomsViewModel.classroomTypes.toList())
+    }
     ModalBottomSheetLayout(sheetState = modalBottomSheetState,
 
         sheetContent =  {
          Bottom_Sheet_Content(
              {_filterDTO->
+
                 allClassroomsViewModel.filter(_filterDTO)
-         },filterViewModel,{
+             },
+             filterViewModel,
+             {
                  allClassroomsViewModel.restartFilter()
                  filterViewModel.setFilterDTO(filterDTO)
-         }){ coroutineScope.launch{ modalBottomSheetState.hide()} }
+         }
+         ){ coroutineScope.launch{ modalBottomSheetState.hide()} }
         },
 
        sheetBackgroundColor = Color.Transparent,
