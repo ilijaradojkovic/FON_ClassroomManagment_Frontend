@@ -120,4 +120,19 @@ class UseCaseDI {
     fun ProvideRetriveUserRequestedAppointmentsUseCase(userRepository: UserRepository):RetriveUserRequestedAppointmentsUseCase=
         RetriveUserRequestedAppointmentsUseCase(userRepository)
 
+    @Provides
+    @Singleton
+    fun ProvideConfirmAppointmentsUseCase(appointmentRepository: AppointmentRepository):ConfirmAppointmentsUseCase=
+        ConfirmAppointmentsUseCase(appointmentRepository)
+
+    @Provides
+    @Singleton
+    fun ProvideConfirmAppointmentUseCase(appointmentRepository: AppointmentRepository):ConfirmAppointmentUseCase=
+        ConfirmAppointmentUseCase(appointmentRepository)
+
+    @Provides
+    @Singleton
+    fun ProvideDeclinedAppointmentUseCase(appointmentRepository: AppointmentRepository):DeclineAppointmentUseCase =
+        DeclineAppointmentUseCase(appointmentRepository)
+
 }

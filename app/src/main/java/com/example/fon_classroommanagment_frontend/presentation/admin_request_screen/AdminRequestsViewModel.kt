@@ -56,4 +56,12 @@ class AdminRequestsViewModel @Inject constructor(private val retriveUserDetailsD
 
         }.launchIn(viewModelScope)
     }
+
+    fun declineAppointment() {
+        TODO("Not yet implemented")
+    }
+
+    fun approveAppointment() {
+        TODO("Not yet implemented")
+    }
 }

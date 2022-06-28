@@ -6,6 +6,9 @@ import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_PAGIN
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_ClASSROOM
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_RESERVE
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_AVAILABILITY
+import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_CONFIRM
+import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_CONFIRM_ALL
+import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_DECLINE
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_PARTIAL_INFO
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_DETAILS
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_FILTER
@@ -99,6 +102,14 @@ interface API {
 
     @POST(CLASSROOM_FILTER)
     suspend fun filterClassrooms(@Body() filterDTO: FilterDTO): List<ClassroomCardDTO>?
+
+
+    @POST(APPOINTMENT_CONFIRM)
+    suspend fun confirmAppointment(@Query("id") appointmentId: UUID)
+    @POST(APPOINTMENT_DECLINE)
+    suspend fun declineAppointment(@Query("id") appointmentId: UUID)
+    @POST(APPOINTMENT_CONFIRM_ALL)
+    suspend  fun confirmAllAppointments()
 
 
 }

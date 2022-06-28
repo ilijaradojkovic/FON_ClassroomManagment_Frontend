@@ -88,7 +88,7 @@ Column(modifier= Modifier
                 items(userRequests, key = {item->item.hashCode()}){
                     request->
                        Column(modifier = Modifier.height(200.dp)) {
-                        ApproveAppointmentCard(request,{},{})
+                        ApproveAppointmentCard(request,{adminRequestsViewModel.approveAppointment()},{adminRequestsViewModel.declineAppointment()})
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                 }
