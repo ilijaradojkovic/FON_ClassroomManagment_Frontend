@@ -65,5 +65,11 @@ class LoginViewModel @Inject constructor(
      fun CreateUserLoginDTO(email: String, password: String): UserLoginDTO =
         UserLoginDTO(email.trim(),password.trim())
 
+    fun restart() {
+        errorMessageEmail=""
+        errorMessagePassword=""
+        _state.value=UIRequestResponse()
+    }
+
 
 }

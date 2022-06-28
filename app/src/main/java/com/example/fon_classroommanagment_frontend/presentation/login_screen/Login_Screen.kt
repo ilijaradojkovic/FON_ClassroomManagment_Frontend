@@ -52,6 +52,8 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
             val dataStore = StoreUserEmail(context)
             dataStore.saveEmail(emailText)
             navController.navigate(route = Screen.MainScreen.route)
+            loginViewModel.restart()
+
         }
     }
       

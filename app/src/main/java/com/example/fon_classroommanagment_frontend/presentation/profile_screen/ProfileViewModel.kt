@@ -158,4 +158,9 @@ return null
         }.launchIn(viewModelScope)
     }
 
+    fun logout() {
+        Constants.REFRESH_TOKEN_KEY=""
+        Constants.VALIDATION_TOKEN_KEY=""
+    }
+
 }

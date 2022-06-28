@@ -124,9 +124,9 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
 
                     Text(
                         "${userDetails.firstName}  ${userDetails.lastName}",
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.onBackground
                     )
-                    Text(userDetails.typeName, style = MaterialTheme.typography.bodyMedium)
+                    Text(userDetails.typeName, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
 
                 }
             }
@@ -200,7 +200,10 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
 
                         Box(modifier = Modifier.padding(10.dp, 0.dp)) {
 
-                            Item(R.drawable.logout, "Logout", false)
+                            Item(R.drawable.logout, "Logout", false, onClick = {
+                               profileViewModel.logout()
+                                navHostController.navigate(Screen.LoginScreen.route)
+                            })
                         }
                     }
                 }
@@ -271,7 +274,7 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
 
                         }, directions = setOf(DismissDirection.EndToStart)
                     ) {
-                        Log.i("cao",it.state.toString())
+
 
                         AppointmentProfileCard(
 

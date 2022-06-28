@@ -34,7 +34,6 @@ fun AppointmentProfileCard(
 
 
     ) {
-Log.i("cao",state.color.value.toString())
 
         Card(modifier = Modifier.fillMaxWidth()) {
 
