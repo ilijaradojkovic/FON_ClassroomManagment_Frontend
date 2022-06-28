@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
@@ -35,6 +36,7 @@ import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatus
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards.AppointmentProfileCard
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -121,7 +123,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                         "${userDetails.firstName}  ${userDetails.lastName}",
                         style = MaterialTheme.typography.headlineMedium
                     )
-                    Text(userDetails.workType, style = MaterialTheme.typography.bodyMedium)
+                    Text(userDetails.typeName, style = MaterialTheme.typography.bodyMedium)
 
                 }
             }
@@ -140,7 +142,11 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                             )
 
                         }
-                        AppointmentList(profileViewModel,animateheightRequests.value)
+                        AppointmentList(profileViewModel,animateheightRequests.value){
+
+
+
+                            navHostController.navigate(Screen.AdminRequestsScreen.route)}
                     }
                     Column() {
 
@@ -272,15 +278,14 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AppointmentList(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp) {
+fun AppointmentList(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp,onItemClick :()->Unit) {
     val widthDp = LocalContext.current.resources.displayMetrics.run { widthPixels / density }
     Box(modifier=Modifier.height(animateheightMyRequests)) {
         LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false) {
             items(profileViewModel.appointmentsRequested) {
 
-                      AdminRequestCard("${it.firstName} ${it.lastName}",it.number_of_requests)
+                      AdminRequestCard("${it.firstName} ${it.lastName}",it.number_of_requests){onItemClick()}
 
             }
         }
