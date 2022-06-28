@@ -30,6 +30,7 @@ class AdminRequestsViewModel @Inject constructor(private val retriveUserDetailsD
      fun getUserDetails(id: Long) {
         retriveUserDetailsDataUseCase(id).onEach {
             result->
+
             _userDetails.value=result
         }.launchIn(viewModelScope)
     }
@@ -39,10 +40,12 @@ class AdminRequestsViewModel @Inject constructor(private val retriveUserDetailsD
                 result->
             when(result){
                 is Response.Success->{
+                    Log.i("cao",result.data.toString())
+
                     result.data?.let { _userRequests.addAll(it) }
                 }
                 is Response.Loading->{
-                    Log.i("cao","loading")
+
 
                 }
                  is Response.Error->{

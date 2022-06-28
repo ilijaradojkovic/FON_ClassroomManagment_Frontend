@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.data.repository
 
+import android.util.Log
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
@@ -31,7 +32,8 @@ class UserRepositorImpl @Inject constructor(private val api: API) :UserRepositor
     }
 
     override suspend fun getRequestedAppointments(): List<RequestedAppointmentsDTO> {
-        return api.getRequestedPendingAppointments()
+        userReqquestedAppointmentsDTO=api.getRequestedPendingAppointments()
+        return userReqquestedAppointmentsDTO
     }
 
     override suspend fun getRequestedPendingAppointments(id: Long): List<AppointmentRequestedUserDTO> {

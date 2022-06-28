@@ -134,7 +134,7 @@ return null
                 result->
             when(result){
                 is Response.Loading->{
-                    Log.i("cao","fasf"+result.data.toString())
+
                     _networkState.value= UIRequestResponse(isLoading = true)
                 }
                 is Response.Error->{

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -85,9 +86,9 @@ Column(modifier= Modifier
 
         LazyColumn(){
                 items(userRequests, key = {item->item.hashCode()}){
-                    item->
-                    Column(modifier = Modifier.height(200.dp)) {
-                        ApproveAppointmentCard(item)
+                    request->
+                       Column(modifier = Modifier.height(200.dp)) {
+                        ApproveAppointmentCard(request,{},{})
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                 }

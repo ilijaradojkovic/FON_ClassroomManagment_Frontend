@@ -14,44 +14,48 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
+import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ApproveAppointmentCard(request: AppointmentRequestedUserDTO) {
+fun ApproveAppointmentCard(request: AppointmentRequestedUserDTO,onAcceptClicked:()->Unit,onDeclinedClicked:()->Unit) {
         Card(shape = RoundedCornerShape(32.dp,32.dp,0.dp,0.dp), modifier = Modifier){
                 Column(modifier = Modifier
                     .fillMaxSize()
                   ) {
                     Row(modifier = Modifier.weight(1f).padding(10.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                             Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-                                Text(text = "C001", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.tertiary)
+                                Text(text = request.classroomName, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.tertiary)
                             }
-                            Row(modifier = Modifier.weight(4f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-                                Text("Predavanje iz programiranja 2",style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
+                            Row(modifier = Modifier.weight(2f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
+                                Text(request.title,style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onBackground)
                             }
                     }
                     Row(modifier = Modifier.weight(1f).padding(10.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                         Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
                            Icon(painter = painterResource(id = R.drawable.callendar), contentDescription = "Calednar icon", modifier = Modifier.size(24.dp))
-                            Text("2020.2.2",style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onBackground)
+                            Text(SimpleDateFormat("yyyy-MM-dd").format(request.date!!),style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onBackground)
                         }
                         Row(modifier = Modifier.weight(1f),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
-                            Icon(painter = painterResource(id = R.drawable.clock), contentDescription = "Calednar icon", modifier = Modifier.size(24.dp))
+                            Icon(painter = painterResource(id = R.drawable.clock), contentDescription = "Clock icon", modifier = Modifier.size(24.dp))
 
-                            Text("14h-16h",style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onBackground)
+                            Text(
+                                (if(request.startTime>9) "${request.startTime}h" else "0${request.startTime}h") +"-"+ if(request.endTime>9) "${request.endTime}h" else "0${request.endTime}h"
+
+                            ,style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onBackground)
                         }
 
                     }
                     Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.Bottom) {
                         Row(modifier = Modifier.weight(1f)){
 
-                            TextButton(onClick = { /*TODO*/ }, modifier =Modifier.fillMaxWidth().fillMaxHeight().background(Brush.verticalGradient(listOf(Color.Transparent,Color.Red))) ) {
+                            TextButton(onClick = { onDeclinedClicked()}, modifier =Modifier.fillMaxWidth().fillMaxHeight().background(Brush.verticalGradient(listOf(Color.Transparent,Color.Red))) ) {
                                 Text("Decline", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
                             }
                         }
                         Row(modifier = Modifier.weight(1f)){
                             //GradientButton("Accept",Brush.linearGradient(listOf(Color.Gray,Color.Transparent)),Modifier.fillMaxWidth().fillMaxHeight(),{})
-                            TextButton(onClick = { /*TODO*/ }, modifier =Modifier.fillMaxWidth().fillMaxHeight().background(Brush.verticalGradient(listOf(Color.Transparent,Color.Green))) ) {
+                            TextButton(onClick = {onAcceptClicked() }, modifier =Modifier.fillMaxWidth().fillMaxHeight().background(Brush.verticalGradient(listOf(Color.Transparent,Color.Green))) ) {
                                 Text("Accept", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
                             }
                         }
