@@ -12,7 +12,7 @@ import javax.inject.Inject
 class UserRepositorImpl @Inject constructor(private val api: API) :UserRepository {
 
     var userDetailsDTO :UserDetailsDTO= UserDetailsDTO()
-    var userReqquestedAppointmentsDTO:List<RequestedAppointmentsDTO> = emptyList<RequestedAppointmentsDTO>()
+    var userReqquestedAppointmentsDTO:List<RequestedAppointmentsDTO> = emptyList()
     override suspend fun getUserDetailsLocal(id: Long): RequestedAppointmentsDTO? {
        return  userReqquestedAppointmentsDTO.firstOrNull{item->item.id==id}
     }

@@ -63,7 +63,6 @@ class AdminRequestsViewModel @Inject constructor(
                 result->
             when(result){
                 is Response.Success->{
-                    Log.i("cao",result.data.toString())
 
                     result.data?.let { _userRequests.addAll(it) }
                 }

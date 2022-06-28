@@ -143,6 +143,7 @@ return null
 
                 }
                 is Response.Success->{
+                    Log.i("cao",result.data.toString())
                     _appointmentsRequested.clear()
 
                     _networkState.value= UIRequestResponse(success = true)

@@ -7,7 +7,7 @@ object Routes {
     const val  REGISTER:String="register"
 
     //classroom
-    const val CLASSROOM_PREFIX="classroom"
+    private const val CLASSROOM_PREFIX="classroom"
     const val CLASSROOM_FILTER="${CLASSROOM_PREFIX}/filter"
     const val CLASSROOM_PAGING="${CLASSROOM_PREFIX}/{page}"
 
@@ -17,7 +17,7 @@ object Routes {
     const val CLASSROOM_SEARCH="${CLASSROOM_PREFIX}/{page}/search"
 
     //appointments
-    const val APPOINTMENT_PREFIX="appointment"
+    private const val APPOINTMENT_PREFIX="appointment"
     const val APPOINTMENT_DELETE = APPOINTMENT_PREFIX
     const val APPOINTMENTS= APPOINTMENT_PREFIX
     const val APPOINTMENT_CONFIRM = "${APPOINTMENT_PREFIX}/confirm"
@@ -42,7 +42,7 @@ object Routes {
     const val USER_APPOINTMENTS_PENDING = "${USER_PREFIX}/appointments/pending"
 
 
-    const val COMMON_PREFIX = "/common"
+    private const val COMMON_PREFIX = "/common"
     const val COMMON_ALL_EMPLOYEE_TYPES = "${COMMON_PREFIX}/employee/types"
     const val COMMON_ALL_EDUCATION_TITLES = "${COMMON_PREFIX}/education/titles"
     const val COMMON_ALL_EMPLOYEE_DEPARTMENTS = "${COMMON_PREFIX}/employee/departments"
