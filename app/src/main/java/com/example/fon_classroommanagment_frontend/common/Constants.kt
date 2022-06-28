@@ -17,6 +17,9 @@ object Constants {
     const val MIN_WORK_TIME=8
 
 
+    const val APPROVED_KEY=1L
+    const val PENDING_KEY=3L
+    const val DECLINED_KEY=2L
 
 
 

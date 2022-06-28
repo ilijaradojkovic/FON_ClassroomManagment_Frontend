@@ -1,5 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards
 
+import android.util.Log
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DismissDirection
@@ -19,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatus
 import java.text.SimpleDateFormat
@@ -26,12 +29,12 @@ import java.text.SimpleDateFormat
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun AppointmentProfileCard(
-    appointmentState: AppointmentStatus,
+    state:AppointmentStatus,
     appointmentsForUserDTO: AppointmentsForUserDTO,
 
 
-) {
-
+    ) {
+Log.i("cao",state.color.value.toString())
 
         Card(modifier = Modifier.fillMaxWidth()) {
 
@@ -44,7 +47,7 @@ fun AppointmentProfileCard(
                         .background(
                             brush = Brush.horizontalGradient(
                                 colors = listOf(
-                                    MaterialTheme.colorScheme.tertiary,
+                                    state.color,
                                     MaterialTheme.colorScheme.surfaceVariant
                                 )
                             )
@@ -87,7 +90,10 @@ fun AppointmentProfileCard(
 
 
                     Column(
-                        modifier = Modifier.weight(2f).fillMaxHeight().padding(10.dp),
+                        modifier = Modifier
+                            .weight(2f)
+                            .fillMaxHeight()
+                            .padding(10.dp),
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.Start,
 

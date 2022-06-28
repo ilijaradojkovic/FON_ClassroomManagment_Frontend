@@ -4,6 +4,7 @@ import java.util.*
 
 data class AppointmentsForUserDTO (
     val id:UUID,
+    val state:Long,
     val classroomName:String,
     val appointmentName:String,
     val date : Date,

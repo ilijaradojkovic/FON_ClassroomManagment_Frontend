@@ -1,8 +1,8 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
@@ -32,16 +32,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatus
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards.AppointmentProfileCard
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun Profile_Screen(
 
@@ -272,8 +271,17 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
 
                         }, directions = setOf(DismissDirection.EndToStart)
                     ) {
+                        Log.i("cao",it.state.toString())
+
                         AppointmentProfileCard(
-                            AppointmentStatus.Accepted(isSystemInDarkTheme()),
+
+                            when (it.state) {
+                                Constants.APPROVED_KEY -> AppointmentStatus.Accepted(isSystemInDarkTheme())
+                                Constants.PENDING_KEY -> AppointmentStatus.Pending(
+                                    isSystemInDarkTheme())
+                                else -> AppointmentStatus.Declined(
+                                    isSystemInDarkTheme())
+                            },
                             it
                         )
                     }
