@@ -54,7 +54,7 @@ fun Navigation() {
            val id=it.arguments?.getLong("id")
 
             if (id != null) {
-                AdminsRequestScreen(id)
+                AdminsRequestScreen(navController,id)
             }
         }
         composable(route = Screen.AditionalInfoScreen.route)

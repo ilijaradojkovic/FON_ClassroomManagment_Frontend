@@ -53,7 +53,7 @@ class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserD
 init {
 
     getUserDetails()
-    getUserAppointments()
+
     if(isAdmin.value)
         getRequestedAppointments()
 
@@ -81,7 +81,8 @@ init {
             }
         }.launchIn(viewModelScope)
     }
-    private fun getUserAppointments() {
+     fun getUserAppointments() {
+         Log.i("cao","pozivam")
         getAppointmentsForUserUseCase().onEach {
             result->
             when(result){
@@ -94,6 +95,7 @@ init {
 
                 }
                 is Response.Success->{
+                    Log.i("cao",result.data.toString())
                     _appointmentsForUser.clear()
                     _networkState.value= UIRequestResponse(success = true)
                     result.data?.let { _appointmentsForUser.addAll(it) }

@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Response
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
@@ -30,6 +31,11 @@ class AdminRequestsViewModel @Inject constructor(
     private var _userRequests = mutableStateListOf<AppointmentRequestedUserDTO>()
     val userRequests=_userRequests
 
+    private var _uiStateRequests= mutableStateOf(UIRequestResponse())
+    val uiStateRequests=_uiStateRequests
+
+    private var _uiStateActionPefromed= mutableStateOf(UIRequestResponse())
+    val uiStateActionPefromed=_uiStateActionPefromed
 
 
 
@@ -46,13 +52,20 @@ class AdminRequestsViewModel @Inject constructor(
             result->
             when(result){
                 is Response.Success->{
+                    _uiStateActionPefromed.value= UIRequestResponse(success = true)
                     _userRequests.clear()
+
+
                 }
                 is Response.Error->{
+                    _uiStateActionPefromed.value=UIRequestResponse(isError = true)
 
-                    Log.i("cao","error s" + result.message)
+
                 }
                  is Response.Loading->{
+
+                     _uiStateActionPefromed.value=UIRequestResponse(isLoading = true)
+
 
                  }
             }
@@ -63,16 +76,16 @@ class AdminRequestsViewModel @Inject constructor(
                 result->
             when(result){
                 is Response.Success->{
-
+                    _uiStateRequests.value=UIRequestResponse(success = true)
                     result.data?.let { _userRequests.addAll(it) }
                 }
                 is Response.Loading->{
 
-
+                    _uiStateRequests.value=UIRequestResponse(isLoading = true)
                 }
                  is Response.Error->{
-                     Log.i("cao","error ${result.message}")
 
+                     _uiStateRequests.value=UIRequestResponse(isError = true)
                  }
             }
 
@@ -86,13 +99,17 @@ class AdminRequestsViewModel @Inject constructor(
                 is Response.Loading->{
 
                     Log.i("cao","loading confirm appointemnt")
+                    _uiStateActionPefromed.value=UIRequestResponse(isLoading = true)
+
                 }
                 is Response.Error->{
-                    Log.i("cao","error  confirm appointemnt"+result.message)
+                    _uiStateActionPefromed.value=UIRequestResponse(isError = true)
 
                 }
                 is Response.Success->{
                     _userRequests.removeIf { x->x.id==appointmentId }
+                    _uiStateActionPefromed.value=UIRequestResponse(success = true)
+
 
                 }
             }
@@ -106,14 +123,17 @@ class AdminRequestsViewModel @Inject constructor(
             result->
                 when(result){
                     is Response.Loading->{
+                        _uiStateActionPefromed.value=UIRequestResponse(isLoading = true)
 
-                        Log.i("cao","loading confirm appointemnt")
                     }
                     is Response.Error->{
-                        Log.i("cao","error  confirm appointemnt"+result.message)
+                        _uiStateActionPefromed.value=UIRequestResponse(isError = true)
+
 
                     }
                     is Response.Success->{
+                        _uiStateActionPefromed.value=UIRequestResponse(success = true)
+
                         _userRequests.removeIf { x->x.id==appointmentId }
 
                     }

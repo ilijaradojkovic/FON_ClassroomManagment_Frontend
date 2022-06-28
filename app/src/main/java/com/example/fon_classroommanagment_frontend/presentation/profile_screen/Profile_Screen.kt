@@ -68,6 +68,10 @@ val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyReque
 val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
 
     val animateheightRequests= animateDpAsState(targetValue = if(shouldShowRequests) (profileViewModel.appointmentsRequested.size*200).dp else 0.dp)
+
+   LaunchedEffect(key1 = true ){
+       profileViewModel.getUserAppointments()
+   }
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
             coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Please check your internet")}
@@ -147,12 +151,18 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                             id->  navHostController.navigate(Screen.AdminRequestsScreen.route+"/${id}")
                         }
                     }
-                    Column() {
+                    Column( modifier = Modifier.clickable {
+                        profileViewModel.getUserAppointments()
+                    }) {
 
 
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-                        Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+                        Box(modifier = Modifier
+                            .padding(10.dp, 0.dp)
+                            .clickable {
+                                profileViewModel.getUserAppointments()
+                            }) {
                             Item(
                                 R.drawable.callendar,
                                 "Appointments",
