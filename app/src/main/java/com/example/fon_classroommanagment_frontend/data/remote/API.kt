@@ -18,6 +18,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.LOGIN
 import com.example.fon_classroommanagment_frontend.common.Routes.REGISTER
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_SEARCH
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS
+import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS_PENDING
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_DETAILS
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_REQUESTED_APPOINTMENTS
 import com.example.fon_classroommanagment_frontend.data.remote.dto.*
@@ -89,8 +90,12 @@ interface API {
     @DELETE(APPOINTMENT_DELETE)
     suspend fun deleteAppointment(@Query("id") id: UUID)
 
+    @GET(USER_APPOINTMENTS_PENDING)
+    suspend fun getRequestedPendingAppointmentsForUser(@Query("id") id: Long): List<AppointmentRequestedUserDTO>
+
     @GET(USER_REQUESTED_APPOINTMENTS)
-    suspend fun getRequestedAppointments(): List<RequestedAppointmentsDTO>
+    suspend fun getRequestedPendingAppointments(): List<RequestedAppointmentsDTO>
+
 
     @POST(CLASSROOM_FILTER)
     suspend fun filterClassrooms(@Body() filterDTO: FilterDTO): List<ClassroomCardDTO>?
