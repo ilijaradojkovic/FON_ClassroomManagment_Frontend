@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
+package com.example.fon_classroommanagment_frontend.presentation.appointments_screen.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.data.Event
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.BasicEvent
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit

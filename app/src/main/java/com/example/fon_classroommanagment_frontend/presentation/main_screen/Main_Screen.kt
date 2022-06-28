@@ -23,7 +23,7 @@ import com.example.fon_classroommanagment_frontend.presentation.classrooms_scree
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
-import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
+import com.example.fon_classroommanagment_frontend.presentation.main_screen.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import com.example.fon_classroommanagment_frontend.screens.Appointments_Screen
 import com.example.fon_classroommanagment_frontend.screens.Classrooms_Screen
@@ -40,7 +40,7 @@ fun Main_Screen(
     allClassroomsViewModel: ClassroomsViewModel= hiltViewModel(),
     allReservationViewModel: AppointmentViewModel = hiltViewModel(),
     profileViewModel: ProfileViewModel= hiltViewModel(),
-    filterViewModel: FilterViewModel= hiltViewModel()
+    filterViewModel: FilterViewModel = hiltViewModel()
     ){
 
     val searchText by allClassroomsViewModel.searchText

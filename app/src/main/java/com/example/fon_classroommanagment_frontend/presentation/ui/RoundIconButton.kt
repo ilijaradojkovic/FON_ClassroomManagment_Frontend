@@ -26,7 +26,7 @@ fun RoundIconButton(
 
     IconButton(onClick = { onClick() }) {
         Icon(painter = painterResource(id = icon),
-            contentDescription = "Profile_Image",
+            contentDescription = "icon",
 
             modifier = Modifier
 

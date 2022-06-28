@@ -1,6 +1,5 @@
-package com.example.fon_classroommanagment_frontend.presentation.common.bars
+package com.example.fon_classroommanagment_frontend.presentation.main_screen
 
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

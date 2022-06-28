@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
-import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
+import com.example.fon_classroommanagment_frontend.presentation.main_screen.FilterViewModel
 import com.google.accompanist.flowlayout.FlowRow
 
 
