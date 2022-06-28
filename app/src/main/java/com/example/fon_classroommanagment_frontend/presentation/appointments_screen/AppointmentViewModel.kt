@@ -1,4 +1,4 @@
-package com.example. fon_classroommanagment_frontend.presentation.all_reservation_screen
+package com.example. fon_classroommanagment_frontend.presentation.appointments_screen
 
 import android.os.Build
 import android.util.Log
@@ -22,7 +22,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class AllReservationViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForClassroomAndDateUseCse, private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
+class AppointmentViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForClassroomAndDateUseCse, private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
 
     private var page=1
 

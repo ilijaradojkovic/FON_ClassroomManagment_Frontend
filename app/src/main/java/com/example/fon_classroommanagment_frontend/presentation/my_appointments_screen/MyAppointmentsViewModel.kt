@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.presentation.my_classroom_request_screen
+package com.example.fon_classroommanagment_frontend.presentation.my_appointments_screen
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RequestViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase,private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase):ViewModel() {
+class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase, private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase):ViewModel() {
 
 
 

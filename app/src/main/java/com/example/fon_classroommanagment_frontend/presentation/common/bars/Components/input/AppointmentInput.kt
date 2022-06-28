@@ -1,19 +1,10 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,17 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components.ErrorField
 import com.github.skgmn.composetooltip.AnchorEdge
 import com.github.skgmn.composetooltip.Tooltip
-import com.github.skgmn.composetooltip.TooltipStyle
 import com.github.skgmn.composetooltip.rememberTooltipStyle
 
 @Composable

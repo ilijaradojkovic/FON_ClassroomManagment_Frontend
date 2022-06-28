@@ -3,12 +3,10 @@ package com.example.fon_classroommanagment_frontend.data.di
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModel
-import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
-import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
-import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
+import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.AppointmentInsertionViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
@@ -19,7 +17,6 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.ty
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -55,19 +52,19 @@ class ViewModelDI {
 
     @Provides
     @Singleton
-    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase,filterUseCase: FilterUseCase): AllClassroomsViewModel =
-        AllClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched)
+    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase,filterUseCase: FilterUseCase): ClassroomsViewModel =
+        ClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched)
 
     @Provides
     @Singleton
-    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForClassroomAndDateUseCse, getAllClassroomChipsPaging: GetAllClassroomChipsPaging): AllReservationViewModel =
-        AllReservationViewModel(getReservationsForDateUseCse,getAllClassroomChipsPaging)
+    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForClassroomAndDateUseCse, getAllClassroomChipsPaging: GetAllClassroomChipsPaging): AppointmentViewModel =
+        AppointmentViewModel(getReservationsForDateUseCse,getAllClassroomChipsPaging)
  @RequiresApi(Build.VERSION_CODES.O)
 
  @Provides
     @Singleton
-    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase,sharedPreferences: SharedPreferences): AppointmentCreationViewModel =
-     AppointmentCreationViewModel(getAllReservationTypesUseCase,getAllClassroomSearched,sharedPreferences)
+    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase,sharedPreferences: SharedPreferences): AppointmentInsertionViewModel =
+     AppointmentInsertionViewModel(getAllReservationTypesUseCase,getAllClassroomSearched,sharedPreferences)
 
     @Provides
     @Singleton

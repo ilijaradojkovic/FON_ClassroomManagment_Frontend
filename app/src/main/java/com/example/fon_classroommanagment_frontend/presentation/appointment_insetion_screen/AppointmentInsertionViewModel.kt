@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.presentation.appointment_screen
+package com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen
 
 import android.content.SharedPreferences
 import android.os.Build
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class AppointmentCreationViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase,   sharedPreferences: SharedPreferences):ViewModel() {
+class AppointmentInsertionViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase, private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase, sharedPreferences: SharedPreferences):ViewModel() {
 
     var nameText by  mutableStateOf("") 
     var reasonText by mutableStateOf("") 

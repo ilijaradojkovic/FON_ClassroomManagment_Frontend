@@ -14,9 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components.ErrorField
 
 @Composable
 fun Text_Field(text:String, changeText:(String)->Unit, @DrawableRes leadingIcon:Int, hint:String, errorMessage:String=""){

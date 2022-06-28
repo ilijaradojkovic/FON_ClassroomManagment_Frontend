@@ -27,17 +27,17 @@ import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.AppointmentCreationViewModel
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ClassroomInputChip
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.AppointmentInsertionViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components.ClassroomInputChip
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Appointment_Screen(
+fun Appointment_Insertion_Screen(
     classroom: ClassroomChipDTO?,
     reserveDTO: ReserveDTO?,
     navHostController: NavHostController,
-    appointmentCreationViewModel: AppointmentCreationViewModel = hiltViewModel()
+    appointmentCreationViewModel: AppointmentInsertionViewModel = hiltViewModel()
 ) {
     val scrollableState = rememberScrollState()
     val datePickerState= rememberDatePickerState()

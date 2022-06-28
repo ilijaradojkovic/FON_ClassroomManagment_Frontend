@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components
+package com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components
 
 import com.bonbon.library.model.FilterableEntity
 

@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment_frontend.screens
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
@@ -18,7 +17,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Schedule
-import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.ClassroomComboBox
 import com.foreverrafs.datepicker.state.rememberDatePickerState
@@ -26,8 +25,8 @@ import com.foreverrafs.datepicker.state.rememberDatePickerState
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AllReservations_Screen(
-    allReservationViewModel: AllReservationViewModel
+fun Appointments_Screen(
+    allReservationViewModel: AppointmentViewModel
 ) {
 
 

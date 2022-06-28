@@ -13,9 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components.ErrorField
 import com.github.skgmn.composetooltip.AnchorEdge
 import com.github.skgmn.composetooltip.Tooltip
 import com.github.skgmn.composetooltip.rememberTooltipStyle

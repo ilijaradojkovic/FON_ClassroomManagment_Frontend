@@ -37,7 +37,7 @@ import kotlin.random.Random
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DetailsClassroom_Screen(
+fun Details_Classroom_Screen(
     navController: NavHostController,
     classroomId:Long,
     detailsClassromViewModel: DetailsClassromViewModel = hiltViewModel()

@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fon_classroommanagment_frontend.presentation.main_screen.components.Main_Screen
 import com.example.fon_classroommanagment_frontend.Login_Screen
-import com.example.fon_classroommanagment_frontend.MyClassroomRequests_Screen
+import com.example.fon_classroommanagment_frontend.My_Appointments_Screen
 import com.example.fon_classroommanagment_frontend.SignUp_Screen
 import com.example.fon_classroommanagment_frontend.Splash_Screen
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
@@ -19,10 +19,10 @@ import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
-import com.example.fon_classroommanagment_frontend.presentation.my_classroom_request_screen.RequestViewModel
+import com.example.fon_classroommanagment_frontend.presentation.my_appointments_screen.MyAppointmentsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Aditional_Info_Screen
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.TypeEMP_EducationEMP_Screen
-import com.example.fon_classroommanagment_frontend.screens.Appointment_Screen
+import com.example.fon_classroommanagment_frontend.screens.Appointment_Insertion_Screen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -30,7 +30,7 @@ fun Navigation() {
     val navController=rememberNavController()
     //Aditional_Info_Screen()
     //TypeEMP_EducationEMP_Screen()
-    val    requestViewMode: RequestViewModel = hiltViewModel()
+    val    requestViewMode: MyAppointmentsViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = Screen.SplashScreen.route){
         composable(route = Screen.SplashScreen.route){
@@ -69,7 +69,7 @@ fun Navigation() {
             val classroomId=it.arguments?.getLong("classroomId")
 
             if (classroomId != null) {
-                DetailsClassroom_Screen(navController,classroomId)
+                Details_Classroom_Screen(navController,classroomId)
             }
         }
         composable(route= Screen.AppointmentScreen.route+"?classroomId={classroomId}&name={name}",
@@ -95,7 +95,7 @@ fun Navigation() {
 
 
 
-                    Appointment_Screen(classroomChipDTO,reserveDTO,navController)
+                    Appointment_Insertion_Screen(classroomChipDTO,reserveDTO,navController)
 
 
         }
@@ -118,7 +118,7 @@ fun Navigation() {
             val saved=navController.previousBackStackEntry?.arguments?.getBoolean("saved")
            // Log.i("cao",saved.toString())
 
-            MyClassroomRequests_Screen(navController,registerObject,requestViewMode,saved)
+            My_Appointments_Screen(navController,registerObject,requestViewMode,saved)
         }
 
 

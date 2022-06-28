@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,12 +29,11 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundIconButton
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.ErrorReservationDialog
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessReservationDialog
-import com.example.fon_classroommanagment_frontend.presentation.my_classroom_request_screen.RequestViewModel
+import com.example.fon_classroommanagment_frontend.presentation.my_appointments_screen.MyAppointmentsViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,10 +41,10 @@ import java.util.*
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun MyClassroomRequests_Screen(
+fun My_Appointments_Screen(
     navController: NavHostController,
     requestReservation: RequestReservastion?,
-    requestViewMode: RequestViewModel,
+    requestViewMode: MyAppointmentsViewModel,
     saved:Boolean?
 
 ) {

@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components
+package com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,7 +22,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow

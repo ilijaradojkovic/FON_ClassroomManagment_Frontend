@@ -19,14 +19,14 @@ import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
-import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
+import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.TopBar
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.FilterViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
-import com.example.fon_classroommanagment_frontend.screens.AllReservations_Screen
-import com.example.fon_classroommanagment_frontend.screens.All_Classrooms
+import com.example.fon_classroommanagment_frontend.screens.Appointments_Screen
+import com.example.fon_classroommanagment_frontend.screens.Classrooms_Screen
 import kotlinx.coroutines.launch
 
 
@@ -37,8 +37,8 @@ import kotlinx.coroutines.launch
 fun Main_Screen(
     navHostController: NavHostController,
     Title: String,
-    allClassroomsViewModel: AllClassroomsViewModel= hiltViewModel(),
-    allReservationViewModel: AllReservationViewModel = hiltViewModel(),
+    allClassroomsViewModel: ClassroomsViewModel= hiltViewModel(),
+    allReservationViewModel: AppointmentViewModel = hiltViewModel(),
     profileViewModel: ProfileViewModel= hiltViewModel(),
     filterViewModel: FilterViewModel= hiltViewModel()
     ){
@@ -106,12 +106,12 @@ fun Main_Screen(
                     Screen.BottomBarScreens.AllClassroomsScreen.title->{
                         displayTopBarBackElement=false
                         displayTopBarIconsElements=true
-                        All_Classrooms(navHostController,allClassroomsViewModel)
+                        Classrooms_Screen(navHostController,allClassroomsViewModel)
                     }
                     Screen.BottomBarScreens.ReservationScreen.title->{
                         displayTopBarBackElement=false
                         displayTopBarIconsElements=false
-                        AllReservations_Screen(allReservationViewModel)
+                        Appointments_Screen(allReservationViewModel)
                     }
                     Screen.BottomBarScreens.UserProfileScreen.title->{
                         displayTopBarBackElement=false

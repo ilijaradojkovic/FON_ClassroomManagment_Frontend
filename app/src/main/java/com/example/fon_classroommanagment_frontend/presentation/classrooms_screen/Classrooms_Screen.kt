@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment_frontend.screens
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
@@ -13,14 +12,14 @@ import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.presentation.all_classrooms_screen.AllClassroomsViewModel
+import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.ClassroomCard
 
 @Composable
-fun All_Classrooms(
+fun Classrooms_Screen(
     navHostController: NavHostController,
-    allClassroomsViewModel: AllClassroomsViewModel,
+    allClassroomsViewModel: ClassroomsViewModel,
 
     ) {
     val classrooms = allClassroomsViewModel.classrooms

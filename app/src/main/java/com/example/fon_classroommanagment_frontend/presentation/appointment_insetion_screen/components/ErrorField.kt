@@ -1,6 +1,5 @@
-package com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components
+package com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -1,19 +1,11 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input
 
-import android.util.Log
-import androidx.annotation.DrawableRes
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -24,17 +16,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
-import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
-import com.example.fon_classroommanagment_frontend.presentation.all_reservation_screen.AllReservationViewModel
-import com.example.fon_classroommanagment_frontend.presentation.appointment_screen.components.ErrorField
-import com.github.skgmn.composetooltip.AnchorEdge
-import com.github.skgmn.composetooltip.Tooltip
-import com.github.skgmn.composetooltip.rememberTooltipStyle
+import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components.ErrorField
 
 @Composable
 fun AppointmetnComboBox(
