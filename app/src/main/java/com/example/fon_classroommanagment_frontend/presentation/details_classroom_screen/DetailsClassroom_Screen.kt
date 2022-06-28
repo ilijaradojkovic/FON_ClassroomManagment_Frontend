@@ -27,6 +27,7 @@ import com.example.fon_classroommanagment_frontend.No_Internet_Screen
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
+import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.components.Schedule
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowRow

@@ -69,6 +69,7 @@ init {
 
                 }
                 is Response.Error->{
+
                     _networkState.value= UIRequestResponse(isError = true)
                 }
                 is Response.Success->{
@@ -88,6 +89,7 @@ init {
                     _networkState.value= UIRequestResponse(isLoading = true)
                     }
                 is Response.Error->{
+
                     _networkState.value= UIRequestResponse(isError = true)
 
                 }
@@ -132,10 +134,10 @@ return null
                 result->
             when(result){
                 is Response.Loading->{
+                    Log.i("cao","fasf"+result.data.toString())
                     _networkState.value= UIRequestResponse(isLoading = true)
                 }
                 is Response.Error->{
-                    Log.i("cao",result.message.toString())
 
                     _networkState.value= UIRequestResponse(isError = true)
 
@@ -148,6 +150,7 @@ return null
 
 
                 }
+
             }
         }.launchIn(viewModelScope)
     }

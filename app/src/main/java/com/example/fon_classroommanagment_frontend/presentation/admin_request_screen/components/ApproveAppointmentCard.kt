@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview()
-fun ApproveAppointmentCard(){
+fun ApproveAppointmentCard(request: RequestedAppointmentsDTO) {
         Card(shape = RoundedCornerShape(32.dp,32.dp,0.dp,0.dp), modifier = Modifier){
                 Column(modifier = Modifier
                     .fillMaxSize()

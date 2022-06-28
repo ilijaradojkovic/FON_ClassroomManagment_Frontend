@@ -144,9 +144,8 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                         }
                         AppointmentList(profileViewModel,animateheightRequests.value){
 
-
-
-                            navHostController.navigate(Screen.AdminRequestsScreen.route)}
+                            id->  navHostController.navigate(Screen.AdminRequestsScreen.route+"/${id}")
+                        }
                     }
                     Column() {
 
@@ -279,13 +278,15 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AppointmentList(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp,onItemClick :()->Unit) {
+fun AppointmentList(profileViewModel: ProfileViewModel,
+                    animateheightMyRequests: Dp,
+                    onItemClick :(Long)->Unit) {
     val widthDp = LocalContext.current.resources.displayMetrics.run { widthPixels / density }
     Box(modifier=Modifier.height(animateheightMyRequests)) {
         LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false) {
             items(profileViewModel.appointmentsRequested) {
 
-                      AdminRequestCard("${it.firstName} ${it.lastName}",it.number_of_requests){onItemClick()}
+                      AdminRequestCard("${it.firstName} ${it.lastName}",it.number_of_requests){onItemClick(it.id)}
 
             }
         }

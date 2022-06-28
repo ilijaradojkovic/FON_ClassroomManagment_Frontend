@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.presentation.admin_request_screen.AdminRequestsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.AppointmentInsertionViewModel
@@ -77,4 +78,8 @@ class ViewModelDI {
         ): ProfileViewModel =
         ProfileViewModel(userDetailsUseCase,getAppointmentsForUserUseCase,deleteAppointmentUseCase,getRequestedAppointmentsUseCase,sharedPreferences)
 
+    @Provides
+    @Singleton
+    fun provideAdminRequestsViewModel(retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase: RetriveUserRequestedAppointmentsUseCase) : AdminRequestsViewModel =
+        AdminRequestsViewModel(retriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase)
 }

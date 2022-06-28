@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.Schedule
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
+import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.components.Schedule
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.ClassroomComboBox
 import com.foreverrafs.datepicker.state.rememberDatePickerState

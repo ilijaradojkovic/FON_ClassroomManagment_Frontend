@@ -111,5 +111,13 @@ class UseCaseDI {
     @Singleton
     fun ProvideFilterUseCase(classroomRepository: ClassroomRepository):FilterUseCase=
         FilterUseCase(classroomRepository)
+    @Provides
+    @Singleton
+    fun ProvideRetriveUserDetailsDataUseCase(userRepository: UserRepository):RetriveUserDetailsDataUseCase=
+        RetriveUserDetailsDataUseCase(userRepository)
+    @Provides
+    @Singleton
+    fun ProvideRetriveUserRequestedAppointmentsUseCase(userRepository: UserRepository):RetriveUserRequestedAppointmentsUseCase=
+        RetriveUserRequestedAppointmentsUseCase(userRepository)
 
 }

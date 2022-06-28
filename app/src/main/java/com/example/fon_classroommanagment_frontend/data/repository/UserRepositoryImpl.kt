@@ -8,8 +8,21 @@ import com.example.fon_classroommanagment_frontend.domain.repository.UserReposit
 import javax.inject.Inject
 
 class UserRepositorImpl @Inject constructor(private val api: API) :UserRepository {
+
+    var userDetailsDTO :UserDetailsDTO= UserDetailsDTO()
+    var userReqquestedAppointmentsDTO:List<RequestedAppointmentsDTO> = emptyList<RequestedAppointmentsDTO>()
+    override suspend fun getUserDetailsLocal(id: Long): RequestedAppointmentsDTO? {
+       return  userReqquestedAppointmentsDTO.firstOrNull{item->item.id==id}
+    }
+    override suspend fun getUserRequestedAPpointmentsLocal():List<RequestedAppointmentsDTO> {
+        return  userReqquestedAppointmentsDTO
+    }
+
+
     override suspend fun getUserDetails(): UserDetailsDTO {
-        return api.getUserDetails()
+
+        userDetailsDTO= api.getUserDetails()
+        return userDetailsDTO
     }
 
     override suspend fun getUserAppointments(): List<AppointmentsForUserDTO> {
@@ -17,7 +30,9 @@ class UserRepositorImpl @Inject constructor(private val api: API) :UserRepositor
     }
 
     override suspend fun getRequestedAppointments(): List<RequestedAppointmentsDTO> {
-        return api.getRequestedAppointments()
+
+        userReqquestedAppointmentsDTO= api.getRequestedAppointments()
+        return userReqquestedAppointmentsDTO
     }
 
 
