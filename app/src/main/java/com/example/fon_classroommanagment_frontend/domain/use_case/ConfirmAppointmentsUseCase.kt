@@ -1,7 +1,7 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
 import com.example.fon_classroommanagment_frontend.domain.repository.AppointmentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,12 +11,13 @@ import javax.inject.Inject
 
 class ConfirmAppointmentsUseCase @Inject constructor(private val appointmentRepository: AppointmentRepository) {
 
-    operator fun invoke(): Flow<Response<Unit>> = flow {
+    operator fun invoke(toList: List<AppointmentRequestedUserDTO>): Flow<Response<Unit>> = flow {
 
         try{
 
             emit(Response.Loading())
-            appointmentRepository.confirmAllAppointments()
+            appointmentRepository.confirmAllAppointments(toList)
+            emit(Response.Success())
 
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod
             emit(Response.Error(httpException.localizedMessage ?:"neocekivana greska"))

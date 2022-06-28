@@ -18,7 +18,7 @@ class ConfirmAppointmentUseCase @Inject constructor(private val appointmentRepos
 
             emit(Response.Loading())
             appointmentRepository.confirmAppointment(appointmentId)
-
+    emit(Response.Success())
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod
             emit(Response.Error(httpException.localizedMessage ?:"neocekivana greska"))
         }

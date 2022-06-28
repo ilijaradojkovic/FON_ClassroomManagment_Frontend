@@ -13,7 +13,7 @@ interface AppointmentRepository {
     suspend fun deleteAppointment(appointmentId: UUID)
     suspend fun confirmAppointment(appointmentId: UUID)
     suspend fun declineAppointment(appointmentId:UUID)
-    suspend  fun confirmAllAppointments()
+    suspend  fun confirmAllAppointments(toList: List<AppointmentRequestedUserDTO>)
 
 
 }
