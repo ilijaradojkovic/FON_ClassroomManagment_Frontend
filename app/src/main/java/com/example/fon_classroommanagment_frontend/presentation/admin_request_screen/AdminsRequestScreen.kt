@@ -34,6 +34,7 @@ fun AdminsRequestScreen(
     val userRequests = adminRequestsViewModel.userRequests
 
     LaunchedEffect(key1 = true){
+        Log.i("cao","ulazim")
         adminRequestsViewModel.getUserDetails(id)
         adminRequestsViewModel.getRequests(id)
     }
@@ -71,7 +72,10 @@ Column(modifier= Modifier
                       Text(userDetails.type, style = MaterialTheme.typography.titleSmall,color=MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
 
                   }
-                  OutlinedButton(onClick = { /*TODO*/ }) {
+                  OutlinedButton(onClick = {
+                      Log.i("cao","clicked")
+                      adminRequestsViewModel.confirmAllAppointments()
+                  }) {
                         Text("Approve All")
                     }
                 }
@@ -88,7 +92,7 @@ Column(modifier= Modifier
                 items(userRequests, key = {item->item.hashCode()}){
                     request->
                        Column(modifier = Modifier.height(200.dp)) {
-                        ApproveAppointmentCard(request,{adminRequestsViewModel.approveAppointment()},{adminRequestsViewModel.declineAppointment()})
+                        ApproveAppointmentCard(request,{adminRequestsViewModel.confirmAppointment(request.id)},{adminRequestsViewModel.declineAppointment(request.id)})
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                 }

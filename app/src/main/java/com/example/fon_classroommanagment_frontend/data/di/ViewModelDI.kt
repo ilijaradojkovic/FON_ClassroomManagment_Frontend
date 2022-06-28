@@ -80,6 +80,6 @@ class ViewModelDI {
 
     @Provides
     @Singleton
-    fun provideAdminRequestsViewModel(retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase: RetriveUserRequestedAppointmentsUseCase) : AdminRequestsViewModel =
-        AdminRequestsViewModel(retriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase)
+    fun provideAdminRequestsViewModel(retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase: RetriveUserRequestedAppointmentsUseCase,confirmAppointmentUseCase: ConfirmAppointmentUseCase,declineAppointmentUseCase: DeclineAppointmentUseCase,confirmAppointmentsUseCase: ConfirmAppointmentsUseCase) : AdminRequestsViewModel =
+        AdminRequestsViewModel(retriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase,confirmAppointmentUseCase,declineAppointmentUseCase,confirmAppointmentsUseCase)
 }

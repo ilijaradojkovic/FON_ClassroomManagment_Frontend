@@ -9,15 +9,21 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
-import com.example.fon_classroommanagment_frontend.domain.use_case.RetriveUserDetailsDataUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.RetriveUserRequestedAppointmentsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AdminRequestsViewModel @Inject constructor(private val retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,private val retriveUserRequestedAppointmentsUseCase : RetriveUserRequestedAppointmentsUseCase) :ViewModel() {
+class AdminRequestsViewModel @Inject constructor(
+    private val retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,
+    private val retriveUserRequestedAppointmentsUseCase : RetriveUserRequestedAppointmentsUseCase,
+    private val confirmAppointmentUseCase: ConfirmAppointmentUseCase,
+    private  val declineAppointmentUseCase: DeclineAppointmentUseCase,
+    private  val confirmAppointmentsUseCase: ConfirmAppointmentsUseCase
+    ) :ViewModel() {
 
     private var _userDetails = mutableStateOf(RequestedAppointmentsDTO())
     val userDetails=_userDetails
@@ -35,6 +41,23 @@ class AdminRequestsViewModel @Inject constructor(private val retriveUserDetailsD
         }.launchIn(viewModelScope)
     }
 
+    fun confirmAllAppointments(){
+        confirmAppointmentsUseCase(_userRequests.toList()).onEach {
+            result->
+            when(result){
+                is Response.Success->{
+                    _userRequests.clear()
+                }
+                is Response.Error->{
+
+                    Log.i("cao","error s" + result.message)
+                }
+                 is Response.Loading->{
+
+                 }
+            }
+        }.launchIn(viewModelScope)
+    }
     fun getRequests(id: Long) {
         retriveUserRequestedAppointmentsUseCase(id).onEach {
                 result->
@@ -57,11 +80,49 @@ class AdminRequestsViewModel @Inject constructor(private val retriveUserDetailsD
         }.launchIn(viewModelScope)
     }
 
-    fun declineAppointment() {
-        TODO("Not yet implemented")
+    fun declineAppointment(appointmentId: UUID) {
+        declineAppointmentUseCase(appointmentId).onEach {
+                result->
+            when(result){
+                is Response.Loading->{
+
+                    Log.i("cao","loading confirm appointemnt")
+                }
+                is Response.Error->{
+                    Log.i("cao","error  confirm appointemnt"+result.message)
+
+                }
+                is Response.Success->{
+                    _userRequests.removeIf { x->x.id==appointmentId }
+
+                }
+            }
+
+
+        }.launchIn(viewModelScope)
     }
 
-    fun approveAppointment() {
-        TODO("Not yet implemented")
+    fun confirmAppointment(appointmentId:UUID) {
+        confirmAppointmentUseCase(appointmentId).onEach {
+            result->
+                when(result){
+                    is Response.Loading->{
+
+                        Log.i("cao","loading confirm appointemnt")
+                    }
+                    is Response.Error->{
+                        Log.i("cao","error  confirm appointemnt"+result.message)
+
+                    }
+                    is Response.Success->{
+                        _userRequests.removeIf { x->x.id==appointmentId }
+
+                    }
+                }
+
+
+        }.launchIn(viewModelScope)
     }
+
+
 }
