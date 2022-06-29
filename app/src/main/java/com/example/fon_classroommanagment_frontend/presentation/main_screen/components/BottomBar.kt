@@ -14,7 +14,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 
 @Composable
 fun BottonBar(navHostController: NavHostController) {

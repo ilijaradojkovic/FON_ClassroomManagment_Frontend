@@ -9,10 +9,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants.EMAIL_REGEX
+import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -47,7 +51,22 @@ init {
         if(Validate(_emailText.value,_passwordText.value,_passwordRepeatText.value,_fullNameText.value)){
             UserRegistrationDTO.value=CreateUserRegisterDTO()
             restartCoreData()
-            _canNavigate.value=true
+            registerUseCase(UserRegistrationDTO.value).onEach {
+                result->
+                when(result){
+                    is Response.Loading->{
+                        Log.i("cao","loading")
+
+                    }
+                    is Response.Error->{
+                        Log.i("cao","error ${result.message}")
+
+                    }
+                    is Response.Success->{
+                        Log.i("cao","success regster")
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
 
 
@@ -57,7 +76,8 @@ init {
     fun CreateUserRegisterDTO(
     ): UserRegistrationDTO {
         val fullNameStrs=_fullNameText.value.split(" ")
-        return UserRegistrationDTO(_emailText.value, _passwordText.value,fullNameStrs[0],fullNameStrs[1],transformBitpamToBtye(_image.value))
+        return UserRegistrationDTO(_emailText.value, _passwordText.value,fullNameStrs[0],fullNameStrs[1])
+           // ,transformBitpamToBtye(_image.value))
     }
 
     fun transformBitpamToBtye(bitmapimg: Bitmap?): ByteArray {

@@ -1,11 +1,9 @@
 package com.example.fon_classroommanagment_frontend
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -14,11 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.*
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -27,8 +23,7 @@ import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieConstants
-import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.common.StoreUserEmail
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.IconRoundBorder
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation

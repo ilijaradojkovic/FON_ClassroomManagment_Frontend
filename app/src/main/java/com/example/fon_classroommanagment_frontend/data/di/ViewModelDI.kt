@@ -13,8 +13,6 @@ import com.example.fon_classroommanagment_frontend.presentation.details_classroo
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
-import com.example.fon_classroommanagment_frontend.presentation.signin_screen.aditional_info_screen.AditionalInfoViewModel
-import com.example.fon_classroommanagment_frontend.presentation.signin_screen.type_education_screen.TypeEducationViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,15 +34,15 @@ class ViewModelDI {
     fun provideRegisterViewModel(registerUseCase: RegisterUseCase): RegisterViewModel = RegisterViewModel(registerUseCase)
 
 
-    @Singleton
-    @Provides
-    fun provideAditionalInfoViewModel(getAllDepartmentsUseCase: GetAllDepartmentsUseCase):AditionalInfoViewModel=
-        AditionalInfoViewModel(getAllDepartmentsUseCase)
-
-    @Singleton
-    @Provides
-    fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase, getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase, registerUseCase: RegisterUseCase):TypeEducationViewModel=
-        TypeEducationViewModel(getAllEmployeeTypesUseCase,getAllEducationTitlesUseCase,registerUseCase)
+//    @Singleton
+//    @Provides
+//    fun provideAditionalInfoViewModel(getAllDepartmentsUseCase: GetAllDepartmentsUseCase):AditionalInfoViewModel=
+//        AditionalInfoViewModel(getAllDepartmentsUseCase)
+//
+//    @Singleton
+//    @Provides
+//    fun provideTypeEducationViewModel(getAllEmployeeTypesUseCase: GetAllEmployeeTypesUseCase, getAllEducationTitlesUseCase: GetAllEducationTitlesUseCase, registerUseCase: RegisterUseCase):TypeEducationViewModel=
+//        TypeEducationViewModel(getAllEmployeeTypesUseCase,getAllEducationTitlesUseCase,registerUseCase)
 
     @Singleton
     @Provides

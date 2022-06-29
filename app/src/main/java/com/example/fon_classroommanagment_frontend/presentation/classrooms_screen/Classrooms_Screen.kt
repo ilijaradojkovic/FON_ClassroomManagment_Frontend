@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.ClassroomCard

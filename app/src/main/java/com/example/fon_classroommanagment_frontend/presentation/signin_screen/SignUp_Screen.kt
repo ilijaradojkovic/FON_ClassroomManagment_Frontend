@@ -1,6 +1,5 @@
 package com.example.fon_classroommanagment_frontend
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.*
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.IconRoundBorder
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.buttons.ButtonWithIcon
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundImage
@@ -62,14 +60,14 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
         registerViewModel.restart()
 
     }
-    LaunchedEffect(key1 = registerViewModel.canNavigate){
-        if(registerViewModel.canNavigate){
-            registerViewModel.userRegistrationDTO.let {
-                navController.currentBackStackEntry?.arguments?.putParcelable("registerObject", registerViewModel.userRegistrationDTO)
-                navController.navigate(route = Screen.AditionalInfoScreen.route)
-            }
-        }
-    }
+//    LaunchedEffect(key1 = registerViewModel.canNavigate){
+//        if(registerViewModel.canNavigate){
+//            registerViewModel.userRegistrationDTO.let {
+//                navController.currentBackStackEntry?.arguments?.putParcelable("registerObject", registerViewModel.userRegistrationDTO)
+//
+//                }
+//        }
+//    }
     Column(modifier = Modifier.fillMaxWidth()
 
     ) {

@@ -1,18 +1,18 @@
-package com.example.fon_classroommanagment_frontend.common
+package com.example.fon_classroommanagment_frontend.domain.navigation
 
 import androidx.annotation.DrawableRes
 import com.example.fon_classroommanagment_frontend.R
 
 sealed class Screen(val route:String) {
 
-    object SplashScreen:Screen("Splash_Screen")
+    object SplashScreen: Screen("Splash_Screen")
     object LoginScreen: Screen("Login_Screen")
     object RegisterScreen: Screen("Register_Screen")
     object MainScreen: Screen("Main_Screen")
     object DetailsClassroomScreen: Screen("Details_Classroom_Screen")
     object AppointmentScreen: Screen("Appointment_Screen")
-    object AditionalInfoScreen: Screen("Aditional_Info_Screen")
-    object TypeEMPEducationEMPScreen: Screen("TypeEMP_EducationEMP_Screen")
+//    object AditionalInfoScreen: Screen("Aditional_Info_Screen")
+//    object TypeEMPEducationEMPScreen: Screen("TypeEMP_EducationEMP_Screen")
     object MyClassroomRequestsScreen: Screen("My_ClassroomRequests_Screen")
     object AdminRequestsScreen: Screen("Admin_Requets_Screen")
 

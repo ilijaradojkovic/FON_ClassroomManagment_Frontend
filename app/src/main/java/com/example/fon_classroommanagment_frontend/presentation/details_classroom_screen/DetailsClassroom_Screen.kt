@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment_frontend.presentation.common.bars.Com
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -25,8 +24,7 @@ import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.No_Internet_Screen
 import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.common.Screen
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.components.Schedule
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.foreverrafs.datepicker.state.rememberDatePickerState

@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.*
 import com.example.fon_classroommanagment_frontend.R
-import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.BottonBar
@@ -92,7 +92,7 @@ fun Main_Screen(
             displayTopBarBackElement) },
             bottomBar = { BottonBar(navHostController) },
             floatingActionButton = {
-               if(navHostController.currentDestination!!.route==Screen.BottomBarScreens.ReservationScreen.route)
+               if(navHostController.currentDestination!!.route== Screen.BottomBarScreens.ReservationScreen.route)
                     androidx.compose.material3.FloatingActionButton(
                         onClick = {
                             navHostController.currentBackStackEntry?.arguments?.putParcelable("registerObject",null)

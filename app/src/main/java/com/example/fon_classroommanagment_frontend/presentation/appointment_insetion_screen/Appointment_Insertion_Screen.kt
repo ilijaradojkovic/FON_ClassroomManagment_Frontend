@@ -24,7 +24,7 @@ import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
-import com.example.fon_classroommanagment_frontend.common.Screen
+import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.AppointmentInsertionViewModel
