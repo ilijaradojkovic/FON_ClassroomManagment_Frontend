@@ -34,6 +34,7 @@ import com.foreverrafs.datepicker.state.rememberDatePickerState
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Appointment_Insertion_Screen(
+    appointmentID:String?,
     classroom: ClassroomChipDTO?,
     reserveDTO: ReserveDTO?,
     navHostController: NavHostController,
@@ -49,6 +50,10 @@ fun Appointment_Insertion_Screen(
             appointmentCreationViewModel.restart()
         if(classroom!=null)
             appointmentCreationViewModel.addClassroom(classroom)
+
+        if(appointmentID!=null){
+            appointmentCreationViewModel.getAppointmentData(appointmentID)
+        }
     }
     LaunchedEffect(key1 =appointmentCreationViewModel.creationState.value){
         if(appointmentCreationViewModel.creationState.value) {

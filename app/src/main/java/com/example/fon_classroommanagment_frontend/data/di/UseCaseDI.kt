@@ -134,5 +134,13 @@ class UseCaseDI {
     @Singleton
     fun ProvideDeclinedAppointmentUseCase(appointmentRepository: AppointmentRepository):DeclineAppointmentUseCase =
         DeclineAppointmentUseCase(appointmentRepository)
+    @Provides
+    @Singleton
+    fun ProvideGetAppointmentDataUseCase(appointmentRepository: AppointmentRepository):GetAppointmentDataUseCase =
+        GetAppointmentDataUseCase(appointmentRepository)
+    @Provides
+    @Singleton
+    fun ProvideSaveAppointmentDataUseCase(appointmentRepository: AppointmentRepository):SaveAppointmentDataUseCase =
+        SaveAppointmentDataUseCase(appointmentRepository)
 
 }

@@ -7,6 +7,18 @@ import java.util.*
 import javax.inject.Inject
 
 class AppointmentRepositoryImpl @Inject constructor(private val api: API) :AppointmentRepository  {
+
+    private val myAppointments= mutableSetOf<ReserveDTO>()
+
+    override suspend fun getSelectedAppointment(id:UUID): ReserveDTO
+    {
+        return myAppointments.first{x->x.id==id}
+    }
+
+    override suspend fun saveAppointment(reserveDTO: ReserveDTO) {
+        myAppointments.add(reserveDTO)
+    }
+
     override suspend fun getReservationsForDate(
         requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO,
     ):

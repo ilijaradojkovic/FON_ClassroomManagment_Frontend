@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.common.bars.Components
 
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
+import com.example.fon_classroommanagment_frontend.domain.navigation.ReservationDTONav
 import com.example.fon_classroommanagment_frontend.presentation.my_appointments_screen.MyAppointmentsViewModel
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Insertion_Screen
 
@@ -78,7 +80,9 @@ fun Navigation() {
                 Details_Classroom_Screen(navController,classroomId)
             }
         }
-        composable(route= Screen.AppointmentScreen.route+"?classroomId={classroomId}&name={name}",
+
+
+        composable(route= Screen.AppointmentScreen.route+"?classroomId={classroomId}&name={name}&appointmentId={appointmentId}",
         arguments = listOf(navArgument("classroomId"){
             type= NavType.LongType
             defaultValue=-1L
@@ -87,24 +91,36 @@ fun Navigation() {
                 type=NavType.StringType
                 nullable=true
                 defaultValue=null
-            }
+            },
+            navArgument("appointmentId"){
+                type=NavType.StringType
+                nullable=true
+                defaultValue=null
+            },
+
+
         )){
 
             BackHandler(true) {
                 navController.navigate(Screen.MyClassroomRequestsScreen.route)
             }
+
             var classroomChipDTO:ClassroomChipDTO?=null
             val classroomId=it.arguments?.getLong("classroomId")
+            val appointmentId=it.arguments?.getString("appointmentId")
             val name=it.arguments?.getString("name")
             if(classroomId!=null && classroomId!=-1L && name!=null) classroomChipDTO= ClassroomChipDTO(classroomId,name)
             val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")
 
 
 
-                    Appointment_Insertion_Screen(classroomChipDTO,reserveDTO,navController)
+
+                Appointment_Insertion_Screen(appointmentId,classroomChipDTO,reserveDTO,navController)
 
 
-        }
+
+             }
+
 //        composable(route= Screen.DetailsClassroomScreen.route){
 //
 //            val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")

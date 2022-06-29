@@ -14,6 +14,8 @@ interface AppointmentRepository {
     suspend fun confirmAppointment(appointmentId: UUID)
     suspend fun declineAppointment(appointmentId:UUID)
     suspend  fun confirmAllAppointments(toList: List<AppointmentRequestedUserDTO>)
+    suspend fun getSelectedAppointment(id:UUID):ReserveDTO
+    suspend fun saveAppointment(reserveDTO: ReserveDTO)
 
 
 }

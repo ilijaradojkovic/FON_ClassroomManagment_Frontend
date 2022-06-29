@@ -8,6 +8,7 @@ import java.util.*
 
 @Parcelize
 data class ReserveDTO (
+     val id: UUID? =UUID.randomUUID(),
      val email: String? = null,
      val classroomId: Long,
      val name: String,

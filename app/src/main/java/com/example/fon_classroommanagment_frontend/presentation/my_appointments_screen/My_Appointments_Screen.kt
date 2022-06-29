@@ -199,12 +199,9 @@ val scaffoldState = rememberScaffoldState()
                                 it.uiRequestResponse
                             ) {
 
-                                navController.currentBackStackEntry?.arguments?.putParcelable(
-                                    "reserveDTO",
-                                    it.reserveDTO
-                                )
 
-                                navController.navigate(Screen.DetailsClassroomScreen.route)
+
+                                navController.navigate(Screen.AppointmentScreen.route+"?appointmentId=${it.reserveDTO.id.toString()}")
                             }
 
                         }

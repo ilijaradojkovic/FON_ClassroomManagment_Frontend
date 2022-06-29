@@ -17,6 +17,8 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomsChipUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllReservationTypesUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAppointmentDataUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.SaveAppointmentDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,7 +29,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class AppointmentInsertionViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase, private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase, sharedPreferences: SharedPreferences):ViewModel() {
+class AppointmentInsertionViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase, private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase, private val getAppointmentDataUseCase: GetAppointmentDataUseCase, sharedPreferences: SharedPreferences,private val saveAppointmentDataUseCase: SaveAppointmentDataUseCase):ViewModel() {
 
     var nameText by  mutableStateOf("") 
     var reasonText by mutableStateOf("") 
@@ -113,7 +115,10 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
           classrooms.forEach { classroomChipDTO ->
 
                reserveDTO.add(createReservationDTO(classroomChipDTO))
+
           }
+            saveAppointmentDataUseCase(reserveDTO).launchIn(viewModelScope)
+
             _creationState.value=true
         }
 
@@ -128,7 +133,8 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
             ZoneId.systemDefault()).toInstant())
 
     private fun createReservationDTO(classroom: ClassroomChipDTO):ReserveDTO=
-        ReserveDTO(myEmail,
+        ReserveDTO(UUID.randomUUID(),
+            myEmail,
             classroom.id,
             nameText,
             getDateFromLocalDateTime(),
@@ -333,5 +339,23 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
 
     fun setEmail(email: String) {
         myEmail=email
+    }
+
+    fun getAppointmentData(appointmentID: String) {
+        Log.i("cao","getting data for "+ appointmentID)
+        getAppointmentDataUseCase(UUID.fromString(appointmentID)).onEach {
+            result->
+            when(result){
+                is Response.Loading->{
+                    Log.i("cao","uzimam")
+                }
+                is Response.Error->{
+                    Log.i("cao","greska")
+                }
+                is Response.Success->{
+                    Log.i("cao","uzeo"+result.data.toString())
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 }
