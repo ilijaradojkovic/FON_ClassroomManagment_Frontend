@@ -29,6 +29,8 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.buttons.ButtonWithIcon
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.RoundImage
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.Text_Field
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.ErrorRegistrationDialog
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.components.Password_Text_Field
 import com.example.fon_classroommanagment_frontend.presentation.signin_screen.RegisterViewModel
 
@@ -55,7 +57,9 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
     }
     val context = LocalContext.current
     val bitmap = registerViewModel._image
+    val dialog by registerViewModel.dialog
 
+    val registerState by registerViewModel.state
     LaunchedEffect(key1 = true ){
         registerViewModel.restart()
 
@@ -68,6 +72,72 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
 //                }
 //        }
 //    }
+    if (dialog) {
+        if (registerState.success) {
+
+            SuccessRegistrationDialog(
+                registerState.isLoading,
+                toNavigate = {},
+                title = "Registration Successful!",
+                body = "Confirmation email has been send,please check your email and complete registration",
+                dismissButton = {
+                    Row(
+                        modifier = Modifier.padding(all = 8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = {
+                                registerViewModel.restart()
+                                navController.navigate(Screen.LoginScreen.route)
+                            }
+                        ) {
+                            Text(
+                                "Sure!",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
+                })
+
+        } else if (registerState.isLoading) {
+            SuccessRegistrationDialog(
+                registerState.isLoading,
+                toNavigate = {},
+                title = "Registration Successful!",
+                body = "Confirmation email has been send,please check your email and complete registration",
+                dismissButton = {
+                    Row(
+                        modifier = Modifier.padding(all = 8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = {
+                                registerViewModel.restart()
+                                navController.navigate(Screen.LoginScreen.route)
+                            }
+                        ) {
+                            Text(
+                                "Sure!",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
+                })
+        } else {
+
+
+            ErrorRegistrationDialog("Error", "Error occured please try again") {
+                registerViewModel.restart()
+                navController.navigate(
+                    Screen.LoginScreen.route
+                )
+            }
+        }
+    }
     Column(modifier = Modifier.fillMaxWidth()
 
     ) {

@@ -4,14 +4,12 @@ import android.R.attr.scaleHeight
 import android.R.attr.scaleWidth
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants.EMAIL_REGEX
 import com.example.fon_classroommanagment_frontend.common.Response
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.RegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +29,12 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
     var _fullNameText = mutableStateOf("")
     var _image= mutableStateOf<Bitmap?>(null)
 
+
+    private val _dialog = mutableStateOf(false)
+    val dialog: State<Boolean> =_dialog
+
+    private val _state= mutableStateOf(UIRequestResponse())
+    val state: State<UIRequestResponse> = _state
 
    private   var UserRegistrationDTO = mutableStateOf(UserRegistrationDTO())
     val userRegistrationDTO by UserRegistrationDTO
@@ -55,14 +59,25 @@ init {
                 result->
                 when(result){
                     is Response.Loading->{
+                        _dialog.value=true
+                        _state.value= UIRequestResponse(isLoading = true)
+
                         Log.i("cao","loading")
 
                     }
                     is Response.Error->{
+                        _dialog.value=true
+
+                        _state.value=UIRequestResponse(isError = true)
+
                         Log.i("cao","error ${result.message}")
 
                     }
                     is Response.Success->{
+                        _dialog.value=true
+
+                        _state.value=UIRequestResponse(success = true)
+
                         Log.i("cao","success regster")
                     }
                 }
@@ -153,6 +168,7 @@ init {
         _passwordText.value=""
         _emailText.value=""
         _passwordRepeatText.value=""
+
     }
 
     fun restart() {
@@ -161,6 +177,8 @@ init {
         errorFullName=""
         errorMessageEmail=""
         errorMessagePassword=""
+        _dialog.value=false
+        _state.value=UIRequestResponse()
     }
 
 }
