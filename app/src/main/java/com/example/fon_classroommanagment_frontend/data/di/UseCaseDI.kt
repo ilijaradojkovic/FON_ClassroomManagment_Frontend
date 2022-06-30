@@ -150,5 +150,9 @@ class UseCaseDI {
     @Singleton
     fun ProvideGetAllAppointmentsUseCase(appointmentRepository: AppointmentRepository):GetAllAppointmentsUseCase =
         GetAllAppointmentsUseCase(appointmentRepository)
+    @Provides
+    @Singleton
+    fun ProvideDeleteLocalAppointmentUseCase(appointmentRepository: AppointmentRepository):DeleteLocalAppointmentUseCase =
+        DeleteLocalAppointmentUseCase(appointmentRepository)
 
 }

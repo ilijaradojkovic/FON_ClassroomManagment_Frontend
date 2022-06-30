@@ -41,6 +41,10 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
         return  myAppointments.toList()
     }
 
+    override suspend fun deleteAppointmentLocal(id: UUID) {
+        myAppointments.removeIf{x->x.id==id}
+    }
+
     override suspend fun getReservationsForDate(
         requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO,
     ):
@@ -60,7 +64,10 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
     }
 
     override suspend fun deleteAppointment(appointmentId: UUID) {
+        Log.i("cao","prev"+ myAppointments.size)
        api.deleteAppointment(appointmentId)
+        Log.i("cao","current size"+ myAppointments.size)
+
         //Log.i("cao","repo "+res.awaitResponse().headers())
     }
 

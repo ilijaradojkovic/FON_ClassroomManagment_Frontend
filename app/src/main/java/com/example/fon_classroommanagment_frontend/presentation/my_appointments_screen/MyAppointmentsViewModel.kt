@@ -11,9 +11,7 @@ import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.MyAppointmentUI
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
-import com.example.fon_classroommanagment_frontend.domain.use_case.CheckAvailabilityClassroomForDateUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllAppointmentsUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.ReserveAppointmetsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase, private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase,private val getAllAppointmentsUseCase: GetAllAppointmentsUseCase):ViewModel() {
+class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase, private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase,private val getAllAppointmentsUseCase: GetAllAppointmentsUseCase,private val deleteLocalAppointmentUseCase: DeleteLocalAppointmentUseCase):ViewModel() {
 
 
 
@@ -79,7 +77,6 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
 
                 }
                 is Response.Success->{
-                    Log.i("cao","ovde"+result.data.toString())
                     _reservations.clear()
                     result.data?.let {
                         _reservations.addAll(it.map { x-> MyAppointmentUI(x,
@@ -99,6 +96,21 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
 
     fun deleteRequest(it: ReserveDTO) {
         _reservations.removeIf { x-> x.reserveDTO==it }
+        deleteLocalAppointmentUseCase(it.id!!).onEach {
+            result->
+            when(result) {
+                is Response.Success -> {
+                    Log.i("cao","success")
+                }
+                is Response.Error -> {
+                    Log.i("cao","error" +result.message)
+                }
+                is Response.Loading -> {
+                    Log.i("cao","loading")
+                }
+            }
+
+        }.launchIn(viewModelScope)
 
     }
 
