@@ -120,12 +120,6 @@ fun Navigation() {
 
              }
 
-//        composable(route= Screen.DetailsClassroomScreen.route){
-//
-//            val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")
-//            //Log.i("cao",it.destination.arguments.toString())
-//            DetailsClassroom_Screen(navController)
-//        }
 
 
         composable(route= Screen.MyClassroomRequestsScreen.route
@@ -135,11 +129,11 @@ fun Navigation() {
             navController.navigate(Screen.BottomBarScreens.ReservationScreen.route)
             }
 
-            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<RequestReservastion>("RequestReservastion")
-            val saved=navController.previousBackStackEntry?.arguments?.getBoolean("saved")
-           // Log.i("cao",saved.toString())
+//            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<RequestReservastion>("RequestReservastion")
+//            val saved=navController.previousBackStackEntry?.arguments?.getBoolean("saved")
+//           // Log.i("cao",saved.toString())
 
-            My_Appointments_Screen(navController,registerObject,requestViewMode,saved)
+            My_Appointments_Screen(navController,requestViewMode)
         }
 
 

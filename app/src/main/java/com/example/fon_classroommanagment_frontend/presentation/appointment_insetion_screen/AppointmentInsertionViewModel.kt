@@ -12,6 +12,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Response
+import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
@@ -74,6 +75,8 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
 
 
     private var _shouldUpdate = mutableStateOf(false)
+    private var _updateState = mutableStateOf(UIRequestResponse())
+     var updateState = _updateState
 
     init {
         getAllReservationTypes()
@@ -333,6 +336,7 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
         descriptionText=""
         _shouldUpdate.value=false
         _idToUpdate.value=null
+        _updateState.value=UIRequestResponse()
 
 
     }
@@ -396,14 +400,14 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
             result->
             when(result){
                 is Response.Success->{
-                    Log.i("cao","saved")
+                    _updateState.value= UIRequestResponse(success = true)
                 }
                 is Response.Loading->{
-                    Log.i("cao","loading")
+                    _updateState.value=UIRequestResponse(isLoading = true)
 
                 }
                 is Response.Error->{
-                    Log.i("cao","error")
+                    _updateState.value=UIRequestResponse(isError = true)
 
                 }
             }

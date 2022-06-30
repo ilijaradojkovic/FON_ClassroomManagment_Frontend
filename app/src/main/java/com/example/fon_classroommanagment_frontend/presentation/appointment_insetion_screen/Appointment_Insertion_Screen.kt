@@ -24,6 +24,7 @@ import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.Constants.MIN_WORK_TIME
 import com.example.fon_classroommanagment_frontend.common.RequestReservastion
+import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
@@ -41,6 +42,8 @@ fun Appointment_Insertion_Screen(
 ) {
     val scrollableState = rememberScrollState()
     val datePickerState= rememberDatePickerState(appointmentCreationViewModel.forDate)
+    val updateState by  appointmentCreationViewModel.updateState
+
 
     LaunchedEffect(key1 = true){
 
@@ -53,17 +56,18 @@ fun Appointment_Insertion_Screen(
             appointmentCreationViewModel.getAppointmentData(appointmentID)
         }
     }
+    LaunchedEffect(key1 =updateState){
+       if(updateState.success){
+           navHostController.navigate(Screen.MyClassroomRequestsScreen.route)
+       }
+    }
     LaunchedEffect(key1 =appointmentCreationViewModel.creationState.value){
         if(appointmentCreationViewModel.creationState.value) {
             navHostController.currentBackStackEntry?.arguments?.putParcelable(
                 "RequestReservastion",
                 RequestReservastion(appointmentCreationViewModel.reserveDTO.toList())
             )
-//            if(appointmentID!=null)
-//                navHostController.currentBackStackEntry?.arguments?.putBoolean(
-//                    "saved",
-//                   true
-//                )
+
             navHostController.navigate(Screen.MyClassroomRequestsScreen.route)
         }
 
@@ -207,6 +211,7 @@ fun Appointment_Insertion_Screen(
         }
 
     }
+
 }
 
 

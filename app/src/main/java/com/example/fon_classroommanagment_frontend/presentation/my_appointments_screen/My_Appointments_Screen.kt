@@ -43,28 +43,29 @@ import java.util.*
 @Composable
 fun My_Appointments_Screen(
     navController: NavHostController,
-    requestReservation: RequestReservastion?,
+  //  requestReservation: RequestReservastion?,
     requestViewMode: MyAppointmentsViewModel,
-    saved:Boolean?
+   // saved:Boolean?
 
 ) {
 val scaffoldState = rememberScaffoldState()
     val coroutine= rememberCoroutineScope()
     var appointmentLoading by remember{ mutableStateOf(false)}
     LaunchedEffect(key1 = true) {
-        if (requestReservation != null) {
-            if(saved !=null && saved){
-                requestViewMode.saveRequest(requestReservation)
-                coroutine.launch {
-                    scaffoldState.snackbarHostState.showSnackbar("Appointment changed",)
-                }
-            }
-            else { requestViewMode.addRequest(requestReservation)
-            coroutine.launch {
-                scaffoldState.snackbarHostState.showSnackbar("Appointment added",)
-            }
-            }
-        }
+        requestViewMode.getAllAppointments()
+//        if (requestReservation != null) {
+//            if(saved !=null && saved){
+//                requestViewMode.saveRequest(requestReservation)
+//                coroutine.launch {
+//                    scaffoldState.snackbarHostState.showSnackbar("Appointment changed",)
+//                }
+//            }
+//            else { requestViewMode.addRequest(requestReservation)
+//            coroutine.launch {
+//                scaffoldState.snackbarHostState.showSnackbar("Appointment added",)
+//            }
+//            }
+//        }
     }
     val reservationState=requestViewMode.reservationState
 
@@ -289,7 +290,7 @@ fun ClassromRequestCard(
 
 
                         Text(
-                            if(startTimeinhours>9) "${startTimeinhours}h" else "0${startTimeinhours}h"+ if(endTimeinhours>9)"${endTimeinhours}h" else "0${endTimeinhours}h",
+                            (if(startTimeinhours>9) "${startTimeinhours}h" else "0${startTimeinhours}h")+ "-"+ if(endTimeinhours>9)"${endTimeinhours}h" else "0${endTimeinhours}h",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )

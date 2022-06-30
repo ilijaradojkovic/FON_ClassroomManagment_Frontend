@@ -12,6 +12,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.MyAppointment
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.CheckAvailabilityClassroomForDateUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllAppointmentsUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.ReserveAppointmetsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase, private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase):ViewModel() {
+class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase, private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase,private val getAllAppointmentsUseCase: GetAllAppointmentsUseCase):ViewModel() {
 
 
 
@@ -31,12 +32,7 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
     val reservationState=_reservantionState
 
 
-fun addRequest(reserveDTO: RequestReservastion){
 
-    _reservations.addAll(createAppointmentUI(reserveDTO))
-    checkAppointmentsAvailability()
-
-}
 
     private fun createAppointmentUI(reserveDTO: RequestReservastion): Collection<MyAppointmentUI> {
         return reserveDTO.reqserveDTO.map { x-> MyAppointmentUI(x, UIRequestResponse(isLoading = true)) }
@@ -72,6 +68,29 @@ fun addRequest(reserveDTO: RequestReservastion){
 
 
 
+    fun getAllAppointments(){
+        getAllAppointmentsUseCase().onEach {
+            result->
+            when(result){
+                is Response.Error->{
+
+                }
+                is Response.Loading->{
+
+                }
+                is Response.Success->{
+                    Log.i("cao","ovde"+result.data.toString())
+                    _reservations.clear()
+                    result.data?.let {
+                        _reservations.addAll(it.map { x-> MyAppointmentUI(x,
+                            UIRequestResponse()
+                        ) })
+                    }
+                    checkAppointmentsAvailability()
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
 
     private fun CreateRequestAvailabilityClassroomDTO(reserveDTO: ReserveDTO): RequestIsClassroomAvailableForDateDTO {

@@ -37,6 +37,10 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
         }
     }
 
+    override suspend fun getAllAppointments(): List<ReserveDTO> {
+        return  myAppointments.toList()
+    }
+
     override suspend fun getReservationsForDate(
         requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO,
     ):
