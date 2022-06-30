@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
@@ -62,6 +63,7 @@ fun ClassroomInputChip(
             Modifier.fillMaxWidth(),
             mainAxisAlignment = FlowMainAxisAlignment.Center
         ) {
+
 
             for (i in 0 until selectedItems.size) {
                 InformationChip(selectedItems[i].name) { selectedItems.remove(selectedItems[i]) }
@@ -157,7 +159,7 @@ fun  AutocompleteText(
                             Modifier
 
                                 .fillMaxWidth()
-                                .padding(10.dp,0.dp)
+                                .padding(10.dp, 0.dp)
                                 .background(MaterialTheme.colorScheme.surface)
                                 .clickable {
                                     view.clearFocus()

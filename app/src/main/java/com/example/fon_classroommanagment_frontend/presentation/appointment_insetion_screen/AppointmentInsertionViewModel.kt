@@ -73,12 +73,16 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
 
     private var _creationState = mutableStateOf(false)
     val creationState = _creationState
+
+    private var _shouldUpdate = mutableStateOf(false)
+
     init {
         getAllReservationTypes()
 
     }
 
      fun getAllClassroomNamesSearched(query:String) {
+
          _classroomChips.clear()
          getAllClassroomsChipUseCase(query).onEach {
                 result->
@@ -95,12 +99,14 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
     }
 
     private fun getAllReservationTypes() {
+        Log.i("cao","pozivam get all reservation types")
         getAllReservationTypesUseCase().onEach {
         result->
             when(result){
                 is Response.Loading->{}
                 is Response.Error->{}
                 is Response.Success->{
+                    _appointmentTypes.clear()
                     result.data?.let { _appointmentTypes.addAll(it) }
 
                 }
@@ -328,6 +334,7 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
         startTime=""
         endTime=""
         descriptionText=""
+        _shouldUpdate.value=false
 
 
     }
@@ -353,9 +360,33 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
                     Log.i("cao","greska")
                 }
                 is Response.Success->{
+
+                    result.data?.let {
+                        _shouldUpdate.value=true
+                        setLocalVariables(it)
+                    }
                     Log.i("cao","uzeo"+result.data.toString())
+
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun setLocalVariables(reserveDTO: ReserveDTO) {
+            nameText=reserveDTO.name
+            descriptionText=reserveDTO.decription
+            reasonText=reserveDTO.reason
+        numAttendeesText= reserveDTO.number_of_attendies.toString()
+       forDate=reserveDTO.date_appointment.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        typeClass=reserveDTO.type
+        startTime=reserveDTO.start_timeInHours.toString()
+        endTime=reserveDTO.end_timeInHours.toString()
+        classrooms.clear()
+        classrooms.add(ClassroomChipDTO(reserveDTO.classroomId,reserveDTO.classroomName))
+
+    }
+
+    fun getTextSelected(): String {
+        return _appointmentTypes.firstOrNull{x->x.id==typeClass}?.name ?: "Select"
     }
 }

@@ -110,12 +110,11 @@ fun Navigation() {
             val appointmentId=it.arguments?.getString("appointmentId")
             val name=it.arguments?.getString("name")
             if(classroomId!=null && classroomId!=-1L && name!=null) classroomChipDTO= ClassroomChipDTO(classroomId,name)
-            val reserveDTO=it.arguments?.getParcelable<ReserveDTO>("reserveDTO")
 
 
 
 
-                Appointment_Insertion_Screen(appointmentId,classroomChipDTO,reserveDTO,navController)
+                Appointment_Insertion_Screen(appointmentId,classroomChipDTO,navController)
 
 
 

@@ -4,6 +4,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -24,16 +26,17 @@ import com.example.fon_classroommanagment_frontend.presentation.appointment_inse
 
 @Composable
 fun AppointmetnComboBox(
+    selectedName:String,
     dataList: SnapshotStateList<AppointmentType>,
     errorText: String,
     onSelect: (Int) -> Unit
 ) {
-
+//ovde negde dolazi do greske prilikom rekompozicije
     var comboBoxOpened by remember {
         mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
 
-    var selectedText by remember { mutableStateOf("") }
+    var selectedText by remember { mutableStateOf(selectedName) }
     val animRotation = animateFloatAsState(targetValue = if(comboBoxOpened) 0f else 180f )
 
     Column(
@@ -95,6 +98,7 @@ fun AppointmetnComboBox(
                 .fillMaxWidth(0.8f)
 
         ) {
+
             dataList.forEach {  data ->
                 DropdownMenuItem(text = { Text(data.name) }, onClick = {
 

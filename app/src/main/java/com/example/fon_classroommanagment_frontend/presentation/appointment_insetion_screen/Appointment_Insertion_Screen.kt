@@ -36,7 +36,6 @@ import com.foreverrafs.datepicker.state.rememberDatePickerState
 fun Appointment_Insertion_Screen(
     appointmentID:String?,
     classroom: ClassroomChipDTO?,
-    reserveDTO: ReserveDTO?,
     navHostController: NavHostController,
     appointmentCreationViewModel: AppointmentInsertionViewModel = hiltViewModel()
 ) {
@@ -45,8 +44,8 @@ fun Appointment_Insertion_Screen(
 
     LaunchedEffect(key1 = true){
 
-
-        if(reserveDTO==null)
+//uvek null?
+        if(appointmentID==null)
             appointmentCreationViewModel.restart()
         if(classroom!=null)
             appointmentCreationViewModel.addClassroom(classroom)
@@ -61,11 +60,11 @@ fun Appointment_Insertion_Screen(
                 "RequestReservastion",
                 RequestReservastion(appointmentCreationViewModel.reserveDTO.toList())
             )
-            if(reserveDTO!=null)
-                navHostController.currentBackStackEntry?.arguments?.putBoolean(
-                    "saved",
-                   true
-                )
+//            if(appointmentID!=null)
+//                navHostController.currentBackStackEntry?.arguments?.putBoolean(
+//                    "saved",
+//                   true
+//                )
             navHostController.navigate(Screen.MyClassroomRequestsScreen.route)
         }
 
@@ -102,7 +101,7 @@ fun Appointment_Insertion_Screen(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
         ) {
-            AppointmetnComboBox(appointmentCreationViewModel.appointmentTypes,appointmentCreationViewModel.typeClassError) {
+            AppointmetnComboBox(appointmentCreationViewModel.getTextSelected(),appointmentCreationViewModel.appointmentTypes,appointmentCreationViewModel.typeClassError) {
                 appointmentCreationViewModel.typeClass = it
             }
         }
@@ -192,7 +191,7 @@ fun Appointment_Insertion_Screen(
             horizontalArrangement = Arrangement.Center
         ) {
             Row(modifier = Modifier.fillMaxWidth(0.4f)) {
-                if(reserveDTO==null)
+                if(appointmentID==null)
                     TextIconButton("Reserve", R.drawable.advance){
                         appointmentCreationViewModel.createAppointment()
 
