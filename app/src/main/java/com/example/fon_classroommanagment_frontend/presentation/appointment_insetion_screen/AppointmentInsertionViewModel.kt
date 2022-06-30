@@ -15,10 +15,7 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentType
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomsChipUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllReservationTypesUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAppointmentDataUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.SaveAppointmentDataUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,7 +26,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class AppointmentInsertionViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase, private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase, private val getAppointmentDataUseCase: GetAppointmentDataUseCase, sharedPreferences: SharedPreferences,private val saveAppointmentDataUseCase: SaveAppointmentDataUseCase):ViewModel() {
+class AppointmentInsertionViewModel @Inject constructor(private val getAllReservationTypesUseCase: GetAllReservationTypesUseCase, private val getAllClassroomsChipUseCase: GetAllClassroomsChipUseCase, private val getAppointmentDataUseCase: GetAppointmentDataUseCase, sharedPreferences: SharedPreferences,private val saveAppointmentDataUseCase: SaveAppointmentDataUseCase,private val updateAppointmentDataUseCase: UpdateAppointmentDataUseCase):ViewModel() {
 
     var nameText by  mutableStateOf("") 
     var reasonText by mutableStateOf("") 
@@ -73,6 +70,8 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
 
     private var _creationState = mutableStateOf(false)
     val creationState = _creationState
+    private var _idToUpdate = mutableStateOf<UUID?>(null)
+
 
     private var _shouldUpdate = mutableStateOf(false)
 
@@ -99,7 +98,6 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
     }
 
     private fun getAllReservationTypes() {
-        Log.i("cao","pozivam get all reservation types")
         getAllReservationTypesUseCase().onEach {
         result->
             when(result){
@@ -166,7 +164,6 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
        if(!validateClassroomsAppointment()) result=false
         if(!validateDescription()) result=false
         if(!validateEmail()) {
-            Log.i("cao","email nije ok")
             result=false}
        return result
        
@@ -335,6 +332,7 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
         endTime=""
         descriptionText=""
         _shouldUpdate.value=false
+        _idToUpdate.value=null
 
 
     }
@@ -349,7 +347,6 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
     }
 
     fun getAppointmentData(appointmentID: String) {
-        Log.i("cao","getting data for "+ appointmentID)
         getAppointmentDataUseCase(UUID.fromString(appointmentID)).onEach {
             result->
             when(result){
@@ -360,12 +357,11 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
                     Log.i("cao","greska")
                 }
                 is Response.Success->{
-
+                    _idToUpdate.value=UUID.fromString(appointmentID)
                     result.data?.let {
                         _shouldUpdate.value=true
                         setLocalVariables(it)
                     }
-                    Log.i("cao","uzeo"+result.data.toString())
 
                 }
             }
@@ -373,6 +369,7 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
     }
 
     private fun setLocalVariables(reserveDTO: ReserveDTO) {
+
             nameText=reserveDTO.name
             descriptionText=reserveDTO.decription
             reasonText=reserveDTO.reason
@@ -388,5 +385,29 @@ class AppointmentInsertionViewModel @Inject constructor(private val getAllReserv
 
     fun getTextSelected(): String {
         return _appointmentTypes.firstOrNull{x->x.id==typeClass}?.name ?: "Select"
+    }
+
+    fun saveAppointment() {
+        val reserveDTOToSave=createReservationDTO(classrooms[0])
+        reserveDTOToSave.id=_idToUpdate.value
+
+
+        updateAppointmentDataUseCase(reserveDTOToSave).onEach {
+            result->
+            when(result){
+                is Response.Success->{
+                    Log.i("cao","saved")
+                }
+                is Response.Loading->{
+                    Log.i("cao","loading")
+
+                }
+                is Response.Error->{
+                    Log.i("cao","error")
+
+                }
+            }
+
+        }.launchIn(viewModelScope)
     }
 }

@@ -62,8 +62,8 @@ class ViewModelDI {
 
  @Provides
     @Singleton
-    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase,sharedPreferences: SharedPreferences,getAppointmentDataUseCase: GetAppointmentDataUseCase,saveAppointmentDataUseCase: SaveAppointmentDataUseCase): AppointmentInsertionViewModel =
-     AppointmentInsertionViewModel(getAllReservationTypesUseCase,getAllClassroomSearched,getAppointmentDataUseCase,sharedPreferences,saveAppointmentDataUseCase)
+    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase,sharedPreferences: SharedPreferences,getAppointmentDataUseCase: GetAppointmentDataUseCase,saveAppointmentDataUseCase: SaveAppointmentDataUseCase,updateAppointmentDataUseCase: UpdateAppointmentDataUseCase): AppointmentInsertionViewModel =
+     AppointmentInsertionViewModel(getAllReservationTypesUseCase,getAllClassroomSearched,getAppointmentDataUseCase,sharedPreferences,saveAppointmentDataUseCase,updateAppointmentDataUseCase)
 
     @Provides
     @Singleton

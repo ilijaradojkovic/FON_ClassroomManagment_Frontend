@@ -8,20 +8,20 @@ import java.util.*
 
 @Parcelize
 data class ReserveDTO (
-     val id: UUID? =UUID.randomUUID(),
-     val email: String? = null,
-     val classroomId: Long,
-     val name: String,
-     val date_appointment: Date,
-     val decription: String,
-     val reason: String,
-     val number_of_attendies:Int,
-     val start_timeInHours:Int,
-     val end_timeInHours:Int,
+    var id: UUID? =UUID.randomUUID(),
+    val email: String? = null,
+    val classroomId: Long,
+    var name: String,
+    var date_appointment: Date,
+    var decription: String,
+    var reason: String,
+    var number_of_attendies:Int,
+    var start_timeInHours:Int,
+    var end_timeInHours:Int,
      //appointmentType
-     val type:Int,
+    var type:Int,
      //dodato
-     val classroomName:String,
-     val date:String=SimpleDateFormat("yyyy-MM-dd").format(date_appointment)
+    var classroomName:String,
+    var date:String=SimpleDateFormat("yyyy-MM-dd").format(date_appointment)
 
      ) : Parcelable

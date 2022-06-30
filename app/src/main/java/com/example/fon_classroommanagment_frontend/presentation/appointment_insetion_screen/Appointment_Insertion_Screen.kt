@@ -40,12 +40,11 @@ fun Appointment_Insertion_Screen(
     appointmentCreationViewModel: AppointmentInsertionViewModel = hiltViewModel()
 ) {
     val scrollableState = rememberScrollState()
-    val datePickerState= rememberDatePickerState()
+    val datePickerState= rememberDatePickerState(appointmentCreationViewModel.forDate)
 
     LaunchedEffect(key1 = true){
 
-//uvek null?
-        if(appointmentID==null)
+
             appointmentCreationViewModel.restart()
         if(classroom!=null)
             appointmentCreationViewModel.addClassroom(classroom)
@@ -199,7 +198,7 @@ fun Appointment_Insertion_Screen(
                     }
                 else
                     TextIconButton("Save", R.drawable.save){
-                        appointmentCreationViewModel.createAppointment()
+                        appointmentCreationViewModel.saveAppointment()
 
 
                     }
