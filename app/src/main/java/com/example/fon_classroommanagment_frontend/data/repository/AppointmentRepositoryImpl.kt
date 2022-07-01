@@ -58,9 +58,9 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
 
     override suspend fun Reserve(appointmets: List<ReserveDTO>) {
 
-        api.reserve(appointmets)
+        val res = api.reserve(appointmets)
 
-
+        myAppointments.clear()
     }
 
     override suspend fun deleteAppointment(appointmentId: UUID) {
