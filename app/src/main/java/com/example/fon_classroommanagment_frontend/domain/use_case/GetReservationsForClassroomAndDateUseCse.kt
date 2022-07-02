@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.GetForDateAppointmentDTO
@@ -19,6 +20,7 @@ class GetReservationsForClassroomAndDateUseCse @Inject constructor(private  val 
     operator  fun invoke(requestAppointmetDateDTO: RequestAppointmetDaetForClassroomDTO): Flow<Response<List<GetForDateAppointmentDTO>>> = flow {
 
         try{
+
 
 
             emit(Response.Loading())

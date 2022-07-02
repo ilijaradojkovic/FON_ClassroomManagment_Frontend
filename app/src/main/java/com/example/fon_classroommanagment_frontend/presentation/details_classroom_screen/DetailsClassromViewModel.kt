@@ -39,7 +39,9 @@ class DetailsClassromViewModel @Inject constructor(private val getClassroomDetai
 
     var classroomId = mutableStateOf(-1L)
     fun getClassroom(classroomId: Long) {
-        getClassroomDetailsUseCase(classroomId).onEach {
+        _uiResponseClassroomInfo.value= UIRequestResponse()
+
+        getClassroomDetailsUseCase.invoke(classroomId).onEach {
 
             result->
             when(result){
@@ -53,6 +55,7 @@ class DetailsClassromViewModel @Inject constructor(private val getClassroomDetai
                 }
                 is Response.Success->{
                     _clasroom.value= result.data!!
+                    Log.i("cao",_clasroom.toString())
                     _uiResponseClassroomInfo.value=UIRequestResponse(success = true)
                 }
             }

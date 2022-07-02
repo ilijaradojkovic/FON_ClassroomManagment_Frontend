@@ -18,6 +18,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChip
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.navigation.ReservationDTONav
+import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.example.fon_classroommanagment_frontend.presentation.my_appointments_screen.MyAppointmentsViewModel
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Insertion_Screen
 
@@ -25,6 +26,7 @@ import com.example.fon_classroommanagment_frontend.screens.Appointment_Insertion
 @Composable
 fun Navigation() {
     val navController=rememberNavController()
+    val detailsClassromViewModel :DetailsClassromViewModel = hiltViewModel()
     //Aditional_Info_Screen()
     //TypeEMP_EducationEMP_Screen()
     val    requestViewMode: MyAppointmentsViewModel = hiltViewModel()
@@ -77,7 +79,7 @@ fun Navigation() {
             val classroomId=it.arguments?.getLong("classroomId")
 
             if (classroomId != null) {
-                Details_Classroom_Screen(navController,classroomId)
+                Details_Classroom_Screen(navController,classroomId,detailsClassromViewModel)
             }
         }
 

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
+import android.util.Log
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomDetailsDTO
@@ -16,7 +17,6 @@ class GetClassroomDetailsUseCase @Inject constructor(private val classroomReposi
 
         try{
             emit(Response.Loading())
-
             val types=  classroomRepositoryImpl.getclassroomDetails(classroomId)
             emit(Response.Success(types))
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

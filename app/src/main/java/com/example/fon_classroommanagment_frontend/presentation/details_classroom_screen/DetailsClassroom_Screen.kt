@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.presentation.common.bars.Com
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,16 +11,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fon_classroommanagment_frontend.CallendarPicker
 import com.example.fon_classroommanagment_frontend.No_Internet_Screen
@@ -30,7 +28,6 @@ import com.example.fon_classroommanagment_frontend.presentation.details_classroo
 import com.foreverrafs.datepicker.state.rememberDatePickerState
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.MainAxisAlignment
-import kotlin.random.Random
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,12 +36,11 @@ import kotlin.random.Random
 fun Details_Classroom_Screen(
     navController: NavHostController,
     classroomId:Long,
-    detailsClassromViewModel: DetailsClassromViewModel = hiltViewModel()
+    detailsClassromViewModel: DetailsClassromViewModel
 ) {
 
     val uiResponse = detailsClassromViewModel.uiResponseClassroomInfo
     val detailsClassroom by detailsClassromViewModel.classroom
-
     val datePickerState= rememberDatePickerState()
 
 
@@ -98,7 +94,7 @@ fun Details_Classroom_Screen(
                     .fillMaxWidth()
                     .padding(15.dp, 0.dp)
             ) {
-                Statistics()
+                Statistics(detailsClassroom.monthPercntage)
             }
             Column(
                 modifier = Modifier
@@ -142,22 +138,25 @@ fun Details_Classroom_Screen(
 }
 
 @Composable
-fun Statistics(){
+fun Statistics(monthPercntage: List<Double>) {
    val  months    = listOf("Jan","Feb","Mar","Apr","Maj","Jun","Jul","Avg","Sep","Okt","Nov","Dec")
-   Row(modifier = Modifier
-       .fillMaxSize()
-       .clip(MaterialTheme.shapes.medium)
-       .background(MaterialTheme.colorScheme.surface)
-       .padding(5.dp, 5.dp), verticalAlignment=Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-        for ( mon in months){
-            Row(modifier = Modifier
 
-                .weight(1f)
-                , horizontalArrangement = Arrangement.Center) {
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .clip(MaterialTheme.shapes.medium)
+        .background(MaterialTheme.colorScheme.surface)
+        .padding(5.dp, 5.dp), verticalAlignment=Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+      for(i in monthPercntage.indices){
+          Row(modifier = Modifier
 
-                Statistics_Bar(Random.nextFloat(),mon)
-            }
-        }
+              .weight(1f)
+              , horizontalArrangement = Arrangement.Center) {
+
+              Statistics_Bar(monthPercntage[i], months[i])
+          }
+      }
+
+
 
 
 
@@ -167,13 +166,20 @@ fun Statistics(){
 }
 
 @Composable
-fun Statistics_Bar(percent:Float,month:String){
+fun Statistics_Bar(percent: Double, month:String){
+
+    var shouldAnimate by remember{ mutableStateOf(false)}
+
+    val animatedHeight= animateFloatAsState(targetValue =if(shouldAnimate) percent.toFloat() else 0f )
+    LaunchedEffect(key1 = true){
+        shouldAnimate=true
+    }
 Column(modifier = Modifier
     .fillMaxHeight()
  , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Bottom) {
     Column(modifier = Modifier
-        .background(MaterialTheme.colorScheme.onBackground)
-        .fillMaxHeight(percent)
+        .background(if(animatedHeight.value>0.8) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground)
+        .fillMaxHeight(animatedHeight.value)
        ) {
         Text("b", color = Color.Transparent )
     }

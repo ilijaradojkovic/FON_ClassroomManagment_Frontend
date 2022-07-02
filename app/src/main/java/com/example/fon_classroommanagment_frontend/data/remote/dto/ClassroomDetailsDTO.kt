@@ -13,7 +13,7 @@ data class ClassroomDetailsDTO(
     val povrsina:Int=1,
     val sprat:Int=1,
     val br_tabli:Int=1,
-    val months_percentage:List<List<Double>> = emptyList()
+    val  monthPercntage:List<Double> = emptyList()
 
 
 )
