@@ -19,7 +19,6 @@ import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.util.*
 import javax.inject.Inject
 
 
@@ -39,8 +38,11 @@ class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserD
 
     private var _networkState = mutableStateOf(UIRequestResponse())
     val networkState=_networkState
-    private var _optionsState = mutableStateOf(UIRequestResponse())
-    val optionsState=_optionsState
+    private var _passwordChangedState = mutableStateOf(UIRequestResponse())
+    val passwordChangedState=_passwordChangedState
+
+    private var _emailChangedState = mutableStateOf(UIRequestResponse())
+    val emailChangedState=_emailChangedState
 
     private var _deleteState= mutableStateOf(UIRequestResponse())
     val deleteState = _deleteState
@@ -161,20 +163,22 @@ return null
       logoutUseCase().launchIn(viewModelScope)
     }
     fun changeEmail(email:String){
-        _optionsState.value=UIRequestResponse()
+        Log.i("cao","change email")
+        _emailChangedState.value=UIRequestResponse()
         changeEmailUseCase(email).onEach {
             result->
             when(result){
                 is Response.Loading-> {
-                    _optionsState.value = UIRequestResponse(isLoading = true)
+                    _emailChangedState.value = UIRequestResponse(isLoading = true)
                 }
                 is Response.Error->{
-                    Log.i("cao",result.message.toString())
-                    _optionsState.value = UIRequestResponse(isError = true)
+
+                    _emailChangedState.value = UIRequestResponse(isError = true)
 
                 }
                 is Response.Success->{
-                    _optionsState.value = UIRequestResponse(success = true)
+                    _emailChangedState.value = UIRequestResponse(success = true)
+
 
                 }
             }
@@ -182,30 +186,32 @@ return null
     }
 
     fun changePassword(password: String) {
-        _optionsState.value= UIRequestResponse()
+        _passwordChangedState.value= UIRequestResponse()
         changePasswordUseCase(password).onEach {
             result ->
 
             when(result){
                 is Response.Loading-> {
-                    _optionsState.value = UIRequestResponse(isLoading = true)
+                    _passwordChangedState.value = UIRequestResponse(isLoading = true)
                 }
                 is Response.Error->{
                     Log.i("cao",result.message.toString())
 
-                    _optionsState.value = UIRequestResponse(isError = true)
+                    _passwordChangedState.value = UIRequestResponse(isError = true)
 
                 }
                 is Response.Success->{
-                    _optionsState.value = UIRequestResponse(success = true)
+                    _passwordChangedState.value = UIRequestResponse(success = true)
 
                 }
             }
         }.launchIn(viewModelScope)
     }
 
-    fun restartChangedState() {
-        _optionsState.value=UIRequestResponse()
+    fun restartPasswordState() {
+        _passwordChangedState.value=UIRequestResponse()
+    }fun restartEmailState() {
+        _emailChangedState.value=UIRequestResponse()
     }
 
 }

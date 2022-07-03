@@ -36,7 +36,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatus
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards.AppointmentProfileCard
-import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmentInput
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import kotlinx.coroutines.launch
 
@@ -68,11 +68,14 @@ fun Profile_Screen(
     val userImage by remember {
         mutableStateOf(profileViewModel.byteArrayToBitmap())
     }
+    var emailToChange by remember{ mutableStateOf("")}
+    var dialog by remember{ mutableStateOf(false)}
     val uiState = profileViewModel.networkState.value
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState  = rememberScaffoldState()
     val deleteState = profileViewModel.deleteState
-    val optionsState = profileViewModel.optionsState
+    val passwordChangedState = profileViewModel.passwordChangedState
+    val emailChangedState = profileViewModel.emailChangedState
 
     val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) (profileViewModel.appointmentsForUser.size*120).dp else 0.dp)
     val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
@@ -81,8 +84,11 @@ fun Profile_Screen(
     val animateheithtChangeEmail= animateDpAsState(targetValue = if(shouldShowResetEmail) 100.dp else 0.dp)
     val animateheightOptions= animateDpAsState(targetValue = if(shouldShowOptions)  200.dp else 0.dp)
 
+
    LaunchedEffect(key1 = true ){
        profileViewModel.getUserAppointments()
+       profileViewModel.restartEmailState()
+       profileViewModel.restartPasswordState()
    }
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
@@ -91,17 +97,23 @@ fun Profile_Screen(
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Deleted successfully") }
         }
     }
+    LaunchedEffect(key1 =emailChangedState.value ){
+        if(emailChangedState.value.success){
+            profileViewModel.logout()
+            navHostController.navigate(Screen.LoginScreen.route)
+        }
+    }
 
-    LaunchedEffect(key1 = optionsState.value){
-        if(optionsState.value.isError){
+    LaunchedEffect(key1 = passwordChangedState.value){
+        if(passwordChangedState.value.isError){
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Something went wrong") }
 
         }
-        else if(optionsState.value.success){
+        else if(passwordChangedState.value.success){
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Changed successfully") }
 
         }
-        profileViewModel.restartChangedState()
+        profileViewModel.restartPasswordState()
 
     }
 
@@ -110,6 +122,28 @@ fun Profile_Screen(
     }else
     Scaffold(scaffoldState=scaffoldState,modifier = Modifier.fillMaxSize(), backgroundColor = MaterialTheme.colorScheme.background) {
 
+if(dialog)
+    SuccessRegistrationDialog(false, dismissButton = {
+
+        Row(
+            modifier = Modifier.padding(all = 8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            androidx.compose.material3.Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    profileViewModel.changeEmail(emailToChange)
+                }
+            ) {
+                Text(
+                    "Sure!",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
+
+    }, toNavigate = {}, title = "Email Changing", body = "Are you sure?You will need to login again.")
 
         LazyColumn(
             Modifier
@@ -240,7 +274,10 @@ fun Profile_Screen(
                                     animateheithtChangeEmail.value,
                                 trailingIcon = R.drawable.arrow_down_dropdown,
                                     {shouldShowResetEmail=!shouldShowResetEmail},
-                                {email->profileViewModel.changeEmail(email)},shouldShowResetEmail)
+                                {email->
+                                    dialog=true
+                                    emailToChange=email
+                                },shouldShowResetEmail)
 
                                 optionsField(
                                     "Password",
@@ -317,7 +354,10 @@ fun optionsField(
                 androidx.compose.material3.TextField(
                     value = toChange,
                     onValueChange = { toChange = it })
-                androidx.compose.material3.TextButton(onClick = { onChangeClicked(toChange) }) {
+                androidx.compose.material3.TextButton(onClick = {
+                    onChangeClicked(toChange)
+
+                }) {
                     Text("Change")
                 }
             }
