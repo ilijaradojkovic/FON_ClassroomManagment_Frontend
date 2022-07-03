@@ -5,6 +5,7 @@ object Routes {
     //auth
     const val  LOGIN:String="login"
     const val  REGISTER:String="register"
+    const val  LOGOUT:String="logout"
 
     //classroom
     private const val CLASSROOM_PREFIX="classroom"

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.data.di
 
+import android.content.SharedPreferences
 import com.example.fon_classroommanagment_frontend.data.repository.AppointmentRepositoryImpl
 import com.example.fon_classroommanagment_frontend.domain.repository.*
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
@@ -156,11 +157,15 @@ class UseCaseDI {
         DeleteLocalAppointmentUseCase(appointmentRepository)
     @Provides
     @Singleton
-    fun ProvideChangeEmailUseCase(userRepository: UserRepository):ChangeEmailUseCase =
-        ChangeEmailUseCase(userRepository)
+    fun ProvideChangeEmailUseCase(userRepository: UserRepository,authRepository: AuthRepository):ChangeEmailUseCase =
+        ChangeEmailUseCase(userRepository,authRepository)
   @Provides
     @Singleton
-    fun ProvideChangePasswordUseCase(userRepository: UserRepository):ChangePasswordUseCase =
-      ChangePasswordUseCase(userRepository)
+    fun ProvideChangePasswordUseCase(userRepository: UserRepository,authRepository: AuthRepository,sharedPreferences: SharedPreferences):ChangePasswordUseCase =
+      ChangePasswordUseCase(userRepository,authRepository,sharedPreferences)
+  @Provides
+    @Singleton
+    fun ProvideLogoutUseCase(authRepository: AuthRepository):LogoutUseCase =
+    LogoutUseCase(authRepository)
 
 }

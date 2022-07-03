@@ -77,8 +77,8 @@ fun Profile_Screen(
     val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) (profileViewModel.appointmentsForUser.size*120).dp else 0.dp)
     val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
     val animateheightRequests= animateDpAsState(targetValue = if(shouldShowRequests) (profileViewModel.appointmentsRequested.size*200).dp else 0.dp)
-    val animateheightChangePassword= animateDpAsState(targetValue = if(shouldShowResetPassword) 200.dp else 0.dp)
-    val animateheithtChangeEmail= animateDpAsState(targetValue = if(shouldShowResetEmail) 200.dp else 0.dp)
+    val animateheightChangePassword= animateDpAsState(targetValue = if(shouldShowResetPassword) 100.dp else 0.dp)
+    val animateheithtChangeEmail= animateDpAsState(targetValue = if(shouldShowResetEmail) 100.dp else 0.dp)
     val animateheightOptions= animateDpAsState(targetValue = if(shouldShowOptions)  200.dp else 0.dp)
 
    LaunchedEffect(key1 = true ){
@@ -101,6 +101,7 @@ fun Profile_Screen(
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Changed successfully") }
 
         }
+        profileViewModel.restartChangedState()
 
     }
 
@@ -220,8 +221,7 @@ fun Profile_Screen(
                         )
                     }
                 }
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
-                      ) {
+                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
 
                         Box(modifier = Modifier.padding(10.dp,10.dp)) {
 
@@ -231,6 +231,7 @@ fun Profile_Screen(
                             })
                         }
 
+
                         Column(modifier=Modifier.height(animateheightOptions.value)) {
                                 optionsField("Email",
                                     KeyboardType.Email,
@@ -238,15 +239,15 @@ fun Profile_Screen(
 
                                     animateheithtChangeEmail.value,
                                 trailingIcon = R.drawable.arrow_down_dropdown,
-                                    {shouldShowResetEmail=!shouldShowResetEmail})
-                                {email->profileViewModel.changeEmail(email)}
+                                    {shouldShowResetEmail=!shouldShowResetEmail},
+                                {email->profileViewModel.changeEmail(email)},shouldShowResetEmail)
 
                                 optionsField(
                                     "Password",
                                     KeyboardType.Text,
                                     "Password",animateheightChangePassword.value
-                                ,R.drawable.arrow_down_dropdown,{shouldShowResetPassword=!shouldShowResetPassword})
-                                {password->profileViewModel.changePassword(password)}
+                                ,R.drawable.arrow_down_dropdown,{shouldShowResetPassword=!shouldShowResetPassword},
+                                {password->profileViewModel.changePassword(password)},shouldShowResetPassword)
                             }
 
                         Divider(
@@ -257,7 +258,7 @@ fun Profile_Screen(
                     }
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-                        Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+                        Box(modifier = Modifier.padding(10.dp, 10.dp)) {
 
                             Item(R.drawable.logout, "Logout", false, onClick = {
                                profileViewModel.logout()
@@ -280,6 +281,7 @@ fun optionsField(
     trailingIcon:Int?=null,
     changeVisiblity:()->Unit,
     onChangeClicked:(String)->Unit,
+    show:Boolean
 
 ) {
     var toChange by remember {
@@ -295,9 +297,7 @@ fun optionsField(
 
                 .padding(10.dp, 0.dp)
                 .clickable {
-
                     changeVisiblity()
-
                 }
        ,
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
@@ -313,9 +313,13 @@ fun optionsField(
 
 
             //AppointmentInput(text = "", onTextChange = {}, hint = hint, keyboardType = keyboardType)
-            androidx.compose.material3.TextField(value =toChange, onValueChange = {toChange=it})
-            androidx.compose.material3.TextButton(onClick = { onChangeClicked(toChange)}) {
-                Text("Change")
+            if(show) {
+                androidx.compose.material3.TextField(
+                    value = toChange,
+                    onValueChange = { toChange = it })
+                androidx.compose.material3.TextButton(onClick = { onChangeClicked(toChange) }) {
+                    Text("Change")
+                }
             }
         }
     }

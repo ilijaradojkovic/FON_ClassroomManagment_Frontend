@@ -73,14 +73,13 @@ class ViewModelDI {
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Singleton
-    fun provideProfileViewModel( userDetailsUseCase: UserDetailsUseCase,  getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,  deleteAppointmentUseCase: DeleteAppointmentUseCase,  getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, sharedPreferences: SharedPreferences,changeEmailUseCase: ChangeEmailUseCase,changePasswordUseCase: ChangePasswordUseCase): ProfileViewModel =
-        ProfileViewModel(userDetailsUseCase,getAppointmentsForUserUseCase,deleteAppointmentUseCase,getRequestedAppointmentsUseCase,sharedPreferences,changeEmailUseCase,changePasswordUseCase)
+    fun provideProfileViewModel( userDetailsUseCase: UserDetailsUseCase,  getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,  deleteAppointmentUseCase: DeleteAppointmentUseCase,  getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, sharedPreferences: SharedPreferences,changeEmailUseCase: ChangeEmailUseCase,changePasswordUseCase: ChangePasswordUseCase,logoutUseCase: LogoutUseCase): ProfileViewModel =
+        ProfileViewModel(userDetailsUseCase,getAppointmentsForUserUseCase,deleteAppointmentUseCase,getRequestedAppointmentsUseCase,sharedPreferences,changeEmailUseCase,changePasswordUseCase,logoutUseCase)
 
     @Provides
     @Singleton
     fun provideAdminRequestsViewModel(retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase: RetriveUserRequestedAppointmentsUseCase,confirmAppointmentUseCase: ConfirmAppointmentUseCase,declineAppointmentUseCase: DeclineAppointmentUseCase,confirmAppointmentsUseCase: ConfirmAppointmentsUseCase) : AdminRequestsViewModel =
         AdminRequestsViewModel(retriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase,confirmAppointmentUseCase,declineAppointmentUseCase,confirmAppointmentsUseCase)
-
 
 
 }

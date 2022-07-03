@@ -9,4 +9,5 @@ interface AuthRepository {
      suspend  fun Login(userLoginDTO: UserLoginDTO): TokenResponse
 
     suspend fun  Register(registrationDTO: UserRegistrationDTO)
+    suspend  fun Logout()
 }

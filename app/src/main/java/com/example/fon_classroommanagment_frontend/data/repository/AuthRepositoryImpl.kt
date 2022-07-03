@@ -29,7 +29,7 @@ class AuthRepositoryImpl @Inject constructor(
             val awaitResponse = callResponse.awaitResponse()
             val validationToken= awaitResponse.headers()["validationToken"]
             val refreshToken= awaitResponse.headers()["refreshToken"]
-            Log.i("cao",validationToken.toString())
+
             if(validationToken!=null && refreshToken!=null) {
                 val jwt = JWT(validationToken)
                 val role= jwt.claims["roles"]!!.asArray(String::class.java)[0].toString()
@@ -48,12 +48,14 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun Register(registrationDTO: UserRegistrationDTO) {
 
-            Log.i("cao",registrationDTO.toString())
             val callResponse=api.Register(registrationDTO).awaitResponse()
-        Log.i("cao",callResponse.message().toString())
             if(!callResponse.isSuccessful) throw HttpException(callResponse)
 
 
 
+    }
+
+    override suspend fun Logout() {
+        api.Logout()
     }
 }

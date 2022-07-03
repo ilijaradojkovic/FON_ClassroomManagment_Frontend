@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase, private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase, private val deleteAppointmentUseCase: DeleteAppointmentUseCase, private val getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, private  val sharedPreferences: SharedPreferences,private val changeEmailUseCase: ChangeEmailUseCase,private  val changePasswordUseCase:ChangePasswordUseCase) :ViewModel() {
+class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase, private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase, private val deleteAppointmentUseCase: DeleteAppointmentUseCase, private val getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, private  val sharedPreferences: SharedPreferences,private val changeEmailUseCase: ChangeEmailUseCase,private  val changePasswordUseCase:ChangePasswordUseCase,private val logoutUseCase: LogoutUseCase) :ViewModel() {
 
     private var _userDetails= mutableStateOf(UserDetailsDTO())
     val userDetails=_userDetails
@@ -158,8 +158,7 @@ return null
     }
 
     fun logout() {
-        Constants.REFRESH_TOKEN_KEY=""
-        Constants.VALIDATION_TOKEN_KEY=""
+      logoutUseCase().launchIn(viewModelScope)
     }
     fun changeEmail(email:String){
         _optionsState.value=UIRequestResponse()
@@ -203,6 +202,10 @@ return null
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun restartChangedState() {
+        _optionsState.value=UIRequestResponse()
     }
 
 }

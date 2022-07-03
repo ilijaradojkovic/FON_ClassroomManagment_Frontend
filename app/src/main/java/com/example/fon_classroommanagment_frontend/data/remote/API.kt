@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.data.remote
 
+import com.example.fon_classroommanagment_frontend.common.Routes
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_DELETE
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_PAGING
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_PAGING_PARTIAL_INFO
@@ -21,6 +22,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.LOGIN
 import com.example.fon_classroommanagment_frontend.common.Routes.REGISTER
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_SEARCH
 import com.example.fon_classroommanagment_frontend.common.Routes.EMAIL_RESET
+import com.example.fon_classroommanagment_frontend.common.Routes.LOGOUT
 import com.example.fon_classroommanagment_frontend.common.Routes.PASSWORD_RESET
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS_PENDING
@@ -29,6 +31,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.USER_REQUESTED_
 import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 import com.example.fon_classroommanagment_frontend.domain.model.*
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 import java.util.*
 
@@ -118,6 +121,9 @@ interface API {
 
     @POST(PASSWORD_RESET)
  suspend fun changePassword(@Body changePasswordDTO: ChangePasswordDTO)
+
+  @POST(LOGOUT)
+   suspend fun Logout():Response<Unit>
 
 
 }
