@@ -20,6 +20,8 @@ import com.example.fon_classroommanagment_frontend.common.Routes.COMMON_ALL_EMPL
 import com.example.fon_classroommanagment_frontend.common.Routes.LOGIN
 import com.example.fon_classroommanagment_frontend.common.Routes.REGISTER
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_SEARCH
+import com.example.fon_classroommanagment_frontend.common.Routes.EMAIL_RESET
+import com.example.fon_classroommanagment_frontend.common.Routes.PASSWORD_RESET
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS_PENDING
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_DETAILS
@@ -109,7 +111,13 @@ interface API {
     @POST(APPOINTMENT_DECLINE)
     suspend fun declineAppointment(@Query("id") appointmentId: UUID)
     @POST(APPOINTMENT_CONFIRM_ALL)
-    suspend  fun confirmAllAppointments(@Body() toList: List<UUID>)
+    suspend  fun confirmAllAppointments(@Body toList: List<UUID>)
+
+    @POST(EMAIL_RESET)
+    suspend fun changeEmail(@Body email: ChangeEmailDTO)
+
+    @POST(PASSWORD_RESET)
+ suspend fun changePassword(@Body changePasswordDTO: ChangePasswordDTO)
 
 
 }

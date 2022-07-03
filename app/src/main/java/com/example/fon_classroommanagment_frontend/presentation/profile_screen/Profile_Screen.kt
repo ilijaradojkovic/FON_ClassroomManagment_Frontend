@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -35,6 +36,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatus
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards.AppointmentProfileCard
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmentInput
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import kotlinx.coroutines.launch
 
@@ -51,6 +53,15 @@ fun Profile_Screen(
     var shouldShowMyRequest by remember {
         mutableStateOf(false)
     }
+    var shouldShowResetPassword by remember {
+        mutableStateOf(false)
+    }
+    var shouldShowResetEmail by remember {
+        mutableStateOf(false)
+    }
+    var shouldShowOptions by remember {
+        mutableStateOf(false)
+    }
     var shouldShowRequests by remember {
         mutableStateOf(false)
     }
@@ -61,11 +72,14 @@ fun Profile_Screen(
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState  = rememberScaffoldState()
     val deleteState = profileViewModel.deleteState
+    val optionsState = profileViewModel.optionsState
 
-val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) (profileViewModel.appointmentsForUser.size*120).dp else 0.dp)
-val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
-
+    val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) (profileViewModel.appointmentsForUser.size*120).dp else 0.dp)
+    val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
     val animateheightRequests= animateDpAsState(targetValue = if(shouldShowRequests) (profileViewModel.appointmentsRequested.size*200).dp else 0.dp)
+    val animateheightChangePassword= animateDpAsState(targetValue = if(shouldShowResetPassword) 200.dp else 0.dp)
+    val animateheithtChangeEmail= animateDpAsState(targetValue = if(shouldShowResetEmail) 200.dp else 0.dp)
+    val animateheightOptions= animateDpAsState(targetValue = if(shouldShowOptions)  200.dp else 0.dp)
 
    LaunchedEffect(key1 = true ){
        profileViewModel.getUserAppointments()
@@ -74,10 +88,21 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
         if (deleteState.value.isError) {
             coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Please check your internet")}
         } else if (deleteState.value.success) {
-            coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Deleted successfull") }
+            coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Deleted successfully") }
         }
     }
 
+    LaunchedEffect(key1 = optionsState.value){
+        if(optionsState.value.isError){
+            coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Something went wrong") }
+
+        }
+        else if(optionsState.value.success){
+            coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Changed successfully") }
+
+        }
+
+    }
 
     if (uiState.isError) {
         No_Internet_Screen() { navHostController.navigate(Screen.MainScreen.route) }
@@ -135,7 +160,15 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                     if (profileViewModel.isAdmin.value) {
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             Box(modifier = Modifier.padding(10.dp, 0.dp)) {
-                                Item(R.drawable.callendar, "Requests", true, profileViewModel.appointmentsRequested.size, R.drawable.refresh,{profileViewModel.getRequestedAppointments()},{shouldShowRequests=!shouldShowRequests})
+                                Item(
+                                    R.drawable.callendar,
+                                    "Requests",
+                                    true,
+                                    profileViewModel.appointmentsRequested.size,
+                                    R.drawable.refresh,
+                                    null,
+                                    { profileViewModel.getRequestedAppointments() },
+                                    { shouldShowRequests = !shouldShowRequests })
                             }
                             Divider(
                                 modifier = Modifier
@@ -144,50 +177,77 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                             )
 
                         }
-                        AppointmentList(profileViewModel,animateheightRequests.value){
+                        AppointmentList(profileViewModel, animateheightRequests.value) {
 
-                            id->  navHostController.navigate(Screen.AdminRequestsScreen.route+"/${id}")
+                                id ->
+                            navHostController.navigate(Screen.AdminRequestsScreen.route + "/${id}")
                         }
                     }
-                    Column( modifier = Modifier.clickable {
+                    Column(modifier = Modifier.clickable {
                         profileViewModel.getUserAppointments()
                     }) {
 
 
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-                        Box(modifier = Modifier
-                            .padding(10.dp, 0.dp)
-                            .clickable {
-                                profileViewModel.getUserAppointments()
-                            }) {
-                            Item(
-                                R.drawable.callendar,
-                                "Appointments",
-                                true,
-                                profileViewModel.appointmentsForUser.size
-                            )
-                            {
-                                shouldShowMyRequest = !shouldShowMyRequest
+                            Box(modifier = Modifier
+                                .padding(10.dp, 0.dp)
+                                .clickable {
+                                    profileViewModel.getUserAppointments()
+                                }) {
+                                Item(
+                                    R.drawable.callendar,
+                                    "Appointments",
+                                    true,
+                                    profileViewModel.appointmentsForUser.size
+                                )
+                                {
+                                    shouldShowMyRequest = !shouldShowMyRequest
+                                }
                             }
+
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(1.dp, MaterialTheme.colorScheme.onBackground)
+                            )
+
                         }
-
-                        Divider(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, MaterialTheme.colorScheme.onBackground)
+                        AppointmentListDissmisable(
+                            profileViewModel,
+                            animateheightMyRequests.value,
+                            animatepaddingMyRequests.value
                         )
-
                     }
-                 AppointmentListDissmisable(profileViewModel,animateheightMyRequests.value,animatepaddingMyRequests.value)
                 }
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier
+                      ) {
 
-                        Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+                        Box(modifier = Modifier.padding(10.dp,10.dp)) {
 
-                            Item(R.drawable.settings, "Settings", false)
+                            Item(R.drawable.settings, "Settings", false, onClick = {
+
+                                shouldShowOptions=!shouldShowOptions
+                            })
                         }
 
+                        Column(modifier=Modifier.height(animateheightOptions.value)) {
+                                optionsField("Email",
+                                    KeyboardType.Email,
+                                    "Email",
+
+                                    animateheithtChangeEmail.value,
+                                trailingIcon = R.drawable.arrow_down_dropdown,
+                                    {shouldShowResetEmail=!shouldShowResetEmail})
+                                {email->profileViewModel.changeEmail(email)}
+
+                                optionsField(
+                                    "Password",
+                                    KeyboardType.Text,
+                                    "Password",animateheightChangePassword.value
+                                ,R.drawable.arrow_down_dropdown,{shouldShowResetPassword=!shouldShowResetPassword})
+                                {password->profileViewModel.changePassword(password)}
+                            }
 
                         Divider(
                             modifier = Modifier
@@ -195,7 +255,7 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                                 .border(1.dp, MaterialTheme.colorScheme.onBackground)
                         )
                     }
-                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
                         Box(modifier = Modifier.padding(10.dp, 0.dp)) {
 
@@ -207,11 +267,60 @@ val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequ
                     }
                 }
             }
-
-
-
         }
     }
+
+
+@Composable
+fun optionsField(
+    title: String,
+    keyboardType: KeyboardType,
+    hint: String,
+    animateheithtChangeEmail: Dp,
+    trailingIcon:Int?=null,
+    changeVisiblity:()->Unit,
+    onChangeClicked:(String)->Unit,
+
+) {
+    var toChange by remember {
+        mutableStateOf("")
+    }
+
+    Column(modifier = Modifier) {
+
+
+        Row(
+            Modifier
+                .fillMaxWidth()
+
+                .padding(10.dp, 0.dp)
+                .clickable {
+
+                    changeVisiblity()
+
+                }
+       ,
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(title, style = MaterialTheme.typography.bodyMedium, )
+            if(trailingIcon!=null)
+            Icon(painter = painterResource(id = trailingIcon), contentDescription ="", modifier = Modifier.size(24.dp) )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(animateheithtChangeEmail), horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+
+            //AppointmentInput(text = "", onTextChange = {}, hint = hint, keyboardType = keyboardType)
+            androidx.compose.material3.TextField(value =toChange, onValueChange = {toChange=it})
+            androidx.compose.material3.TextButton(onClick = { onChangeClicked(toChange)}) {
+                Text("Change")
+            }
+        }
+    }
+
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -320,7 +429,8 @@ fun Item(
     name: String,
     hasCircleText: Boolean,
     circleTextNumber: Int? = null,
-    refresh: Int?=null,
+    requets: Int?=null,
+    trailingIcon:Int?=null,
     onIconClicked :()->Unit={},
     onClick:()->Unit={}
 ){
@@ -353,15 +463,16 @@ fun Item(
 
 
 
-                if(refresh!=null) {
+                if(requets!=null) {
                     Text_Circle(
                         MaterialTheme.colorScheme.tertiary,
                         MaterialTheme.colorScheme.onTertiary,
                         circleTextNumber
                     )
-
+                }
+                if(trailingIcon!=null)
                     Icon(
-                        painter = painterResource(id = refresh),
+                        painter = painterResource(id = trailingIcon),
                         contentDescription = "Refres Icon",
                         modifier = Modifier
                             .size(24.dp)
@@ -373,7 +484,7 @@ fun Item(
             }
     }
 
-}
+
 @Composable
 fun Text_Circle(colorCircle:Color,colorText:Color,value:Int){
     Text(value.toString(),style=MaterialTheme.typography.bodyMedium, modifier = Modifier.drawBehind {

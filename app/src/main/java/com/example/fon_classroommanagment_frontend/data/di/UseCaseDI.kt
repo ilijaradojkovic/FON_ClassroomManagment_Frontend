@@ -154,5 +154,13 @@ class UseCaseDI {
     @Singleton
     fun ProvideDeleteLocalAppointmentUseCase(appointmentRepository: AppointmentRepository):DeleteLocalAppointmentUseCase =
         DeleteLocalAppointmentUseCase(appointmentRepository)
+    @Provides
+    @Singleton
+    fun ProvideChangeEmailUseCase(userRepository: UserRepository):ChangeEmailUseCase =
+        ChangeEmailUseCase(userRepository)
+  @Provides
+    @Singleton
+    fun ProvideChangePasswordUseCase(userRepository: UserRepository):ChangePasswordUseCase =
+      ChangePasswordUseCase(userRepository)
 
 }

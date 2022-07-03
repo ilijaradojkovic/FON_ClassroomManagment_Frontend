@@ -1,9 +1,6 @@
 package com.example.fon_classroommanagment_frontend.domain.repository
 
-import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 
 interface UserRepository {
     suspend fun getUserDetailsLocal(id: Long):RequestedAppointmentsDTO?
@@ -13,6 +10,8 @@ interface UserRepository {
     suspend fun getRequestedPendingAppointments(id: Long): List<AppointmentRequestedUserDTO>
 
     suspend fun getUserRequestedAPpointmentsLocal():List<RequestedAppointmentsDTO>
+    suspend fun changeEmail(email: ChangeEmailDTO)
+    suspend fun changePassword(changePasswordDTO: ChangePasswordDTO)
 
 
 }

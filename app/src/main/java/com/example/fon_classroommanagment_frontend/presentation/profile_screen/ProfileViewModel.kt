@@ -15,10 +15,7 @@ import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
-import com.example.fon_classroommanagment_frontend.domain.use_case.DeleteAppointmentUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAppointmentsForUserUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetRequestedAppointmentsUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.UserDetailsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,7 +26,7 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase, private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase, private val deleteAppointmentUseCase: DeleteAppointmentUseCase, private val getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, private  val sharedPreferences: SharedPreferences) :ViewModel() {
+class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase, private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase, private val deleteAppointmentUseCase: DeleteAppointmentUseCase, private val getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, private  val sharedPreferences: SharedPreferences,private val changeEmailUseCase: ChangeEmailUseCase,private  val changePasswordUseCase:ChangePasswordUseCase) :ViewModel() {
 
     private var _userDetails= mutableStateOf(UserDetailsDTO())
     val userDetails=_userDetails
@@ -42,6 +39,8 @@ class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserD
 
     private var _networkState = mutableStateOf(UIRequestResponse())
     val networkState=_networkState
+    private var _optionsState = mutableStateOf(UIRequestResponse())
+    val optionsState=_optionsState
 
     private var _deleteState= mutableStateOf(UIRequestResponse())
     val deleteState = _deleteState
@@ -161,6 +160,49 @@ return null
     fun logout() {
         Constants.REFRESH_TOKEN_KEY=""
         Constants.VALIDATION_TOKEN_KEY=""
+    }
+    fun changeEmail(email:String){
+        _optionsState.value=UIRequestResponse()
+        changeEmailUseCase(email).onEach {
+            result->
+            when(result){
+                is Response.Loading-> {
+                    _optionsState.value = UIRequestResponse(isLoading = true)
+                }
+                is Response.Error->{
+                    Log.i("cao",result.message.toString())
+                    _optionsState.value = UIRequestResponse(isError = true)
+
+                }
+                is Response.Success->{
+                    _optionsState.value = UIRequestResponse(success = true)
+
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun changePassword(password: String) {
+        _optionsState.value= UIRequestResponse()
+        changePasswordUseCase(password).onEach {
+            result ->
+
+            when(result){
+                is Response.Loading-> {
+                    _optionsState.value = UIRequestResponse(isLoading = true)
+                }
+                is Response.Error->{
+                    Log.i("cao",result.message.toString())
+
+                    _optionsState.value = UIRequestResponse(isError = true)
+
+                }
+                is Response.Success->{
+                    _optionsState.value = UIRequestResponse(success = true)
+
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
 }

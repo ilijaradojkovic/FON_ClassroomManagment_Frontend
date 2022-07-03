@@ -1,12 +1,12 @@
 package com.example.fon_classroommanagment_frontend.data.repository
 
-import android.util.Log
+import android.content.SharedPreferences
+import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.data.remote.API
-import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRequestedUserDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 import com.example.fon_classroommanagment_frontend.domain.repository.UserRepository
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 class UserRepositorImpl @Inject constructor(private val api: API) :UserRepository {
@@ -18,6 +18,23 @@ class UserRepositorImpl @Inject constructor(private val api: API) :UserRepositor
     }
     override suspend fun getUserRequestedAPpointmentsLocal():List<RequestedAppointmentsDTO> {
         return  userReqquestedAppointmentsDTO
+    }
+
+    override suspend fun changeEmail(email: ChangeEmailDTO) {
+        api.changeEmail(email)
+    }
+
+    override suspend fun changePassword(changePasswordDTO: ChangePasswordDTO) {
+//        ok.interceptors. = Interceptor() {
+//
+//
+//            val newRequest  = it.request().newBuilder()
+//                .addHeader("Authorization", sharedPreferences.getString(Constants.VALIDATION_TOKEN_KEY,"")?:"")
+//                .build()
+//            it.proceed(newRequest)
+//        }
+
+        api.changePassword(changePasswordDTO)
     }
 
 

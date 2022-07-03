@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.data.di
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ChangePasswordDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.example.fon_classroommanagment_frontend.presentation.admin_request_screen.AdminRequestsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
@@ -72,9 +73,8 @@ class ViewModelDI {
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Singleton
-    fun provideProfileViewModel( userDetailsUseCase: UserDetailsUseCase,  getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,  deleteAppointmentUseCase: DeleteAppointmentUseCase,  getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, sharedPreferences: SharedPreferences
-        ): ProfileViewModel =
-        ProfileViewModel(userDetailsUseCase,getAppointmentsForUserUseCase,deleteAppointmentUseCase,getRequestedAppointmentsUseCase,sharedPreferences)
+    fun provideProfileViewModel( userDetailsUseCase: UserDetailsUseCase,  getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,  deleteAppointmentUseCase: DeleteAppointmentUseCase,  getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, sharedPreferences: SharedPreferences,changeEmailUseCase: ChangeEmailUseCase,changePasswordUseCase: ChangePasswordUseCase): ProfileViewModel =
+        ProfileViewModel(userDetailsUseCase,getAppointmentsForUserUseCase,deleteAppointmentUseCase,getRequestedAppointmentsUseCase,sharedPreferences,changeEmailUseCase,changePasswordUseCase)
 
     @Provides
     @Singleton
