@@ -43,7 +43,6 @@ interface API {
 
     @POST(REGISTER)
     fun Register(@Body userRegistrationDTO: UserRegistrationDTO):Call<Unit>
-   // ovo bi pisali na svaku rutu ,pravimo interceptors@Header("Authorization: Bearer...")
 
     @GET(COMMON_ALL_EMPLOYEE_DEPARTMENTS)
   suspend  fun GetAllDepartments():List<EmployeeDepartment>
