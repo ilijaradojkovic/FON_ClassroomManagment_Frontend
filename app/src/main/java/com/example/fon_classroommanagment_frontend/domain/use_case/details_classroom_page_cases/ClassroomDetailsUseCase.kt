@@ -1,0 +1,11 @@
+package com.example.fon_classroommanagment_frontend.domain.use_case.details_classroom_page_cases
+
+import com.example.fon_classroommanagment_frontend.domain.use_case.details_classroom_page_cases.components.GetClassroomDetailsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.components.GetReservationsForClassroomAndDateUseCse
+import javax.inject.Inject
+
+class ClassroomDetailsUseCase @Inject constructor(
+     val getClassroomDetailsUseCase: GetClassroomDetailsUseCase,
+     val getReservationsForClassroomAndDateUseCse: GetReservationsForClassroomAndDateUseCse
+) {
+}
