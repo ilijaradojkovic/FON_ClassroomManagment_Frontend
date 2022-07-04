@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fon_classroommanagment_frontend.domain.model.UserRole
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -158,8 +159,9 @@ fun EmployeeCard(
 @Composable
 fun EmployeeCardRoles(onClick: () -> Unit,
                       roleName: String,
+                      idUser:String,
                       userRoles: List<UserRole>,
-                      changeRoleTo:(Long)->Unit
+                      changeRoleTo:(Long,UUID)->Unit
 
 ) {
     Card(modifier = Modifier
@@ -177,7 +179,7 @@ fun EmployeeCardRoles(onClick: () -> Unit,
             Text("Change Role")
 
             userRoles.forEach {
-                OutlinedButton(onClick = { changeRoleTo(it.id)}) {
+                OutlinedButton(onClick = { changeRoleTo(it.id,UUID.fromString(idUser))}) {
                     Text(it.name)
                 }
             }

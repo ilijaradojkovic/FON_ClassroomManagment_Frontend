@@ -221,10 +221,11 @@ class UseCaseDI {
      changePasswordUseCase: ChangePasswordUseCase,
      logoutUseCase: LogoutUseCase,
      getEmployeesInfoAdmin: GetEmployeesInfoAdmin,
-     getUserRolesUseCase: GetUserRolesUseCase
+     getUserRolesUseCase: GetUserRolesUseCase,
+     updateRoleUseCase: UpdateRoleUseCase
   ):ProfileUseCases =
       ProfileUseCases(
-          userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase,getEmployeesInfoAdmin,getUserRolesUseCase
+          userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase,getEmployeesInfoAdmin,getUserRolesUseCase,updateRoleUseCase
       )
     @Provides
     @Singleton
@@ -234,6 +235,14 @@ class UseCaseDI {
   ): ClassroomDetailsUseCase =
         ClassroomDetailsUseCase(
             getClassroomDetailsUseCase,getReservationsForClassroomAndDateUseCse
+        )
+    @Provides
+    @Singleton
+    fun ProvideUpdateRoleUseCase(
+        userRepository: UserRepository
+  ): UpdateRoleUseCase =
+        UpdateRoleUseCase(
+            userRepository
         )
     @Provides
     @Singleton

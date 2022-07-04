@@ -356,8 +356,8 @@ fun EmployeeList(profileViewModel: ProfileViewModel, animatehight: Dp) {
 
 
                     }
-                    else EmployeeCardRoles({profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)},it.employeeAdminCardDTO.permissionTitle,profileViewModel.userRoles.toList()){
-                        profileViewModel.UpdateRole(it)
+                    else EmployeeCardRoles({profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)},it.employeeAdminCardDTO.permissionTitle,it.employeeAdminCardDTO.id,profileViewModel.userRoles.toList()){
+                     role_id,user_id->   profileViewModel.UpdateRole(role_id,user_id)
                     }
                 }
             }

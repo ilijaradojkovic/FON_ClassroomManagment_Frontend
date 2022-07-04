@@ -19,6 +19,7 @@ import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.util.*
 import javax.inject.Inject
 
 
@@ -267,8 +268,16 @@ return null
                     }.launchIn(viewModelScope)
     }
 
-    fun UpdateRole(id: Long) {
-        Log.i("cao","updating"+id)
+    fun UpdateRole(idRole: Long,idUser:UUID) {
+
+        profileUseCases.updateRoleUseCase(UpdateRoleDTO(idUser,idRole)).onEach {
+            result->
+            when(result){
+                is Response.Success->{Log.i("cao","success")}
+                is Response.Error->{Log.i("cao","error"+result.message)}
+                is Response.Loading->{Log.i("cao","loading update role")}
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun showRoles(show: Boolean, id: String) {

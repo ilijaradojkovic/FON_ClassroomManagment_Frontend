@@ -41,6 +41,10 @@ class UserRepositorImpl @Inject constructor(private val api: API) :UserRepositor
         return api.getEmployeesAdminData()
     }
 
+    override suspend fun updateRole(updateRole: UpdateRoleDTO) {
+        api.updateRole(updateRole)
+    }
+
 
     override suspend fun getUserDetails(): UserDetailsDTO {
 
@@ -60,6 +64,7 @@ class UserRepositorImpl @Inject constructor(private val api: API) :UserRepositor
     override suspend fun getRequestedPendingAppointments(id: Long): List<AppointmentRequestedUserDTO> {
        return api.getRequestedPendingAppointmentsForUser(id)
     }
+
 
 
 

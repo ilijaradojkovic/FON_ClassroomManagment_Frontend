@@ -13,6 +13,8 @@ interface UserRepository {
     suspend fun changeEmail(email: ChangeEmailDTO)
     suspend fun changePassword(changePasswordDTO: ChangePasswordDTO)
     suspend fun getEmployeesPermissions(): List<EmployeeAdminCardDTO>
+    suspend fun updateRole(updateRole:UpdateRoleDTO): Unit
+
 
 
 }

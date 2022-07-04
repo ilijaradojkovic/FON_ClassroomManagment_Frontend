@@ -15,6 +15,7 @@ class ProfileUseCases @Inject constructor(
     val changePasswordUseCase: ChangePasswordUseCase,
     val logoutUseCase: LogoutUseCase,
     val getEmployeesInfoAdmin: GetEmployeesInfoAdmin,
-    val getUserRolesUseCase: GetUserRolesUseCase
+    val getUserRolesUseCase: GetUserRolesUseCase,
+    val updateRoleUseCase: UpdateRoleUseCase
 ) {
 }

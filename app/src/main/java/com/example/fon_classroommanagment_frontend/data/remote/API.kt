@@ -30,6 +30,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMEN
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS_PENDING
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_DETAILS
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_REQUESTED_APPOINTMENTS
+import com.example.fon_classroommanagment_frontend.common.Routes.USER_ROLE_CHANGE
 import com.example.fon_classroommanagment_frontend.data.remote.dto.*
 import com.example.fon_classroommanagment_frontend.domain.model.*
 import retrofit2.Call
@@ -131,6 +132,9 @@ interface API {
 
     @GET(COMMON_ALL_USER_ROLES)
  suspend fun getUserRoles(): List<UserRole>
+
+ @POST(USER_ROLE_CHANGE)
+ suspend fun updateRole(@Body updateRoleDTO:UpdateRoleDTO):Unit
 
 
 }

@@ -12,8 +12,7 @@ import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.Event
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDaetForClassroomDTO
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomChipsPaging
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForClassroomAndDateUseCse
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.AppointmentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,9 +21,12 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class AppointmentViewModel @Inject constructor(private val getReservationsForDateUseCase: GetReservationsForClassroomAndDateUseCse, private val getAllClassroomChipsPaging: GetAllClassroomChipsPaging):ViewModel() {
+class AppointmentViewModel @Inject constructor(
+val appointmentsUseCase: AppointmentsUseCase)
+    :ViewModel() {
 
     private var page=1
+
 
     private var _selectedClassroom = mutableStateOf(1L)
     val selectedClassroom = _selectedClassroom
@@ -43,7 +45,7 @@ class AppointmentViewModel @Inject constructor(private val getReservationsForDat
 
 
     fun getAllClassrooms() {
-        getAllClassroomChipsPaging(page).onEach {
+        appointmentsUseCase.getAllClassroomChipsPaging(page).onEach {
             result->
                 when(result){
                     is Response.Success->{
@@ -65,7 +67,7 @@ class AppointmentViewModel @Inject constructor(private val getReservationsForDat
     fun getReservationsForData(initialDate: LocalDate,) {
 
         _reservationsForDay.clear()
-        getReservationsForDateUseCase(CreateRequestAppointmetDateDTO(initialDate)).onEach {
+        appointmentsUseCase.getReservationsForDateUseCase(CreateRequestAppointmetDateDTO(initialDate)).onEach {
 
             result->
             when(result){
