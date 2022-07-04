@@ -220,10 +220,11 @@ class UseCaseDI {
      changeEmailUseCase: ChangeEmailUseCase,
      changePasswordUseCase: ChangePasswordUseCase,
      logoutUseCase: LogoutUseCase,
-     getEmployeesInfoAdmin: GetEmployeesInfoAdmin
+     getEmployeesInfoAdmin: GetEmployeesInfoAdmin,
+     getUserRolesUseCase: GetUserRolesUseCase
   ):ProfileUseCases =
       ProfileUseCases(
-          userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase,getEmployeesInfoAdmin
+          userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase,getEmployeesInfoAdmin,getUserRolesUseCase
       )
     @Provides
     @Singleton
@@ -298,6 +299,10 @@ class UseCaseDI {
     @Provides
     @Singleton
     fun ProvideValidationAppointmentTypeUseCase():ValidateAppointmentType= ValidateAppointmentType()
+
+    @Provides
+    @Singleton
+    fun ProvideVGetUserRolesUseCase(commonDataRepository: CommonDataRepository):GetUserRolesUseCase= GetUserRolesUseCase(commonDataRepository)
 
 
 

@@ -12,5 +12,6 @@ interface CommonDataRepository {
 
     suspend fun getAllClassroomTypes():List<ClassroomType>
     suspend fun getAllAppointmentTypes(): List<AppointmentType>
+    suspend fun getUserRoles():List<UserRole>
 
 }

@@ -50,6 +50,7 @@ object Routes {
     const val COMMON_ALL_EMPLOYEE_DEPARTMENTS = "${COMMON_PREFIX}/employee/departments"
     const val COMMON_ALL_CLASSROOM_TYPES = "${COMMON_PREFIX}/classroom/types"
     const val COMMON_ALL_APPOINTMENT_TYPES = "${COMMON_PREFIX}/appointment/types"
+    const val COMMON_ALL_USER_ROLES = "${COMMON_PREFIX}/user/roles"
 
 
 }

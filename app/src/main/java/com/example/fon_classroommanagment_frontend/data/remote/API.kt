@@ -21,6 +21,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.COMMON_ALL_EMPL
 import com.example.fon_classroommanagment_frontend.common.Routes.LOGIN
 import com.example.fon_classroommanagment_frontend.common.Routes.REGISTER
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_SEARCH
+import com.example.fon_classroommanagment_frontend.common.Routes.COMMON_ALL_USER_ROLES
 import com.example.fon_classroommanagment_frontend.common.Routes.EMAIL_RESET
 import com.example.fon_classroommanagment_frontend.common.Routes.EMPLOYEE_PERMISSIONS_INFO
 import com.example.fon_classroommanagment_frontend.common.Routes.LOGOUT
@@ -127,6 +128,9 @@ interface API {
 
    @GET(EMPLOYEE_PERMISSIONS_INFO)
     suspend fun getEmployeesAdminData(): List<EmployeeAdminCardDTO>
+
+    @GET(COMMON_ALL_USER_ROLES)
+ suspend fun getUserRoles(): List<UserRole>
 
 
 }

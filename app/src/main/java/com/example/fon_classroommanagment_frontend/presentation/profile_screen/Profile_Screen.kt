@@ -2,13 +2,13 @@ package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -344,19 +344,27 @@ fun EmployeeList(profileViewModel: ProfileViewModel, animatehight: Dp) {
 
     Box(modifier=Modifier.height(animatehight), contentAlignment = Alignment.Center) {
         LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false ) {
-            items(profileViewModel.employees) {
+            items(profileViewModel.employees, key = {it->it.employeeAdminCardDTO.id}) {
                 Box(
                     Modifier
                         .fillMaxWidth()
                        ) {
-                    EmployeeCard("${it.firstName} ${it.lastName}",it.permissionTitle){
-                        profileViewModel.UpdateRole(it.id)
+                    if(it.showRoles)
+                    EmployeeCard("${it.employeeAdminCardDTO.firstName} ${it.employeeAdminCardDTO.lastName}",it.employeeAdminCardDTO.permissionTitle){
+//                        profileViewModel.UpdateRole(it.employeeAdminCardDTO.id)
+                        profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)
+
+
+                    }
+                    else EmployeeCardRoles({profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)},it.employeeAdminCardDTO.permissionTitle,profileViewModel.userRoles.toList()){
+                        profileViewModel.UpdateRole(it)
                     }
                 }
             }
         }
     }
 }
+
 
 
 @Composable

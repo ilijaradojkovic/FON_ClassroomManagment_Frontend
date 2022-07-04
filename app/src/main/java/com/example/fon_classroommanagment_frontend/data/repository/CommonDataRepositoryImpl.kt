@@ -32,5 +32,9 @@ class CommonDataRepositoryImpl @Inject constructor(
       return  api.getAllAppointmentTypes()
     }
 
+    override suspend fun getUserRoles(): List<UserRole> {
+        return api.getUserRoles()
+    }
+
 
 }

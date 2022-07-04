@@ -12,10 +12,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
-import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.EmployeeAdminCardDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.*
+import com.example.fon_classroommanagment_frontend.domain.model.UserRole
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +26,7 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-  val profileUseCases: ProfileUseCases
+    private val profileUseCases: ProfileUseCases
 ) :ViewModel() {
 
     private var _userDetails= mutableStateOf(UserDetailsDTO())
@@ -54,8 +52,11 @@ class ProfileViewModel @Inject constructor(
     private var _appointmentsRequested=mutableStateListOf<RequestedAppointmentsDTO>()
     val appointmentsRequested=_appointmentsRequested
 
-    private var _employees= mutableStateListOf<EmployeeAdminCardDTO>()
+    private var _employees= mutableStateListOf<UI_EmployeeAdminCardDTO>()
     val employees=_employees
+
+    private var _userRoles= mutableStateListOf<UserRole>()
+    val userRoles=_userRoles
 
 init {
 
@@ -68,7 +69,12 @@ init {
             result->
             when(result){
                is Response.Success->{
-                   result.data?.let { _employees.addAll(it) }
+                   result.data?.let { listEmployees ->
+                       listEmployees.forEach {
+                           employee->
+                           _employees.add(UI_EmployeeAdminCardDTO(employeeAdminCardDTO = employee))
+                       }
+                        }
                }
                 is Response.Error->{
                     Log.i("cao","error"+result.message)
@@ -237,14 +243,43 @@ return null
         isAdmin = mutableStateOf(profileUseCases.sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
 
         getUserDetails()
+
         if(isAdmin.value) {
+            getUserRoles()
             getRequestedAppointments()
             getEmployeesData()
         }
     }
 
-    fun UpdateRole(id: String) {
+    private fun getUserRoles() {
+        profileUseCases.getUserRolesUseCase().onEach {
+            result->
+                when(result){
+                    is Response.Loading->{}
+                    is Response.Error->{}
+                    is Response.Success->{
+
+                        result.data?.let { _userRoles.addAll(it) }
+                        Log.i("cao",result.data.toString())
+                    }
+                }
+
+                    }.launchIn(viewModelScope)
+    }
+
+    fun UpdateRole(id: Long) {
         Log.i("cao","updating"+id)
+    }
+
+    fun showRoles(show: Boolean, id: String) {
+        val l=_employees.toList()
+            l.forEach {
+            if(it.employeeAdminCardDTO.id==id) it.showRoles=show
+        }
+        _employees.clear()
+        _employees.addAll(l)
+        Log.i("cao",_employees.toList().toString())
+
     }
 
 }
