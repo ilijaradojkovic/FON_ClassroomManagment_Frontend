@@ -3,8 +3,15 @@ package com.example.fon_classroommanagment_frontend.data.di
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ChangePasswordDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.AdminUseCases
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.AppointmentInsertionUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.AppointmentsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.components.GetReservationsForClassroomAndDateUseCse
+import com.example.fon_classroommanagment_frontend.domain.use_case.classrooms_page_cases.ClassroomsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.details_classroom_page_cases.ClassroomDetailsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.details_classroom_page_cases.components.GetClassroomDetailsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.ProfileUseCases
 import com.example.fon_classroommanagment_frontend.presentation.admin_request_screen.AdminRequestsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.ClassroomsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
@@ -52,34 +59,34 @@ class ViewModelDI {
 
     @Provides
     @Singleton
-    fun provideAllClassroomsViewModel(getClassroomsUseCase: GetClassroomsUseCase,getAllClassroomSearched: GetAllClassroomSearchedUseCase,getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase): ClassroomsViewModel =
-        ClassroomsViewModel(getClassroomsUseCase,getAllClassroomSearched,getAllClassroomTypesUserCase)
+    fun provideAllClassroomsViewModel(classroomsUseCase: ClassroomsUseCase): ClassroomsViewModel =
+        ClassroomsViewModel(classroomsUseCase)
 
     @Provides
     @Singleton
-    fun provideAllReservationVIewModel(getReservationsForDateUseCse: GetReservationsForClassroomAndDateUseCse, getAllClassroomChipsPaging: GetAllClassroomChipsPaging): AppointmentViewModel =
-        AppointmentViewModel(getReservationsForDateUseCse,getAllClassroomChipsPaging)
+    fun provideAllReservationVIewModel(appointmentsUseCase: AppointmentsUseCase): AppointmentViewModel =
+        AppointmentViewModel(appointmentsUseCase)
  @RequiresApi(Build.VERSION_CODES.O)
 
  @Provides
     @Singleton
-    fun provideAppointmentCreationViewModel( getAllReservationTypesUseCase: GetAllReservationTypesUseCase,getAllClassroomSearched: GetAllClassroomsChipUseCase,sharedPreferences: SharedPreferences,getAppointmentDataUseCase: GetAppointmentDataUseCase,saveAppointmentDataUseCase: SaveAppointmentDataUseCase,updateAppointmentDataUseCase: UpdateAppointmentDataUseCase): AppointmentInsertionViewModel =
-     AppointmentInsertionViewModel(getAllReservationTypesUseCase,getAllClassroomSearched,getAppointmentDataUseCase,sharedPreferences,saveAppointmentDataUseCase,updateAppointmentDataUseCase)
+    fun provideAppointmentCreationViewModel(appointmentInsertionUseCase: AppointmentInsertionUseCase): AppointmentInsertionViewModel =
+     AppointmentInsertionViewModel(appointmentInsertionUseCase)
 
     @Provides
     @Singleton
-    fun provideDetailsClassromViewModel( getClassroomDetailsUseCase: GetClassroomDetailsUseCase,getReservationsForClassroomAndDateUseCse: GetReservationsForClassroomAndDateUseCse): DetailsClassromViewModel =
-        DetailsClassromViewModel(getClassroomDetailsUseCase,getReservationsForClassroomAndDateUseCse)
+    fun provideDetailsClassromViewModel(classroomDetailsUseCase: ClassroomDetailsUseCase): DetailsClassromViewModel =
+        DetailsClassromViewModel(classroomDetailsUseCase)
     @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Singleton
-    fun provideProfileViewModel( userDetailsUseCase: UserDetailsUseCase,  getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,  deleteAppointmentUseCase: DeleteAppointmentUseCase,  getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, sharedPreferences: SharedPreferences,changeEmailUseCase: ChangeEmailUseCase,changePasswordUseCase: ChangePasswordUseCase,logoutUseCase: LogoutUseCase): ProfileViewModel =
-        ProfileViewModel(userDetailsUseCase,getAppointmentsForUserUseCase,deleteAppointmentUseCase,getRequestedAppointmentsUseCase,sharedPreferences,changeEmailUseCase,changePasswordUseCase,logoutUseCase)
+    fun provideProfileViewModel(profileUseCases: ProfileUseCases): ProfileViewModel =
+        ProfileViewModel(profileUseCases)
 
     @Provides
     @Singleton
-    fun provideAdminRequestsViewModel(retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase: RetriveUserRequestedAppointmentsUseCase,confirmAppointmentUseCase: ConfirmAppointmentUseCase,declineAppointmentUseCase: DeclineAppointmentUseCase,confirmAppointmentsUseCase: ConfirmAppointmentsUseCase) : AdminRequestsViewModel =
-        AdminRequestsViewModel(retriveUserDetailsDataUseCase,retriveUserRequestedAppointmentsUseCase,confirmAppointmentUseCase,declineAppointmentUseCase,confirmAppointmentsUseCase)
+    fun provideAdminRequestsViewModel(adminUseCases: AdminUseCases) : AdminRequestsViewModel =
+        AdminRequestsViewModel(adminUseCases)
 
 
 }
