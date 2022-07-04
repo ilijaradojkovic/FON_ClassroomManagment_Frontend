@@ -22,6 +22,7 @@ import com.example.fon_classroommanagment_frontend.common.Routes.LOGIN
 import com.example.fon_classroommanagment_frontend.common.Routes.REGISTER
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_SEARCH
 import com.example.fon_classroommanagment_frontend.common.Routes.EMAIL_RESET
+import com.example.fon_classroommanagment_frontend.common.Routes.EMPLOYEE_PERMISSIONS_INFO
 import com.example.fon_classroommanagment_frontend.common.Routes.LOGOUT
 import com.example.fon_classroommanagment_frontend.common.Routes.PASSWORD_RESET
 import com.example.fon_classroommanagment_frontend.common.Routes.USER_APPOINTMENTS
@@ -123,6 +124,9 @@ interface API {
 
   @POST(LOGOUT)
    suspend fun Logout():Response<Unit>
+
+   @GET(EMPLOYEE_PERMISSIONS_INFO)
+    suspend fun getEmployeesAdminData(): List<EmployeeAdminCardDTO>
 
 
 }

@@ -12,6 +12,7 @@ interface UserRepository {
     suspend fun getUserRequestedAPpointmentsLocal():List<RequestedAppointmentsDTO>
     suspend fun changeEmail(email: ChangeEmailDTO)
     suspend fun changePassword(changePasswordDTO: ChangePasswordDTO)
+    suspend fun getEmployeesPermissions(): List<EmployeeAdminCardDTO>
 
 
 }

@@ -92,3 +92,58 @@ fun AdminRequestCard(
     }
     }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EmployeeCard(
+    fillName:String,
+    premissionText:String,
+    onClick: () -> Unit
+    ){
+    Card(modifier = Modifier.padding(10.dp).clickable {
+        onClick()
+    }) {
+        Column(
+            Modifier.fillMaxWidth().padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box() {
+                Image(
+                    painter = painterResource(R.drawable.classroomimage),
+                    contentDescription = "avatar",
+                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                    modifier = Modifier
+                        .drawBehind {
+
+
+                        }
+                        .size(100.dp)
+                        .clip(CircleShape)
+                        // clip to the circle shape
+                        .border(
+                            2.dp,
+                            MaterialTheme.colorScheme.tertiary,
+                            CircleShape
+                        )
+                    // add a border (optional)
+                )
+
+
+            }
+
+            Text(
+                fillName,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                premissionText,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
+            )
+
+        }
+    }
+
+}
+

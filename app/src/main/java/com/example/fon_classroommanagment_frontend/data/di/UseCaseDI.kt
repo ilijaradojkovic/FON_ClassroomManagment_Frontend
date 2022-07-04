@@ -202,6 +202,12 @@ class UseCaseDI {
         getAllClassroomChipsPaging: GetAllClassroomMainInformation
   ):AppointmentsUseCase =
       AppointmentsUseCase(getReservationsForDateUseCase,getAllClassroomChipsPaging)
+  @Provides
+    @Singleton
+    fun ProvideGetEmployeesInfoAdminUseCase(
+        userRepository: UserRepository
+  ):GetEmployeesInfoAdmin =
+      GetEmployeesInfoAdmin(userRepository)
 
 @Provides
     @Singleton
@@ -213,10 +219,11 @@ class UseCaseDI {
      sharedPreferences: SharedPreferences,
      changeEmailUseCase: ChangeEmailUseCase,
      changePasswordUseCase: ChangePasswordUseCase,
-     logoutUseCase: LogoutUseCase
+     logoutUseCase: LogoutUseCase,
+     getEmployeesInfoAdmin: GetEmployeesInfoAdmin
   ):ProfileUseCases =
       ProfileUseCases(
-          userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase
+          userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase,getEmployeesInfoAdmin
       )
     @Provides
     @Singleton

@@ -8,6 +8,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -49,6 +50,9 @@ fun Profile_Screen(
     profileViewModel: ProfileViewModel
 
 ) {
+    LaunchedEffect(key1 = true ){
+        profileViewModel.onStart()
+    }
     val userDetails by profileViewModel.userDetails
     var shouldShowMyRequest by remember {
         mutableStateOf(false)
@@ -63,6 +67,9 @@ fun Profile_Screen(
         mutableStateOf(false)
     }
     var shouldShowRequests by remember {
+        mutableStateOf(false)
+    }
+    var shouldShowEmployees by remember{
         mutableStateOf(false)
     }
     val userImage by remember {
@@ -83,7 +90,7 @@ fun Profile_Screen(
     val animateheightChangePassword= animateDpAsState(targetValue = if(shouldShowResetPassword) 100.dp else 0.dp)
     val animateheithtChangeEmail= animateDpAsState(targetValue = if(shouldShowResetEmail) 100.dp else 0.dp)
     val animateheightOptions= animateDpAsState(targetValue = if(shouldShowOptions)  200.dp else 0.dp)
-
+    val animateheightEmployes= animateDpAsState(targetValue = if(shouldShowEmployees) (profileViewModel.employees.size*200).dp else 0.dp)
 
    LaunchedEffect(key1 = true ){
        profileViewModel.getUserAppointments()
@@ -192,7 +199,30 @@ if(dialog)
 
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+
+
                     if (profileViewModel.isAdmin.value) {
+                        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Box(modifier = Modifier.padding(10.dp, 0.dp)) {
+                                    Item(
+                                        R.drawable.avatar,
+                                        "Employees",
+                                        false,
+                                        //profileViewModel.appointmentsRequested.size,
+                                        //R.drawable.refresh,
+                                        null,
+                                        //{ profileViewModel.getRequestedAppointments() },
+                                       onClick =  { shouldShowEmployees = !shouldShowEmployees })
+                                }
+                                Divider(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .border(1.dp, MaterialTheme.colorScheme.onBackground)
+                                )
+
+
+                            }
+                        EmployeeList(profileViewModel,animateheightEmployes.value)
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             Box(modifier = Modifier.padding(10.dp, 0.dp)) {
                                 Item(
@@ -213,7 +243,6 @@ if(dialog)
 
                         }
                         AppointmentList(profileViewModel, animateheightRequests.value) {
-
                                 id ->
                             navHostController.navigate(Screen.AdminRequestsScreen.route + "/${id}")
                         }
@@ -307,6 +336,27 @@ if(dialog)
             }
         }
     }
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun EmployeeList(profileViewModel: ProfileViewModel, animatehight: Dp) {
+    val widthDp = LocalContext.current.resources.displayMetrics.run { widthPixels / density }
+
+    Box(modifier=Modifier.height(animatehight), contentAlignment = Alignment.Center) {
+        LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false ) {
+            items(profileViewModel.employees) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                       ) {
+                    EmployeeCard("${it.firstName} ${it.lastName}",it.permissionTitle){
+                        profileViewModel.UpdateRole(it.id)
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 @Composable

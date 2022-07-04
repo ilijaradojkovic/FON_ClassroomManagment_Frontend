@@ -37,6 +37,10 @@ class UserRepositorImpl @Inject constructor(private val api: API) :UserRepositor
         api.changePassword(changePasswordDTO)
     }
 
+    override suspend fun getEmployeesPermissions(): List<EmployeeAdminCardDTO> {
+        return api.getEmployeesAdminData()
+    }
+
 
     override suspend fun getUserDetails(): UserDetailsDTO {
 

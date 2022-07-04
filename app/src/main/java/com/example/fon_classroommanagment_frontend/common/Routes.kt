@@ -41,6 +41,7 @@ object Routes {
     const val IS_USER_ADMIN="${USER_PREFIX}/admin"
     const val USER_REQUESTED_APPOINTMENTS = "${USER_PREFIX}/appointments-requested"
     const val USER_APPOINTMENTS_PENDING = "${USER_PREFIX}/appointments/pending"
+    const val EMPLOYEE_PERMISSIONS_INFO = "${USER_PREFIX}/employee/permissions"
 
 
     private const val COMMON_PREFIX = "/common"

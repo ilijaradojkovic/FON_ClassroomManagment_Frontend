@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.auth0.android.jwt.JWT
 import com.example.fon_classroommanagment_frontend.common.Constants
+import com.example.fon_classroommanagment_frontend.common.Constants.REFRESH_TOKEN_KEY
+import com.example.fon_classroommanagment_frontend.common.Constants.ROLE_KEY
+import com.example.fon_classroommanagment_frontend.common.Constants.VALIDATION_TOKEN_KEY
 import com.example.fon_classroommanagment_frontend.common.TokenResponse
 import com.example.fon_classroommanagment_frontend.data.remote.API
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
@@ -33,10 +36,13 @@ class AuthRepositoryImpl @Inject constructor(
             if(validationToken!=null && refreshToken!=null) {
                 val jwt = JWT(validationToken)
                 val role= jwt.claims["roles"]!!.asArray(String::class.java)[0].toString()
+
+                sharedPreferences.edit().remove(ROLE_KEY).remove(VALIDATION_TOKEN_KEY).remove(
+                    REFRESH_TOKEN_KEY).apply()
                 sharedPreferences.edit()
-                    .putString(Constants.VALIDATION_TOKEN_KEY, "Bearer $validationToken")
-                    .putString(Constants.REFRESH_TOKEN_KEY,refreshToken)
-                    .putString(Constants.ROLE_KEY,role)
+                    .putString(VALIDATION_TOKEN_KEY, "Bearer $validationToken")
+                    .putString(REFRESH_TOKEN_KEY,refreshToken)
+                    .putString(ROLE_KEY,role)
                     .apply()
              return  TokenResponse(validationToken, refreshToken)
 

@@ -13,6 +13,7 @@ import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.EmployeeAdminCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
@@ -34,7 +35,7 @@ class ProfileViewModel @Inject constructor(
     val userDetails=_userDetails
 
 
-    val isAdmin = mutableStateOf(profileUseCases.sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
+    var isAdmin = mutableStateOf(profileUseCases.sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
 
     private var _appointmentsForUser= mutableStateListOf<AppointmentsForUserDTO>()
     val appointmentsForUser=_appointmentsForUser
@@ -53,17 +54,32 @@ class ProfileViewModel @Inject constructor(
     private var _appointmentsRequested=mutableStateListOf<RequestedAppointmentsDTO>()
     val appointmentsRequested=_appointmentsRequested
 
+    private var _employees= mutableStateListOf<EmployeeAdminCardDTO>()
+    val employees=_employees
 
 init {
 
-    getUserDetails()
-
-    if(isAdmin.value)
-        getRequestedAppointments()
 
 }
 
 
+    private fun getEmployeesData(){
+        profileUseCases.getEmployeesInfoAdmin().onEach {
+            result->
+            when(result){
+               is Response.Success->{
+                   result.data?.let { _employees.addAll(it) }
+               }
+                is Response.Error->{
+                    Log.i("cao","error"+result.message)
+
+                }
+                is Response.Loading->{
+                    Log.i("cao","loading")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
     private fun getUserDetails() {
         profileUseCases.userDetailsUseCase().onEach {
             result->
@@ -215,6 +231,20 @@ return null
         _passwordChangedState.value=UIRequestResponse()
     }fun restartEmailState() {
         _emailChangedState.value=UIRequestResponse()
+    }
+
+    fun onStart() {
+        isAdmin = mutableStateOf(profileUseCases.sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
+
+        getUserDetails()
+        if(isAdmin.value) {
+            getRequestedAppointments()
+            getEmployeesData()
+        }
+    }
+
+    fun UpdateRole(id: String) {
+        Log.i("cao","updating"+id)
     }
 
 }

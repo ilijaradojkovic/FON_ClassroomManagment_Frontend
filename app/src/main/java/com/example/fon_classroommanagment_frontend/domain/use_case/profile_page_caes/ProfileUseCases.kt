@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes
 
 import android.content.SharedPreferences
+import com.example.fon_classroommanagment_frontend.domain.use_case.GetEmployeesInfoAdmin
 import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components.*
 import javax.inject.Inject
 
@@ -12,6 +13,7 @@ class ProfileUseCases @Inject constructor(
     val sharedPreferences: SharedPreferences,
     val changeEmailUseCase: ChangeEmailUseCase,
     val changePasswordUseCase: ChangePasswordUseCase,
-    val logoutUseCase: LogoutUseCase
+    val logoutUseCase: LogoutUseCase,
+    val getEmployeesInfoAdmin: GetEmployeesInfoAdmin
 ) {
 }
