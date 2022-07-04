@@ -42,10 +42,10 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
     ) {
     val colorBcg=MaterialTheme.colorScheme.background
 
-    var emailText by registerViewModel._emailText
-    var passwordText by registerViewModel._passwordText
-    var passwordRepeatText by registerViewModel._passwordRepeatText
-    var fullNameText by registerViewModel._fullNameText
+    var emailText by registerViewModel.emailText
+    var passwordText by registerViewModel.passwordText
+    var passwordRepeatText by registerViewModel.passwordRepeatText
+    var fullNameText by registerViewModel.fullNameText
 
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
@@ -56,7 +56,7 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
         imageUri = uri
     }
     val context = LocalContext.current
-    val bitmap = registerViewModel._image
+    val bitmap = registerViewModel.image
     val dialog by registerViewModel.dialog
 
     val registerState by registerViewModel.state

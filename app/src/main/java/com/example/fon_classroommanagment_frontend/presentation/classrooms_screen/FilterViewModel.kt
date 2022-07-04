@@ -1,32 +1,24 @@
 package com.example.fon_classroommanagment_frontend.presentation.classrooms_screen
 
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants.MAX_CAPACITY
-import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomTypesUserCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class FilterViewModel @Inject constructor() :ViewModel() {
 
-//
-//    private var _filterDTO = mutableStateOf(FilterDTO())
-//    //val filterDTO=_filterDTO
+
 
     private var _classroomTypes= mutableStateListOf<ClassroomType>()
     val classroomTypes =_classroomTypes
 
 
     private var _classroomTypesChoosen= mutableStateListOf<ClassroomType>()
-   // val classroomTypeChoosen=_classroomTypesChoosen
+
 
 
     private var _aircontition= mutableStateOf(true)

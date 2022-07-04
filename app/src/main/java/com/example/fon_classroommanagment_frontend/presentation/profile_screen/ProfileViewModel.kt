@@ -16,6 +16,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsF
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,13 +26,15 @@ import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val userDetailsUseCase: UserDetailsUseCase, private val getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase, private val deleteAppointmentUseCase: DeleteAppointmentUseCase, private val getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase, private  val sharedPreferences: SharedPreferences,private val changeEmailUseCase: ChangeEmailUseCase,private  val changePasswordUseCase:ChangePasswordUseCase,private val logoutUseCase: LogoutUseCase) :ViewModel() {
+class ProfileViewModel @Inject constructor(
+  val profileUseCases: ProfileUseCases
+) :ViewModel() {
 
     private var _userDetails= mutableStateOf(UserDetailsDTO())
     val userDetails=_userDetails
 
 
-    val isAdmin = mutableStateOf(sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
+    val isAdmin = mutableStateOf(profileUseCases.sharedPreferences.getString(Constants.ROLE_KEY,"")==Constants.ADMIN_ROLE_ID)
 
     private var _appointmentsForUser= mutableStateListOf<AppointmentsForUserDTO>()
     val appointmentsForUser=_appointmentsForUser
@@ -62,7 +65,7 @@ init {
 
 
     private fun getUserDetails() {
-        userDetailsUseCase().onEach {
+        profileUseCases.userDetailsUseCase().onEach {
             result->
             when(result){
                 is Response.Loading->{
@@ -84,7 +87,7 @@ init {
     }
      fun getUserAppointments() {
          Log.i("cao","pozivam")
-        getAppointmentsForUserUseCase().onEach {
+         profileUseCases.getAppointmentsForUserUseCase().onEach {
             result->
             when(result){
                 is Response.Loading->{
@@ -112,7 +115,7 @@ return null
 
     fun deleteAppointment(appointment: AppointmentsForUserDTO) {
 
-        deleteAppointmentUseCase(appointment.id).onEach {
+        profileUseCases.deleteAppointmentUseCase(appointment.id).onEach {
             result->
             when(result){
                 is Response.Success->{_appointmentsForUser.remove(appointment)
@@ -132,7 +135,7 @@ return null
     }
 
      fun getRequestedAppointments() {
-        getRequestedAppointmentsUseCase().onEach {
+         profileUseCases.getRequestedAppointmentsUseCase().onEach {
 
                 result->
             when(result){
@@ -160,12 +163,12 @@ return null
     }
 
     fun logout() {
-      logoutUseCase().launchIn(viewModelScope)
+        profileUseCases.logoutUseCase().launchIn(viewModelScope)
     }
     fun changeEmail(email:String){
         Log.i("cao","change email")
         _emailChangedState.value=UIRequestResponse()
-        changeEmailUseCase(email).onEach {
+        profileUseCases.changeEmailUseCase(email).onEach {
             result->
             when(result){
                 is Response.Loading-> {
@@ -187,7 +190,7 @@ return null
 
     fun changePassword(password: String) {
         _passwordChangedState.value= UIRequestResponse()
-        changePasswordUseCase(password).onEach {
+        profileUseCases.changePasswordUseCase(password).onEach {
             result ->
 
             when(result){

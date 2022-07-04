@@ -11,10 +11,8 @@ import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.common.UIRequestResponse
 import com.example.fon_classroommanagment_frontend.data.Event
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomDetailsDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.GetForDateAppointmentDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestAppointmetDaetForClassroomDTO
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomDetailsUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetReservationsForClassroomAndDateUseCse
+import com.example.fon_classroommanagment_frontend.domain.use_case.details_classroom_page_cases.ClassroomDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +21,9 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsClassromViewModel @Inject constructor(private val getClassroomDetailsUseCase: GetClassroomDetailsUseCase,private val getReservationsForClassroomAndDateUseCse: GetReservationsForClassroomAndDateUseCse) :ViewModel() {
+class DetailsClassromViewModel @Inject constructor(
+ val classroomDetailsUseCase: ClassroomDetailsUseCase
+    ) :ViewModel() {
 
    private val _uiResponseClassroomInfo= mutableStateOf(UIRequestResponse())
     val uiResponseClassroomInfo=_uiResponseClassroomInfo
@@ -41,7 +41,7 @@ class DetailsClassromViewModel @Inject constructor(private val getClassroomDetai
     fun getClassroom(classroomId: Long) {
         _uiResponseClassroomInfo.value= UIRequestResponse()
 
-        getClassroomDetailsUseCase.invoke(classroomId).onEach {
+        classroomDetailsUseCase.getClassroomDetailsUseCase.invoke(classroomId).onEach {
 
             result->
             when(result){
@@ -65,7 +65,7 @@ class DetailsClassromViewModel @Inject constructor(private val getClassroomDetai
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAppointmentsForClassroom(initDate:LocalDate){
         _appointmentsForClassroom.clear()
-        getReservationsForClassroomAndDateUseCse(CreateRequestAppointmetDateDTO(initDate)).onEach {
+        classroomDetailsUseCase.getReservationsForClassroomAndDateUseCse(CreateRequestAppointmetDateDTO(initDate)).onEach {
             result->
             when(result){
                 is Response.Success->{

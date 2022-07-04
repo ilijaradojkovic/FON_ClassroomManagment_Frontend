@@ -12,6 +12,9 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.MyAppointment
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestIsClassroomAvailableForDateDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.components.ReserveAppointmetsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.components.GetAllAppointmentsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.my_appointment_page_use_case.MyAppointmentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -19,7 +22,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase, private val reserveAppointmetsUseCase: ReserveAppointmetsUseCase,private val getAllAppointmentsUseCase: GetAllAppointmentsUseCase,private val deleteLocalAppointmentUseCase: DeleteLocalAppointmentUseCase):ViewModel() {
+class MyAppointmentsViewModel @Inject constructor(
+private val myAppointmentUseCase: MyAppointmentsUseCase
+):ViewModel() {
 
 
 
@@ -40,7 +45,7 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
 
         viewModelScope.launch {
             _reservations.forEachIndexed { index, x ->
-                checkAvailabilityClassroomForDateUseCase(CreateRequestAvailabilityClassroomDTO(x.reserveDTO)).onEach { result ->
+                myAppointmentUseCase.checkAvailabilityClassroomForDateUseCase(CreateRequestAvailabilityClassroomDTO(x.reserveDTO)).onEach { result ->
                     when (result) {
                         is Response.Success -> {
                             if (!result.data!!) _reservations[index] =
@@ -67,7 +72,7 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
 
 
     fun getAllAppointments(){
-        getAllAppointmentsUseCase().onEach {
+        myAppointmentUseCase.getAllAppointmentsUseCase().onEach {
             result->
             when(result){
                 is Response.Error->{
@@ -96,7 +101,7 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
 
     fun deleteRequest(it: ReserveDTO) {
         _reservations.removeIf { x-> x.reserveDTO==it }
-        deleteLocalAppointmentUseCase(it.id!!).onEach {
+        myAppointmentUseCase.deleteLocalAppointmentUseCase(it.id!!).onEach {
             result->
             when(result) {
                 is Response.Success -> {
@@ -121,7 +126,7 @@ class MyAppointmentsViewModel @Inject constructor(private val checkAvailabilityC
         }
        else  if(validateAppointments()){
 
-            reserveAppointmetsUseCase(createList()).onEach {
+            myAppointmentUseCase.reserveAppointmetsUseCase(createList()).onEach {
         result->
                 when(result){
                     is Response.Success -> {

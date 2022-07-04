@@ -11,6 +11,7 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentRe
 import com.example.fon_classroommanagment_frontend.data.remote.dto.RequestedAppointmentsDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserDetailsDTO
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
+import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.AdminUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -19,11 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AdminRequestsViewModel @Inject constructor(
-    private val retriveUserDetailsDataUseCase: RetriveUserDetailsDataUseCase,
-    private val retriveUserRequestedAppointmentsUseCase : RetriveUserRequestedAppointmentsUseCase,
-    private val confirmAppointmentUseCase: ConfirmAppointmentUseCase,
-    private  val declineAppointmentUseCase: DeclineAppointmentUseCase,
-    private  val confirmAppointmentsUseCase: ConfirmAppointmentsUseCase
+private val adminUseCases: AdminUseCases
     ) :ViewModel() {
 
     private var _userDetails = mutableStateOf(RequestedAppointmentsDTO())
@@ -40,7 +37,7 @@ class AdminRequestsViewModel @Inject constructor(
 
 
      fun getUserDetails(id: Long) {
-        retriveUserDetailsDataUseCase(id).onEach {
+         adminUseCases.retriveUserDetailsDataUseCase(id).onEach {
             result->
 
             _userDetails.value=result
@@ -48,7 +45,7 @@ class AdminRequestsViewModel @Inject constructor(
     }
 
     fun confirmAllAppointments(){
-        confirmAppointmentsUseCase(_userRequests.toList()).onEach {
+        adminUseCases.confirmAppointmentsUseCase(_userRequests.toList()).onEach {
             result->
             when(result){
                 is Response.Success->{
@@ -72,7 +69,7 @@ class AdminRequestsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
     fun getRequests(id: Long) {
-        retriveUserRequestedAppointmentsUseCase(id).onEach {
+        adminUseCases.retriveUserRequestedAppointmentsUseCase(id).onEach {
                 result->
             when(result){
                 is Response.Success->{
@@ -93,7 +90,7 @@ class AdminRequestsViewModel @Inject constructor(
     }
 
     fun declineAppointment(appointmentId: UUID) {
-        declineAppointmentUseCase(appointmentId).onEach {
+        adminUseCases.declineAppointmentUseCase(appointmentId).onEach {
                 result->
             when(result){
                 is Response.Loading->{
@@ -119,7 +116,7 @@ class AdminRequestsViewModel @Inject constructor(
     }
 
     fun confirmAppointment(appointmentId:UUID) {
-        confirmAppointmentUseCase(appointmentId).onEach {
+        adminUseCases.confirmAppointmentUseCase(appointmentId).onEach {
             result->
                 when(result){
                     is Response.Loading->{

@@ -1,6 +1,5 @@
 package com.example.fon_classroommanagment_frontend.presentation.classrooms_screen
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,16 +10,16 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.FilterDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
 import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomSearchedUseCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetAllClassroomTypesUserCase
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetClassroomsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.classrooms_page_cases.ClassroomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ClassroomsViewModel @Inject constructor(private val getClassroomsUseCase: GetClassroomsUseCase, private  val getAllClassroomSearched: GetAllClassroomSearchedUseCase,private val getAllClassroomTypesUserCase: GetAllClassroomTypesUserCase):ViewModel() {
+class ClassroomsViewModel @Inject constructor(
+ private val  classroomsUseCase: ClassroomsUseCase
+    ):ViewModel() {
 
     private var page:Int=1
     private var searchPage:Int=1
@@ -81,7 +80,7 @@ class ClassroomsViewModel @Inject constructor(private val getClassroomsUseCase: 
 
     }
     private fun getAllClassroomTypes() {
-        getAllClassroomTypesUserCase().onEach {
+        classroomsUseCase.getAllClassroomTypesUserCase().onEach {
                 result->
             when(result){
                 is Response.Success->{
@@ -112,7 +111,7 @@ class ClassroomsViewModel @Inject constructor(private val getClassroomsUseCase: 
     fun getAllClassrooms(){
 
         if(!networkState.value.isLoading) {
-            getClassroomsUseCase(page,filterDto).onEach { result ->
+            classroomsUseCase.getClassroomsUseCase(page,filterDto).onEach { result ->
                 when (result) {
                     is Response.Success -> {
                         result.data?.let {
@@ -155,7 +154,7 @@ class ClassroomsViewModel @Inject constructor(private val getClassroomsUseCase: 
     }
    private  fun performSeach(){
        if(!_networkStateSearch.value.isLoading)
-           getAllClassroomSearched(createClassroomSearchObject(_searchText.value,searchPage)).onEach {
+           classroomsUseCase.getAllClassroomSearched(createClassroomSearchObject(_searchText.value,searchPage)).onEach {
                    result->
                when(result){
                    is Response.Loading->{_networkStateSearch.value=UIRequestResponse(isLoading = true)}

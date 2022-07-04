@@ -1,7 +1,5 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
-import android.R.attr.scaleHeight
-import android.R.attr.scaleWidth
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.*
@@ -23,11 +21,11 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) :ViewModel(){
 
 
-    var _emailText = mutableStateOf("")
-    var _passwordText = mutableStateOf("")
-    var _passwordRepeatText = mutableStateOf("")
-    var _fullNameText = mutableStateOf("")
-    var _image= mutableStateOf<Bitmap?>(null)
+    var emailText = mutableStateOf("")
+    var passwordText = mutableStateOf("")
+    var passwordRepeatText = mutableStateOf("")
+    var fullNameText = mutableStateOf("")
+    var image= mutableStateOf<Bitmap?>(null)
 
 
     private val _dialog = mutableStateOf(false)
@@ -52,7 +50,7 @@ init {
     fun Register(){
 
 
-        if(Validate(_emailText.value,_passwordText.value,_passwordRepeatText.value,_fullNameText.value)){
+        if(Validate(emailText.value,passwordText.value,passwordRepeatText.value,fullNameText.value)){
             UserRegistrationDTO.value=CreateUserRegisterDTO()
             restartCoreData()
             registerUseCase(UserRegistrationDTO.value).onEach {
@@ -90,8 +88,8 @@ init {
     }
     fun CreateUserRegisterDTO(
     ): UserRegistrationDTO {
-        val fullNameStrs=_fullNameText.value.split(" ")
-        return UserRegistrationDTO(_emailText.value, _passwordText.value,fullNameStrs[0],fullNameStrs[1])
+        val fullNameStrs=fullNameText.value.split(" ")
+        return UserRegistrationDTO(emailText.value, passwordText.value,fullNameStrs[0],fullNameStrs[1])
            // ,transformBitpamToBtye(_image.value))
     }
 
@@ -163,11 +161,11 @@ init {
     }
 
     fun restartCoreData(){
-        _fullNameText.value=""
-        _image.value=null
-        _passwordText.value=""
-        _emailText.value=""
-        _passwordRepeatText.value=""
+        fullNameText.value=""
+        image.value=null
+        passwordText.value=""
+        emailText.value=""
+        passwordRepeatText.value=""
 
     }
 
