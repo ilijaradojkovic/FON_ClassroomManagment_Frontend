@@ -54,11 +54,9 @@ class AppointmentInsertionViewModel @Inject constructor(
     var reasonTextErrorExplained by mutableStateOf("")
     var numAttendeesTextErrorExplained by mutableStateOf("")
     var descriptionTextErrorExplained by  mutableStateOf("")
-   // var typeClassErrorExplained by mutableStateOf("")
-   // var classroomsErrorExplained =  mutableStateListOf("")
     var startTimeErrorExplained by   mutableStateOf("")
     var endTimeErrorExplained by  mutableStateOf("")
-  //  var forDateErrorExplained by   mutableStateOf(LocalDate.now())
+
 
     var reserveDTO= mutableStateListOf<ReserveDTO>()
 
@@ -100,7 +98,27 @@ class AppointmentInsertionViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+     fun getAppointmentData(appointmentID: String) {
+        appointmentInsertionUseCase.getAppointmentDataUseCase(UUID.fromString(appointmentID)).onEach {
+                result->
+            when(result){
+                is Response.Loading->{
+                    Log.i("cao","uzimam")
+                }
+                is Response.Error->{
+                    Log.i("cao","greska")
+                }
+                is Response.Success->{
+                    _idToUpdate.value=UUID.fromString(appointmentID)
+                    result.data?.let {
+                        _shouldUpdate.value=true
+                        setLocalVariables(it)
+                    }
 
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
      private fun getAllReservationTypes() {
         appointmentInsertionUseCase.getAllReservationTypesUseCase().onEach {
         result->
@@ -116,44 +134,9 @@ class AppointmentInsertionViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun createAppointment(){
-
-        if(validate()){
-          classrooms.forEach { classroomChipDTO ->
-
-               reserveDTO.add(createReservationDTO(classroomChipDTO))
-
-          }
-            appointmentInsertionUseCase.saveAppointmentDataUseCase(reserveDTO).launchIn(viewModelScope)
-
-            _creationState.value=true
-        }
-
-}
-
-
     private fun getDateFromLocalDateTime(): Date
         =Date.from(forDate.atStartOfDay(
             ZoneId.systemDefault()).toInstant())
-
-    private fun createReservationDTO(classroom: ClassroomChipDTO):ReserveDTO=
-        ReserveDTO(UUID.randomUUID(),
-            myEmail,
-            classroom.id,
-            nameText,
-            getDateFromLocalDateTime(),
-            descriptionText,
-            reasonText,
-            numAttendeesText.toInt()
-            ,startTime.toInt()
-            ,endTime.toInt()
-            ,typeClass,
-            classroom.name
-            )
-    private fun createValidationDTO():InsertionAppointmentValidationDTO=
-        InsertionAppointmentValidationDTO(
-        nameText,reasonText,descriptionText,numAttendeesText,typeClass,startTime,endTime,classrooms.toList()
-        )
 
     private  fun validate():Boolean{
         
@@ -208,8 +191,6 @@ class AppointmentInsertionViewModel @Inject constructor(
         nameTextErrorExplained=nameValidationResult.errorExplained
     }
 
-
-
     fun restart() {
 
         _creationState.value=false
@@ -233,32 +214,6 @@ class AppointmentInsertionViewModel @Inject constructor(
     fun addClassroom(classroom: ClassroomChipDTO) {
         classrooms.add(classroom)
 
-    }
-
-//    fun setEmail(email: String) {
-//        myEmail=email
-//    }
-
-    fun getAppointmentData(appointmentID: String) {
-        appointmentInsertionUseCase.getAppointmentDataUseCase(UUID.fromString(appointmentID)).onEach {
-            result->
-            when(result){
-                is Response.Loading->{
-                    Log.i("cao","uzimam")
-                }
-                is Response.Error->{
-                    Log.i("cao","greska")
-                }
-                is Response.Success->{
-                    _idToUpdate.value=UUID.fromString(appointmentID)
-                    result.data?.let {
-                        _shouldUpdate.value=true
-                        setLocalVariables(it)
-                    }
-
-                }
-            }
-        }.launchIn(viewModelScope)
     }
 
     private fun setLocalVariables(reserveDTO: ReserveDTO) {
@@ -303,4 +258,40 @@ class AppointmentInsertionViewModel @Inject constructor(
 
         }.launchIn(viewModelScope)
     }
+
+    fun createAppointment(){
+
+        if(validate()){
+            classrooms.forEach { classroomChipDTO ->
+
+                reserveDTO.add(createReservationDTO(classroomChipDTO))
+
+            }
+            appointmentInsertionUseCase.saveAppointmentDataUseCase(reserveDTO).launchIn(viewModelScope)
+
+            _creationState.value=true
+        }
+
+    }
+
+    private fun createReservationDTO(classroom: ClassroomChipDTO):ReserveDTO=
+        ReserveDTO(UUID.randomUUID(),
+            myEmail,
+            classroom.id,
+            nameText,
+            getDateFromLocalDateTime(),
+            descriptionText,
+            reasonText,
+            numAttendeesText.toInt()
+            ,startTime.toInt()
+            ,endTime.toInt()
+            ,typeClass,
+            classroom.name
+        )
+
+    private fun createValidationDTO():InsertionAppointmentValidationDTO=
+        InsertionAppointmentValidationDTO(
+            nameText,reasonText,descriptionText,numAttendeesText,typeClass,startTime,endTime,classrooms.toList()
+        )
+
 }
