@@ -157,11 +157,11 @@ class AppointmentInsertionViewModel @Inject constructor(
 
     private  fun validate():Boolean{
         
-       var result=true
+
            val validated=appointmentInsertionUseCase.validateInsertionAppointmentUseCase(createValidationDTO())
             setUpErrors(validated)
 
-       return result
+       return validated.successfull
        
     }
 

@@ -11,4 +11,14 @@ data class ValidationInsertionResult(
     val appointmentTypeValidationResult:Validation,
     val classroomsValidationResult:Validation,
     val attendeesValidationResult:Validation
-)
+){
+    val successfull=
+        nameValidationResult.isSuccess &&
+            descriptionValidationResult.isSuccess &&
+            reasonValidationResult.isSuccess &&
+            startTimeValidationResult.isSuccess &&
+            endTimeValidationResult.isSuccess &&
+            appointmentTypeValidationResult.isSuccess &&
+            classroomsValidationResult.isSuccess &&
+            attendeesValidationResult.isSuccess
+}
