@@ -50,6 +50,9 @@ class ProfileViewModel @Inject constructor(
     private var _deleteState= mutableStateOf(UIRequestResponse())
     val deleteState = _deleteState
 
+    private var _updateRoleState= mutableStateOf(UIRequestResponse())
+    val updateRoleState = _updateRoleState
+
     private var _appointmentsRequested=mutableStateListOf<RequestedAppointmentsDTO>()
     val appointmentsRequested=_appointmentsRequested
 
@@ -273,9 +276,19 @@ return null
         profileUseCases.updateRoleUseCase(UpdateRoleDTO(idUser,idRole)).onEach {
             result->
             when(result){
-                is Response.Success->{Log.i("cao","success")}
-                is Response.Error->{Log.i("cao","error"+result.message)}
-                is Response.Loading->{Log.i("cao","loading update role")}
+                is Response.Success->{
+
+                    _updateRoleState.value= UIRequestResponse(success = true)
+                }
+                is Response.Error->{
+                    _updateRoleState.value=UIRequestResponse(isError = true)
+
+                    Log.i("cao","error"+result.message)
+                }
+                is Response.Loading->{
+                    _updateRoleState.value=UIRequestResponse(isLoading = true)
+
+                }
             }
         }.launchIn(viewModelScope)
     }

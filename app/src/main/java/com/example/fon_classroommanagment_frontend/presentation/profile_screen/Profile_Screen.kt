@@ -81,6 +81,7 @@ fun Profile_Screen(
     val coroutineScope = rememberCoroutineScope()
     val scaffoldState  = rememberScaffoldState()
     val deleteState = profileViewModel.deleteState
+    val updateRoleState = profileViewModel.updateRoleState
     val passwordChangedState = profileViewModel.passwordChangedState
     val emailChangedState = profileViewModel.emailChangedState
 
@@ -99,9 +100,16 @@ fun Profile_Screen(
    }
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
-            coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Please check your internet")}
+            coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Something went wrong")}
         } else if (deleteState.value.success) {
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Deleted successfully") }
+        }
+    }
+    LaunchedEffect(key1 = updateRoleState.value ){
+        if (updateRoleState.value.isError) {
+            coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Something went wrong")}
+        } else if (updateRoleState.value.success) {
+            coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Updated successfully") }
         }
     }
     LaunchedEffect(key1 =emailChangedState.value ){
