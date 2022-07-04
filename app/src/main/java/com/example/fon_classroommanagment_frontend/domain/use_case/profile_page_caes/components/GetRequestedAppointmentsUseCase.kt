@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi

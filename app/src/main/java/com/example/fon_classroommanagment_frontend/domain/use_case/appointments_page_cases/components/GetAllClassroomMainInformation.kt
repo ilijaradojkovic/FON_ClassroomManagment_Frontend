@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.components
 
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
@@ -10,7 +10,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetAllClassroomChipsPaging @Inject constructor(private val classroomRepository: ClassroomRepository) {
+class GetAllClassroomMainInformation @Inject constructor(private val classroomRepository: ClassroomRepository) {
     operator fun invoke(page:Int): Flow<Response<List<ClassroomChipDTO>>> = flow {
         try{
 

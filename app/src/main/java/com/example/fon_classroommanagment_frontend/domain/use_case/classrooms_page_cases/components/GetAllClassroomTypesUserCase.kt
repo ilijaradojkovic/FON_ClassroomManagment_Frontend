@@ -1,23 +1,24 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.classrooms_page_cases.components
 
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
-import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
+import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
+import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
+import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetAllClassroomSearchedUseCase @Inject constructor(private val classroomRepository: ClassroomRepository) {
+class GetAllClassroomTypesUserCase @Inject constructor(private val commonDataRepositoryImpl: CommonDataRepository) {
 
-    operator fun invoke(searchClassroomDTO: SearchClassroomDTO): Flow<Response<List<ClassroomCardDTO>>> = flow {
+    operator fun invoke(): Flow<Response<List<ClassroomType>>> = flow{
+
         try{
 
             emit(Response.Loading())
 
-            val classroomTypes=  classroomRepository.getAllClassroomsSearchPage(searchClassroomDTO)
+            val classroomTypes=  commonDataRepositoryImpl.getAllClassroomTypes()
 
             emit(Response.Success(classroomTypes))
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

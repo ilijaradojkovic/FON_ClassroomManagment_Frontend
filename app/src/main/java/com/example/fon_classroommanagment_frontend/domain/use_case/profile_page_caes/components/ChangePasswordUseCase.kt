@@ -1,7 +1,9 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components
 
+import android.content.SharedPreferences
+import com.example.fon_classroommanagment_frontend.common.Constants.EMAIL_KEY
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ChangeEmailDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ChangePasswordDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
 import com.example.fon_classroommanagment_frontend.domain.repository.UserRepository
@@ -11,15 +13,16 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ChangeEmailUseCase  @Inject constructor(private val userRepository: UserRepository,private  val authRepository: AuthRepository) {
+class ChangePasswordUseCase@Inject constructor(private val userRepository: UserRepository,private val authRepository: AuthRepository,private val sharedPreferences: SharedPreferences) {
 
-    operator fun invoke(email:String): Flow<Response<Unit>> = flow {
+    operator fun invoke(password:String): Flow<Response<Unit>> = flow {
 
         try{
-            val changeEmail=ChangeEmailDTO(email)
+            val changePasswordDTO= ChangePasswordDTO(password)
             emit(Response.Loading())
-            userRepository.changeEmail(changeEmail)
-            //authRepository.Login(UserLoginDTO(email,))
+            userRepository.changePassword(changePasswordDTO)
+            sharedPreferences.getString(EMAIL_KEY,"")
+                ?.let { UserLoginDTO(it,password) }?.let { authRepository.Login(it) }
             emit(Response.Success())
 
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

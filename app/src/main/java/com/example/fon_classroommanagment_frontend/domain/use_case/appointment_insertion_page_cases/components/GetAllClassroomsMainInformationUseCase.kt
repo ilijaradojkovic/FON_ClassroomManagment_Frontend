@@ -1,24 +1,24 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.components
 
 import com.example.fon_classroommanagment_frontend.common.Response
-import com.example.fon_classroommanagment_frontend.domain.model.ClassroomType
-import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
-import com.example.fon_classroommanagment_frontend.domain.repository.CommonDataRepository
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomCardDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChipDTO
+import com.example.fon_classroommanagment_frontend.data.remote.dto.SearchClassroomDTO
+import com.example.fon_classroommanagment_frontend.domain.repository.ClassroomRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetAllClassroomTypesUserCase @Inject constructor(private val commonDataRepositoryImpl: CommonDataRepository) {
+class GetAllClassroomsMainInformationUseCase @Inject constructor(private val classroomRepository: ClassroomRepository) {
 
-    operator fun invoke(): Flow<Response<List<ClassroomType>>> = flow{
-
+    operator fun invoke(name:String): Flow<Response<List<ClassroomChipDTO>>> = flow {
         try{
 
             emit(Response.Loading())
 
-            val classroomTypes=  commonDataRepositoryImpl.getAllClassroomTypes()
+            val classroomTypes=  classroomRepository.getClassroomsChip(name)
 
             emit(Response.Success(classroomTypes))
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

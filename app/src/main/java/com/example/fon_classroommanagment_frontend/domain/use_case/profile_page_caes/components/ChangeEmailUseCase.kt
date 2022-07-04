@@ -1,12 +1,8 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components
 
-import android.content.SharedPreferences
-import com.example.fon_classroommanagment_frontend.common.Constants.EMAIL_KEY
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ChangeEmailDTO
-import com.example.fon_classroommanagment_frontend.data.remote.dto.ChangePasswordDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserLoginDTO
-import com.example.fon_classroommanagment_frontend.data.repository.AuthRepositoryImpl
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
 import com.example.fon_classroommanagment_frontend.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,16 +11,15 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ChangePasswordUseCase@Inject constructor(private val userRepository: UserRepository,private val authRepository: AuthRepository,private val sharedPreferences: SharedPreferences) {
+class ChangeEmailUseCase  @Inject constructor(private val userRepository: UserRepository,private  val authRepository: AuthRepository) {
 
-    operator fun invoke(password:String): Flow<Response<Unit>> = flow {
+    operator fun invoke(email:String): Flow<Response<Unit>> = flow {
 
         try{
-            val changePasswordDTO= ChangePasswordDTO(password)
+            val changeEmail=ChangeEmailDTO(email)
             emit(Response.Loading())
-            userRepository.changePassword(changePasswordDTO)
-            sharedPreferences.getString(EMAIL_KEY,"")
-                ?.let { UserLoginDTO(it,password) }?.let { authRepository.Login(it) }
+            userRepository.changeEmail(changeEmail)
+            //authRepository.Login(UserLoginDTO(email,))
             emit(Response.Success())
 
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.components
 
 import android.util.Log
 import com.example.fon_classroommanagment_frontend.common.Response
