@@ -1,0 +1,15 @@
+package com.example.fon_classroommanagment_frontend.domain.use_case.my_appointment_page_use_case
+
+import com.example.fon_classroommanagment_frontend.domain.use_case.my_appointment_page_use_case.components.CheckAvailabilityClassroomForDateUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.my_appointment_page_use_case.components.DeleteLocalAppointmentUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.components.ReserveAppointmetsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.components.GetAllAppointmentsUseCase
+import javax.inject.Inject
+
+class MyAppointmentsUseCase @Inject constructor(
+     val checkAvailabilityClassroomForDateUseCase: CheckAvailabilityClassroomForDateUseCase,
+     val reserveAppointmetsUseCase: ReserveAppointmetsUseCase,
+     val getAllAppointmentsUseCase: GetAllAppointmentsUseCase,
+     val deleteLocalAppointmentUseCase: DeleteLocalAppointmentUseCase
+) {
+}
