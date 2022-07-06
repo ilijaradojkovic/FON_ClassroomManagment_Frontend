@@ -4,6 +4,8 @@ import kotlinx.parcelize.Parcelize
 import com.example.fon_classroommanagment_frontend.domain.model.EducationTitle
 import com.example.fon_classroommanagment_frontend.domain.model.EmployeeDepartment
 import com.example.fon_classroommanagment_frontend.domain.model.EmployeeType
+import retrofit2.http.Multipart
+
 @Parcelize
 data class UserRegistrationDTO(
 
@@ -11,6 +13,6 @@ data class UserRegistrationDTO(
     val password:String="",
     val firstName:String="",
     val lastName:String="",
-    //var image:String="",
+    var image: String? =null,
 
-) : Parcelable
+    ) : Parcelable

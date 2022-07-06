@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend.presentation.login_screen
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +47,7 @@ class LoginViewModel @Inject constructor(
                     }
                     is Response.Error->{
                         _state.value= UIRequestResponse(isError = true)
+
                         errorMessageEmail ="Please enter valid email"
                         errorMessagePassword="Please enter valid password"
                     }

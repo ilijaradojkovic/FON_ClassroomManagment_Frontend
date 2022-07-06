@@ -1,12 +1,16 @@
 package com.example.fon_classroommanagment_frontend.presentation.profile_screen
 
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
+import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fon_classroommanagment_frontend.common.Constants
@@ -66,8 +70,16 @@ init {
 
 
 }
+     fun getImage(): Bitmap? {
+        return base64ToBytes(userDetails.value.image)?.let { bytesToBitmap(it) }
+    }
 
-
+   private  fun base64ToBytes(base64: String?): ByteArray? {
+        return Base64.decode(base64, 0)
+    }
+   private  fun bytesToBitmap(bytes: ByteArray): Bitmap? {
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    }
     private fun getEmployeesData(){
         profileUseCases.getEmployeesInfoAdmin().onEach {
             result->
@@ -132,17 +144,15 @@ init {
 
                 }
             }
-        }.launchIn(viewModelScope)
-    }
-    fun byteArrayToBitmap(): ImageBitmap? {
-return null
-       // return userDetails.value.image?.let { BitmapFactory.decodeByteArray(userDetails.value.image, 0, it.size).asImageBitmap() }
-    }
 
+
+        }.launchIn(viewModelScope)
+
+    }
     fun deleteAppointment(appointment: AppointmentsForUserDTO) {
 
         profileUseCases.deleteAppointmentUseCase(appointment.id).onEach {
-            result->
+                result->
             when(result){
                 is Response.Success->{_appointmentsForUser.remove(appointment)
                     _deleteState.value=UIRequestResponse(success = true)}
@@ -152,9 +162,9 @@ return null
                 }
                 is Response.Loading->{
                     _deleteState.value=UIRequestResponse(isLoading = true)
-                //loading
+                    //loading
                 }
-                 }
+            }
 
         }.launchIn(viewModelScope)
 

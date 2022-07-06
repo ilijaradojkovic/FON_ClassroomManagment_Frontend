@@ -181,7 +181,7 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                                     ) },modifier= Modifier
                                     .fillMaxWidth(0.7f)
                                     .height(50.dp)) {
-                                    Text("Sign ip", style = MaterialTheme.typography.bodyLarge)
+                                    Text("Sign in", style = MaterialTheme.typography.bodyLarge)
                                 }
                             }
 

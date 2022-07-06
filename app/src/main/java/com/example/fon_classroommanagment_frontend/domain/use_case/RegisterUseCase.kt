@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case
 
+import android.util.Log
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.repository.AuthRepository
@@ -14,6 +15,7 @@ class RegisterUseCase @Inject constructor(private val authRepository: AuthReposi
     operator  fun invoke(registrationDTO: UserRegistrationDTO):Flow<Response<Unit>> = flow {
         try{
             emit(Response.Loading())
+            Log.i("cao",registrationDTO.toString())
              authRepository.Register(registrationDTO)
             emit(Response.Success())
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

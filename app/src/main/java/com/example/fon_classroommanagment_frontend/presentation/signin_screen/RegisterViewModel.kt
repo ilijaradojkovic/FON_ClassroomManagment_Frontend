@@ -1,6 +1,9 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Base64
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
@@ -26,6 +29,7 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
     var passwordRepeatText = mutableStateOf("")
     var fullNameText = mutableStateOf("")
     var image= mutableStateOf<Bitmap?>(null)
+    var imageURI= mutableStateOf<String?>(null)
 
 
     private val _dialog = mutableStateOf(false)
@@ -49,7 +53,7 @@ init {
 }
     fun Register(){
 
-
+        _state.value= UIRequestResponse(isLoading = true)
         if(Validate(emailText.value,passwordText.value,passwordRepeatText.value,fullNameText.value)){
             UserRegistrationDTO.value=CreateUserRegisterDTO()
             restartCoreData()
@@ -58,7 +62,7 @@ init {
                 when(result){
                     is Response.Loading->{
                         _dialog.value=true
-                        _state.value= UIRequestResponse(isLoading = true)
+
 
                         Log.i("cao","loading")
 
@@ -89,28 +93,39 @@ init {
     fun CreateUserRegisterDTO(
     ): UserRegistrationDTO {
         val fullNameStrs=fullNameText.value.split(" ")
-        return UserRegistrationDTO(emailText.value, passwordText.value,fullNameStrs[0],fullNameStrs[1])
-           // ,transformBitpamToBtye(_image.value))
+
+        return UserRegistrationDTO(emailText.value, passwordText.value,fullNameStrs[0],fullNameStrs[1],
+          bytesToBase64(bitmapToBytes(image.value)))
     }
-
-    fun transformBitpamToBtye(bitmapimg: Bitmap?): ByteArray {
-
-
-
-
-        var image= byteArrayOf()
-        if(bitmapimg!=null) {
-            val scaledBitmap = Bitmap.createScaledBitmap(bitmapimg, 1, 1, true)
-
+    fun bitmapToBytes(photo: Bitmap?): ByteArray? {
+        if(photo!=null) {
             val stream = ByteArrayOutputStream()
-
-            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 10, stream)
-            image = stream.toByteArray()
+            photo.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            return stream.toByteArray()
         }
-    //    Log.i("cao",image.size.toString())
-        return image
-
+        return null
     }
+    fun bytesToBase64(bytes: ByteArray?): String? {
+        return Base64.encodeToString(bytes, 0)
+    }
+
+
+//    fun transformBitpamToBtye(bitmap: Bitmap?): ByteArray? {
+//
+//        if(bitmap!=null) {
+//            val scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width, bitmap.height, true)
+//
+//            val stream = ByteArrayOutputStream()
+//
+//            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//            return stream.toByteArray()
+//
+//            //    Log.i("cao",image.size.toString())
+//
+//        }
+//        return null
+//
+//    }
      fun Validate(email:String,password:String,passwordRepeat: String,fullName: String): Boolean {
          var isError=false
          if(EmaiLValidation(email)) {
@@ -177,6 +192,11 @@ init {
         errorMessagePassword=""
         _dialog.value=false
         _state.value=UIRequestResponse()
+    }
+
+    fun setImageURI(imageUri: Uri) {
+
+        this.imageURI.value=imageUri.toString()
     }
 
 }

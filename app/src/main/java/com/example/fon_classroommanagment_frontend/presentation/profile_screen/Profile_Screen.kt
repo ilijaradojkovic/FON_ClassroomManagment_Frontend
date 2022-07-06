@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -72,9 +74,9 @@ fun Profile_Screen(
     var shouldShowEmployees by remember{
         mutableStateOf(false)
     }
-    val userImage by remember {
-        mutableStateOf(profileViewModel.byteArrayToBitmap())
-    }
+//    val userImage by remember {
+//        mutableStateOf(profileViewModel.byteArrayToBitmap())
+//    }
     var emailToChange by remember{ mutableStateOf("")}
     var dialog by remember{ mutableStateOf(false)}
     val uiState = profileViewModel.networkState.value
@@ -172,7 +174,7 @@ if(dialog)
                     modifier = Modifier
                         .fillMaxWidth(), horizontalArrangement = Arrangement.Center
                 ) {
-                    // if(userImage==null)
+                     if(userDetails.image==null)
                     Image(
                         painter = painterResource(id = R.drawable.avatar),
                         contentDescription = "Profile_Image",
@@ -180,12 +182,14 @@ if(dialog)
                             .clip(CircleShape)
                             .border(2.dp, Color.White, shape = CircleShape)
                     )
-//            else
-//                Image(bitmap = userImage!!,
-//               contentDescription = "Profile_Image",
-//               modifier = Modifier
-//                   .clip(CircleShape)
-//                   .border(2.dp, Color.White, shape = CircleShape))
+            else
+                         profileViewModel.getImage()?.let { it1 ->
+                             Image(bitmap = it1.asImageBitmap(),
+                                 contentDescription = "Profile_Image",
+                                 modifier = Modifier
+                                     .clip(CircleShape)
+                                     .border(2.dp, Color.White, shape = CircleShape).size(200.dp), contentScale = ContentScale.Crop)
+                         }
 
                 }
             }

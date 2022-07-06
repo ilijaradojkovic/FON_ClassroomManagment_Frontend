@@ -54,6 +54,9 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
     val launcher = rememberLauncherForActivityResult(contract =
     ActivityResultContracts.GetContent()) { uri: Uri? ->
         imageUri = uri
+        if (uri != null) {
+            registerViewModel.setImageURI(uri)
+        }
     }
     val context = LocalContext.current
     val bitmap = registerViewModel.image

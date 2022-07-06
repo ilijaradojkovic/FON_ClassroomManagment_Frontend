@@ -43,7 +43,6 @@ interface API {
     @POST(LOGIN)
     fun Login(@Field("username") username:String,@Field("password") password:String):Call<Unit>
 
-
     @POST(REGISTER)
     fun Register(@Body userRegistrationDTO: UserRegistrationDTO):Call<Unit>
 
