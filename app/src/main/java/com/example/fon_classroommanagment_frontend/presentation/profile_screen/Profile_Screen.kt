@@ -528,7 +528,7 @@ fun AppointmentList(profileViewModel: ProfileViewModel,
         LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false) {
             items(profileViewModel.appointmentsRequested) {
 
-                      AdminRequestCard("${it.firstName} ${it.lastName}",it.number_of_requests){onItemClick(it.id)}
+                      AdminRequestCard("${it.firstName} ${it.lastName}",profileViewModel.getImageWithBase64(it.image),it.number_of_requests){onItemClick(it.id)}
 
             }
         }

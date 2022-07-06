@@ -31,6 +31,7 @@ import java.util.*
 
 fun AdminRequestCard(
     fillName: String,
+    image:Bitmap?,
     numberOfRequests: Long?,
     onClick:()->Unit
 ) {
@@ -50,6 +51,7 @@ fun AdminRequestCard(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Box() {
+                    if(image==null)
                     Image(
                         painter = painterResource(R.drawable.classroomimage),
                         contentDescription = "avatar",
@@ -76,6 +78,34 @@ fun AdminRequestCard(
                             )
                         // add a border (optional)
                     )
+                    else
+                        Image(
+                        bitmap = image.asImageBitmap(),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .drawBehind {
+                                drawCircle(
+                                    circleBorderColor,
+                                    radius = 40f,
+                                    center = Offset(
+                                        2 * this.center.x,
+                                        this.center.y / 2f
+                                    )
+                                )
+
+                            }
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            // clip to the circle shape
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.tertiary,
+                                CircleShape
+                            )
+                        // add a border (optional)
+                    )
+
                     Text(
                         numberOfRequests.toString(),
                         style = MaterialTheme.typography.bodyMedium,
@@ -139,7 +169,6 @@ fun EmployeeCard(
                             )
                         // add a border (optional)
                     )
-
                 else
                     Image(
                         bitmap = image.asImageBitmap(),
@@ -160,11 +189,7 @@ fun EmployeeCard(
                             )
                         // add a border (optional)
                     )
-
-
             }
-
-
 
             Text(
                 fillName,

@@ -35,6 +35,7 @@ object Strings {
 
     const val attendees_error="Please enter valid end time"
     const val attendees_error_empty="Attendees filed cant be empty"
+    const val attendees_error_not_valid_number="Attendees filed is not a valid number"
     const val attendees_error_max_capacity="Attendees filed is over its max capacity"
 
 }
