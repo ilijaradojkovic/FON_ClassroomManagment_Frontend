@@ -15,7 +15,7 @@ class RegisterUseCase @Inject constructor(private val authRepository: AuthReposi
     operator  fun invoke(registrationDTO: UserRegistrationDTO):Flow<Response<Unit>> = flow {
         try{
             emit(Response.Loading())
-            Log.i("cao",registrationDTO.toString())
+            Log.i("cao", registrationDTO.image?.length.toString())
              authRepository.Register(registrationDTO)
             emit(Response.Success())
         }catch (httpException: HttpException){//response error sto ne pocinje sa 2 kod

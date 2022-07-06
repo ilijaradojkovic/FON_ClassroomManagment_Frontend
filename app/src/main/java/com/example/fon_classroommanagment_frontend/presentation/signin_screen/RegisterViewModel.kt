@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.signin_screen
 
+import android.R.attr
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -18,6 +19,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import android.R.attr.bitmap
+
+
+
 
 
 @HiltViewModel
@@ -95,18 +100,22 @@ init {
         val fullNameStrs=fullNameText.value.split(" ")
 
         return UserRegistrationDTO(emailText.value, passwordText.value,fullNameStrs[0],fullNameStrs[1],
-          bytesToBase64(bitmapToBytes(image.value)))
+         bytesToBase64(bitmapToBytes(image.value)))
+
     }
+
+
+
     fun bitmapToBytes(photo: Bitmap?): ByteArray? {
         if(photo!=null) {
             val stream = ByteArrayOutputStream()
-            photo.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            photo.compress(Bitmap.CompressFormat.JPEG, 10, stream)
             return stream.toByteArray()
         }
         return null
     }
     fun bytesToBase64(bytes: ByteArray?): String? {
-        return Base64.encodeToString(bytes, 0)
+        return Base64.encodeToString(bytes, Base64.DEFAULT)
     }
 
 
