@@ -1,5 +1,8 @@
 package com.example.fon_classroommanagment_frontend.presentation.admin_request_screen
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -34,8 +37,17 @@ private val adminUseCases: AdminUseCases
     private var _uiStateActionPefromed= mutableStateOf(UIRequestResponse())
     val uiStateActionPefromed=_uiStateActionPefromed
 
+    fun getImageWithBase64(image: String?): Bitmap? {
+        if(image==null) return null
+        return base64ToBytes(image)?.let { bytesToBitmap(it) }
 
-
+    }
+    private  fun bytesToBitmap(bytes: ByteArray): Bitmap? {
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    }
+    private  fun base64ToBytes(base64: String?): ByteArray? {
+        return Base64.decode(base64, 0)
+    }
      fun getUserDetails(id: Long) {
          adminUseCases.retriveUserDetailsDataUseCase(id).onEach {
             result->

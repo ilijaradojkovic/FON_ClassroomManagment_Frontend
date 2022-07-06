@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -82,6 +83,7 @@ fun AdminsRequestScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
+                        if(userDetails.image==null)
                         Image(
                             painter = painterResource(id = R.drawable.avatar),
                             contentDescription = "Profile_Image",
@@ -89,6 +91,16 @@ fun AdminsRequestScreen(
                                 .clip(CircleShape)
                                 .border(2.dp, Color.White, shape = CircleShape)
                         )
+                        else
+                            adminRequestsViewModel.getImageWithBase64(userDetails.image)?.let { it1 ->
+                                Image(
+                                    bitmap = it1.asImageBitmap(),
+                                    contentDescription = "Profile_Image",
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .border(2.dp, Color.White, shape = CircleShape)
+                                )
+                            }
 
 
                     }
