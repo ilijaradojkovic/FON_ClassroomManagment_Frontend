@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
@@ -362,7 +361,7 @@ fun EmployeeList(profileViewModel: ProfileViewModel, animatehight: Dp) {
                         .fillMaxWidth()
                        ) {
                     if(it.showRoles)
-                    EmployeeCard("${it.employeeAdminCardDTO.firstName} ${it.employeeAdminCardDTO.lastName}",it.employeeAdminCardDTO.permissionTitle){
+                    EmployeeCard("${it.employeeAdminCardDTO.firstName} ${it.employeeAdminCardDTO.lastName}",profileViewModel.getImageWithBase64(it.employeeAdminCardDTO.image),it.employeeAdminCardDTO.permissionTitle){
 //                        profileViewModel.UpdateRole(it.employeeAdminCardDTO.id)
                         profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)
 

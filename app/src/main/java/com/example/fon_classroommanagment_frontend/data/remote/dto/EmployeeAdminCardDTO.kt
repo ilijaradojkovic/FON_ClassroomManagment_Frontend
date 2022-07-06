@@ -4,5 +4,6 @@ data class EmployeeAdminCardDTO(
     val id:String,
     val firstName:String,
     val lastName:String,
-    val permissionTitle:String
+    val permissionTitle:String,
+    val image:String?
 )

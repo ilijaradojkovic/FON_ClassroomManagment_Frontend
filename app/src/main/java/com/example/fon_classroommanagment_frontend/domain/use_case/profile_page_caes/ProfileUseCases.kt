@@ -1,7 +1,7 @@
 package com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes
 
 import android.content.SharedPreferences
-import com.example.fon_classroommanagment_frontend.domain.use_case.GetEmployeesInfoAdmin
+import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components.GetEmployeesInfoAdmin
 import com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components.*
 import javax.inject.Inject
 

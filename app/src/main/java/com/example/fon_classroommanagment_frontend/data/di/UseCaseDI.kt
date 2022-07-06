@@ -206,23 +206,23 @@ class UseCaseDI {
     @Singleton
     fun ProvideGetEmployeesInfoAdminUseCase(
         userRepository: UserRepository
-  ):GetEmployeesInfoAdmin =
+  ): GetEmployeesInfoAdmin =
       GetEmployeesInfoAdmin(userRepository)
 
 @Provides
     @Singleton
     fun ProvideProfileUseCase(
-     userDetailsUseCase: UserDetailsUseCase,
-     getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,
-     deleteAppointmentUseCase: DeleteAppointmentUseCase,
-     getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase,
-     sharedPreferences: SharedPreferences,
-     changeEmailUseCase: ChangeEmailUseCase,
-     changePasswordUseCase: ChangePasswordUseCase,
-     logoutUseCase: LogoutUseCase,
-     getEmployeesInfoAdmin: GetEmployeesInfoAdmin,
-     getUserRolesUseCase: GetUserRolesUseCase,
-     updateRoleUseCase: UpdateRoleUseCase
+    userDetailsUseCase: UserDetailsUseCase,
+    getAppointmentsForUserUseCase: GetAppointmentsForUserUseCase,
+    deleteAppointmentUseCase: DeleteAppointmentUseCase,
+    getRequestedAppointmentsUseCase: GetRequestedAppointmentsUseCase,
+    sharedPreferences: SharedPreferences,
+    changeEmailUseCase: ChangeEmailUseCase,
+    changePasswordUseCase: ChangePasswordUseCase,
+    logoutUseCase: LogoutUseCase,
+    getEmployeesInfoAdmin: GetEmployeesInfoAdmin,
+    getUserRolesUseCase: GetUserRolesUseCase,
+    updateRoleUseCase: UpdateRoleUseCase
   ):ProfileUseCases =
       ProfileUseCases(
           userDetailsUseCase, getAppointmentsForUserUseCase, deleteAppointmentUseCase, getRequestedAppointmentsUseCase, sharedPreferences, changeEmailUseCase, changePasswordUseCase, logoutUseCase,getEmployeesInfoAdmin,getUserRolesUseCase,updateRoleUseCase

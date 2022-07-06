@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment_frontend.domain.use_case
+package com.example.fon_classroommanagment_frontend.domain.use_case.profile_page_caes.components
 
 import com.example.fon_classroommanagment_frontend.common.Response
 import com.example.fon_classroommanagment_frontend.data.remote.dto.EmployeeAdminCardDTO

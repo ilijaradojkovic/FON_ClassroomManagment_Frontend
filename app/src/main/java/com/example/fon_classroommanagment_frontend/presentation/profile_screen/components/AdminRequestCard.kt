@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment_frontend
 
+import android.graphics.Bitmap
 import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -100,6 +102,7 @@ fun AdminRequestCard(
 @Composable
 fun EmployeeCard(
     fillName:String,
+    image: Bitmap?,
     premissionText:String,
     onClick: () -> Unit
     ){
@@ -116,28 +119,52 @@ fun EmployeeCard(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Box() {
-                Image(
-                    painter = painterResource(R.drawable.classroomimage),
-                    contentDescription = "avatar",
-                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                    modifier = Modifier
-                        .drawBehind {
+                if(image==null)
+                    Image(
+                        painter = painterResource(R.drawable.classroomimage),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .drawBehind {
 
 
-                        }
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        // clip to the circle shape
-                        .border(
-                            2.dp,
-                            MaterialTheme.colorScheme.tertiary,
-                            CircleShape
-                        )
-                    // add a border (optional)
-                )
+                            }
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            // clip to the circle shape
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.tertiary,
+                                CircleShape
+                            )
+                        // add a border (optional)
+                    )
+
+                else
+                    Image(
+                        bitmap = image.asImageBitmap(),
+                        contentDescription = "avatar",
+                        contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                        modifier = Modifier
+                            .drawBehind {
+
+
+                            }
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            // clip to the circle shape
+                            .border(
+                                2.dp,
+                                MaterialTheme.colorScheme.tertiary,
+                                CircleShape
+                            )
+                        // add a border (optional)
+                    )
 
 
             }
+
+
 
             Text(
                 fillName,
@@ -153,7 +180,9 @@ fun EmployeeCard(
         }
     }
 
+
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

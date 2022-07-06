@@ -314,4 +314,10 @@ init {
 
     }
 
+    fun getImageWithBase64(image: String?): Bitmap? {
+        if(image==null) return null
+        return base64ToBytes(image)?.let { bytesToBitmap(it) }
+
+    }
+
 }
