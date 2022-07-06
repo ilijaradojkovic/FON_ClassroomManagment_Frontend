@@ -86,6 +86,7 @@ init {
             when(result){
                is Response.Success->{
                    result.data?.let { listEmployees ->
+                       _employees.clear()
                        listEmployees.forEach {
                            employee->
                            _employees.add(UI_EmployeeAdminCardDTO(employeeAdminCardDTO = employee))
@@ -310,7 +311,7 @@ init {
         }
         _employees.clear()
         _employees.addAll(l)
-        Log.i("cao",_employees.toList().toString())
+
 
     }
 

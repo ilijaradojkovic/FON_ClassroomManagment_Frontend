@@ -41,6 +41,7 @@ import com.example.fon_classroommanagment_frontend.presentation.common.bars.Comp
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -361,13 +362,14 @@ fun EmployeeList(profileViewModel: ProfileViewModel, animatehight: Dp) {
                         .fillMaxWidth()
                        ) {
                     if(it.showRoles)
-                    EmployeeCard("${it.employeeAdminCardDTO.firstName} ${it.employeeAdminCardDTO.lastName}",profileViewModel.getImageWithBase64(it.employeeAdminCardDTO.image),it.employeeAdminCardDTO.permissionTitle){
+                    EmployeeCard("${it.employeeAdminCardDTO.firstName} ${it.employeeAdminCardDTO.lastName}",profileViewModel.getImageWithBase64(it.employeeAdminCardDTO.image),it.employeeAdminCardDTO.permissionTitle)
+                    {
 //                        profileViewModel.UpdateRole(it.employeeAdminCardDTO.id)
                         profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)
 
 
                     }
-                    else EmployeeCardRoles({profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)},it.employeeAdminCardDTO.permissionTitle,it.employeeAdminCardDTO.id,profileViewModel.userRoles.toList()){
+                    else EmployeeCardRoles({profileViewModel.showRoles(!it.showRoles,it.employeeAdminCardDTO.id)},it.employeeAdminCardDTO.id,profileViewModel.userRoles.toList()){
                      role_id,user_id->   profileViewModel.UpdateRole(role_id,user_id)
                     }
                 }
@@ -526,7 +528,7 @@ fun AppointmentList(profileViewModel: ProfileViewModel,
     val widthDp = LocalContext.current.resources.displayMetrics.run { widthPixels / density }
     Box(modifier=Modifier.height(animateheightMyRequests)) {
         LazyVerticalGrid(GridCells.Adaptive(widthDp.dp/2),userScrollEnabled = false) {
-            items(profileViewModel.appointmentsRequested) {
+            items(profileViewModel.appointmentsRequested, key = {it->it.id}) {
 
                       AdminRequestCard("${it.firstName} ${it.lastName}",profileViewModel.getImageWithBase64(it.image),it.number_of_requests){onItemClick(it.id)}
 
