@@ -49,23 +49,10 @@ fun My_Appointments_Screen(
 
 ) {
 val scaffoldState = rememberScaffoldState()
-    val coroutine= rememberCoroutineScope()
     var appointmentLoading by remember{ mutableStateOf(false)}
     LaunchedEffect(key1 = true) {
         requestViewMode.getAllAppointments()
-//        if (requestReservation != null) {
-//            if(saved !=null && saved){
-//                requestViewMode.saveRequest(requestReservation)
-//                coroutine.launch {
-//                    scaffoldState.snackbarHostState.showSnackbar("Appointment changed",)
-//                }
-//            }
-//            else { requestViewMode.addRequest(requestReservation)
-//            coroutine.launch {
-//                scaffoldState.snackbarHostState.showSnackbar("Appointment added",)
-//            }
-//            }
-//        }
+
     }
     val reservationState=requestViewMode.reservationState
 
@@ -144,7 +131,7 @@ val scaffoldState = rememberScaffoldState()
                 }
 
                 LazyColumn() {
-                    items(requestViewMode.reservations, key = {it->it.reserveDTO.classroomId}) {
+                    items(requestViewMode.reservations, key = {it->it.reserveDTO.id!!}) {
 
                         val dismissState = rememberDismissState()
                         LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {

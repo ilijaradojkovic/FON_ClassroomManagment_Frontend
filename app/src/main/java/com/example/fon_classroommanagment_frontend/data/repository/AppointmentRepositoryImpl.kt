@@ -23,6 +23,7 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
     override suspend fun updateAppointment(reserveDTO: ReserveDTO) {
         myAppointments.map { x ->
             if (x.id == reserveDTO.id) {
+                x.classroomId=reserveDTO.classroomId
                 x.name = reserveDTO.name
                 x.classroomName = reserveDTO.classroomName
                 x.end_timeInHours = reserveDTO.end_timeInHours
@@ -35,6 +36,7 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
                 x.type = reserveDTO.type
             }
         }
+
     }
 
     override suspend fun getAllAppointments(): List<ReserveDTO> {
@@ -58,7 +60,7 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
 
     override suspend fun Reserve(appointmets: List<ReserveDTO>) {
 
-        val res = api.reserve(appointmets)
+        api.reserve(appointmets)
 
         myAppointments.clear()
     }

@@ -45,6 +45,10 @@ class ProfileViewModel @Inject constructor(
 
     private var _networkState = mutableStateOf(UIRequestResponse())
     val networkState=_networkState
+
+    private var _logoutState = mutableStateOf(UIRequestResponse())
+    val logoutState=_logoutState
+
     private var _passwordChangedState = mutableStateOf(UIRequestResponse())
     val passwordChangedState=_passwordChangedState
 
@@ -98,7 +102,6 @@ init {
 
                 }
                 is Response.Loading->{
-                    Log.i("cao","loading")
                 }
             }
         }.launchIn(viewModelScope)
@@ -125,7 +128,7 @@ init {
         }.launchIn(viewModelScope)
     }
      fun getUserAppointments() {
-         Log.i("cao","pozivam")
+
          profileUseCases.getAppointmentsForUserUseCase().onEach {
             result->
             when(result){
@@ -138,7 +141,7 @@ init {
 
                 }
                 is Response.Success->{
-                    Log.i("cao",result.data.toString())
+
                     _appointmentsForUser.clear()
                     _networkState.value= UIRequestResponse(success = true)
                     result.data?.let { _appointmentsForUser.addAll(it) }
@@ -186,7 +189,7 @@ init {
 
                 }
                 is Response.Success->{
-                    Log.i("cao",result.data.toString())
+
                     _appointmentsRequested.clear()
 
                     _networkState.value= UIRequestResponse(success = true)
@@ -200,10 +203,28 @@ init {
     }
 
     fun logout() {
-        profileUseCases.logoutUseCase().launchIn(viewModelScope)
+        profileUseCases.logoutUseCase().onEach {
+            result->
+            when(result){
+
+                is Response.Loading->{
+                    _logoutState.value= UIRequestResponse(isLoading = true)
+                }
+                 is Response.Error->{
+                     _logoutState.value=UIRequestResponse(isError = true)
+
+                 }
+                is Response.Success->{
+                    _logoutState.value=UIRequestResponse(success = true)
+
+                }
+
+            }
+            Log.i("cao",result.toString())
+
+        }.launchIn(viewModelScope)
     }
     fun changeEmail(email:String){
-        Log.i("cao","change email")
         _emailChangedState.value=UIRequestResponse()
         profileUseCases.changeEmailUseCase(email).onEach {
             result->
@@ -248,10 +269,25 @@ init {
         }.launchIn(viewModelScope)
     }
 
-    fun restartPasswordState() {
+    private fun restartPasswordState() {
         _passwordChangedState.value=UIRequestResponse()
-    }fun restartEmailState() {
+    }
+    private  fun restartEmailState() {
         _emailChangedState.value=UIRequestResponse()
+    }
+    fun restart(){
+        restartPasswordState()
+        restartEmailState()
+        restartLogoutState()
+        restartDeleteState()
+    }
+
+    private fun restartDeleteState() {
+        _deleteState.value= UIRequestResponse()
+    }
+
+    private fun restartLogoutState() {
+        _logoutState.value= UIRequestResponse()
     }
 
     fun onStart() {
@@ -273,6 +309,7 @@ init {
                     is Response.Loading->{}
                     is Response.Error->{}
                     is Response.Success->{
+                        _userRoles.clear()
 
                         result.data?.let { _userRoles.addAll(it) }
                         Log.i("cao",result.data.toString())

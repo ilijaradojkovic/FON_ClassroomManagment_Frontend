@@ -124,7 +124,7 @@ interface API {
  suspend fun changePassword(@Body changePasswordDTO: ChangePasswordDTO)
 
   @POST(LOGOUT)
-   suspend fun Logout():Response<Unit>
+   suspend fun logout():Response<Unit>
 
    @GET(EMPLOYEE_PERMISSIONS_INFO)
     suspend fun getEmployeesAdminData(): List<EmployeeAdminCardDTO>

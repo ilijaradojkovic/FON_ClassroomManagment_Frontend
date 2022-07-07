@@ -249,7 +249,7 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
 
 
                             IconButton(onClick = {  launcher.launch("image/*")}) {
-                                Icon(painter = painterResource(id = R.drawable.camera), modifier = Modifier.size(24.dp), contentDescription = "")
+                                Icon(painter = painterResource(id = R.drawable.camera), modifier = Modifier.size(24.dp), contentDescription = "", tint = MaterialTheme.colorScheme.background)
                             }
 
                         }

@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
@@ -12,24 +13,29 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -40,6 +46,9 @@ import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatu
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards.AppointmentProfileCard
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
+import com.github.skgmn.composetooltip.AnchorEdge
+import com.github.skgmn.composetooltip.Tooltip
+import com.github.skgmn.composetooltip.rememberTooltipStyle
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -86,6 +95,7 @@ fun Profile_Screen(
     val updateRoleState = profileViewModel.updateRoleState
     val passwordChangedState = profileViewModel.passwordChangedState
     val emailChangedState = profileViewModel.emailChangedState
+    val logoutState = profileViewModel.logoutState
 
     val animateheightMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) (profileViewModel.appointmentsForUser.size*120).dp else 0.dp)
     val animatepaddingMyRequests= animateDpAsState(targetValue = if(shouldShowMyRequest) 10.dp else 0.dp)
@@ -97,8 +107,7 @@ fun Profile_Screen(
 
    LaunchedEffect(key1 = true ){
        profileViewModel.getUserAppointments()
-       profileViewModel.restartEmailState()
-       profileViewModel.restartPasswordState()
+       profileViewModel.restart()
    }
     LaunchedEffect(key1 = deleteState.value) {
         if (deleteState.value.isError) {
@@ -114,11 +123,28 @@ fun Profile_Screen(
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Updated successfully") }
         }
     }
+    LaunchedEffect(key1 = logoutState.value ){
+        if (logoutState.value.isError) {
+            coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Something went wrong")}
+            }
+                             else if (logoutState.value.success) {
+            navHostController.navigate(Screen.LoginScreen.route)
+        }
+    }
     LaunchedEffect(key1 =emailChangedState.value ){
         if(emailChangedState.value.success){
+            coroutineScope.launch {  scaffoldState.snackbarHostState.showSnackbar("Updated successfully")}
             profileViewModel.logout()
             navHostController.navigate(Screen.LoginScreen.route)
         }
+        else if(emailChangedState.value.isError) {
+            dialog = false
+            coroutineScope.launch {
+                scaffoldState.snackbarHostState.showSnackbar("Something went wrong")
+            }
+        }
+
+
     }
 
     LaunchedEffect(key1 = passwordChangedState.value){
@@ -130,7 +156,7 @@ fun Profile_Screen(
             coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Changed successfully") }
 
         }
-        profileViewModel.restartPasswordState()
+        profileViewModel.restart()
 
     }
 
@@ -166,10 +192,10 @@ if(dialog)
             Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background), verticalArrangement = Arrangement.SpaceAround
+                .background(MaterialTheme.colorScheme.background), verticalArrangement = Arrangement.SpaceBetween
         ) {
 
-            item {
+            item{
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(), horizontalArrangement = Arrangement.Center
@@ -192,8 +218,6 @@ if(dialog)
                          }
 
                 }
-            }
-            item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -336,11 +360,11 @@ if(dialog)
                     }
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
-                        Box(modifier = Modifier.padding(10.dp, 10.dp)) {
+                        Box(modifier = Modifier.padding(10.dp, 10.dp,10.dp,20.dp)) {
 
                             Item(R.drawable.logout, "Logout", false, onClick = {
                                profileViewModel.logout()
-                                navHostController.navigate(Screen.LoginScreen.route)
+
                             })
                         }
                     }
@@ -422,9 +446,26 @@ fun optionsField(
 
             //AppointmentInput(text = "", onTextChange = {}, hint = hint, keyboardType = keyboardType)
             if(show) {
-                androidx.compose.material3.TextField(
-                    value = toChange,
+
+                TextField(value = toChange,
+
+
+
+                    textStyle = MaterialTheme.typography.labelLarge,
+
+                    keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+                    colors = TextFieldDefaults.textFieldColors(textColor = MaterialTheme.colorScheme.onBackground,containerColor = Color.Transparent, errorIndicatorColor = MaterialTheme.colorScheme.errorContainer),
+                    placeholder = {
+                        Text(hint,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier)},
+
                     onValueChange = { toChange = it })
+
+
+
+
                 androidx.compose.material3.TextButton(onClick = {
                     onChangeClicked(toChange)
 

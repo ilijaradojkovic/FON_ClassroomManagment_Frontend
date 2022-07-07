@@ -233,15 +233,12 @@ fun EmployeeCardRoles(onClick: () -> Unit,
         ) {
             Text("Change Role")
 
-            LazyColumn() {
-                items(userRoles, key = { it.id }) {
-                    OutlinedButton(onClick = { changeRoleTo(it.id, UUID.fromString(idUser)) }) {
-                        Text(it.name)
-                    }
+            userRoles.forEach {
+                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { changeRoleTo(it.id, UUID.fromString(idUser)) }) {
+                    Text(it.name)
                 }
-
-
             }
+
         }
 
     }

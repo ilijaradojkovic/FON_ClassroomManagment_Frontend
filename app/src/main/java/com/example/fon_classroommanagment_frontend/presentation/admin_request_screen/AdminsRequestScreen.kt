@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -75,35 +76,46 @@ fun AdminsRequestScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(2f)
+                     ,
+                    horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(
                         modifier = Modifier
                             .weight(2f)
-                            .fillMaxHeight(),
+
+
+                            ,
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        if(userDetails.image==null)
-                        Image(
-                            painter = painterResource(id = R.drawable.avatar),
-                            contentDescription = "Profile_Image",
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .border(2.dp, Color.White, shape = CircleShape)
-                        )
-                        else
-                            adminRequestsViewModel.getImageWithBase64(userDetails.image)?.let { it1 ->
+
+                            if (userDetails.image == null)
                                 Image(
-                                    bitmap = it1.asImageBitmap(),
+                                    painter = painterResource(id = R.drawable.avatar),
                                     contentDescription = "Profile_Image",
                                     modifier = Modifier
+                                        .size(200.dp)
                                         .clip(CircleShape)
-                                        .border(2.dp, Color.White, shape = CircleShape)
+                                        .border(2.dp, Color.White, shape = CircleShape),
+                                    contentScale = ContentScale.Crop
                                 )
-                            }
+                            else
+                                adminRequestsViewModel.getImageWithBase64(userDetails.image)
+                                    ?.let { it1 ->
+                                        Image(
+                                            bitmap = it1.asImageBitmap(),
+                                            contentDescription = "Profile_Image",
+                                            modifier = Modifier
+                                                .size(200.dp)
+                                                .clip(CircleShape)
+
+                                                .border(2.dp, Color.White, shape = CircleShape),
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    }
+                        }
 
 
-                    }
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

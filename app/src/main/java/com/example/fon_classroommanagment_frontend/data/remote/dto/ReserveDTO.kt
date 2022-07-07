@@ -10,7 +10,7 @@ import java.util.*
 data class ReserveDTO (
     var id: UUID? =UUID.randomUUID(),
     val email: String? = null,
-    val classroomId: Long,
+    var classroomId: Long,
     var name: String,
     var date_appointment: Date,
     var decription: String,

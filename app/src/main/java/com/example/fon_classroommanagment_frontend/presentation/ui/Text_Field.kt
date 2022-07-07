@@ -19,8 +19,8 @@ import com.example.fon_classroommanagment_frontend.presentation.appointment_inse
 
 @Composable
 fun Text_Field(text:String, changeText:(String)->Unit, @DrawableRes leadingIcon:Int, hint:String, errorMessage:String=""){
-    Column(modifier = Modifier.width(IntrinsicSize.Max), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
-        ErrorField(text = errorMessage,Modifier.fillMaxWidth(0.8f))
+    Column(modifier = Modifier.fillMaxWidth(0.7f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
+        ErrorField(text = errorMessage,Modifier.fillMaxWidth(0.7f))
         TextField(
             value = text,
             modifier = Modifier
@@ -49,6 +49,7 @@ fun Text_Field(text:String, changeText:(String)->Unit, @DrawableRes leadingIcon:
                 unfocusedIndicatorColor = Color.Transparent
             ),
             maxLines = 1,
+
             keyboardOptions = KeyboardOptions(
                 autoCorrect = true,
                 keyboardType = KeyboardType.Email

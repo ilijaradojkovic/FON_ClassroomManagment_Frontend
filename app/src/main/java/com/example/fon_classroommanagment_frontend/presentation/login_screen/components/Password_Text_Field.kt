@@ -38,7 +38,7 @@ fun Password_Text_Field(text:String, changeText:(String)->Unit, @DrawableRes lea
 
     }
 
-    Column(modifier = Modifier.width(IntrinsicSize.Max), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
+    Column(modifier = Modifier.fillMaxWidth(0.7f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(5.dp)) {
         Text(errorMessage, modifier = Modifier.fillMaxWidth(0.8f), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.error)
         TextField(
             value = text,

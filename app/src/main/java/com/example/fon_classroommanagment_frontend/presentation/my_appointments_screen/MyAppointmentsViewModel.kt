@@ -45,6 +45,7 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
 
         viewModelScope.launch {
             _reservations.forEachIndexed { index, x ->
+                Log.i("cao",x.toString())
                 myAppointmentUseCase.checkAvailabilityClassroomForDateUseCase(CreateRequestAvailabilityClassroomDTO(x.reserveDTO)).onEach { result ->
                     when (result) {
                         is Response.Success -> {

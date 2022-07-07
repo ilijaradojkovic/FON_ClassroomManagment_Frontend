@@ -56,21 +56,7 @@ fun Navigation() {
                 AdminsRequestScreen(navController,id)
             }
         }
-//        composable(route = Screen.AditionalInfoScreen.route)
-//        {
-//
-//            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<UserRegistrationDTO>("registerObject")
-//            if (registerObject != null) {
-//                Aditional_Info_Screen(navController,registerObject)
-//            }
-//        }
-//        composable(route = Screen.TypeEMPEducationEMPScreen.route){
-//            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<UserRegistrationDTO>("registerObject")
-//
-//            if (registerObject != null) {
-//                TypeEMP_EducationEMP_Screen(registerObject, navHostController = navController)
-//            }
-//        }
+
 
         composable(route= Screen.DetailsClassroomScreen.route+"?classroomId={classroomId}",
         arguments = listOf(navArgument("classroomId"){
