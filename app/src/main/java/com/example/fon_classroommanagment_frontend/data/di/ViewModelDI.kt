@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.fon_classroommanagment_frontend.domain.use_case.*
 import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.AdminUseCases
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_details_page_cases.AppointmentDetailsUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.AppointmentInsertionUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.AppointmentsUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.components.GetReservationsForClassroomAndDateUseCse
@@ -17,6 +18,7 @@ import com.example.fon_classroommanagment_frontend.presentation.classrooms_scree
 import com.example.fon_classroommanagment_frontend.presentation.appointments_screen.AppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.AppointmentInsertionViewModel
 import com.example.fon_classroommanagment_frontend.presentation.classrooms_screen.FilterViewModel
+import com.example.fon_classroommanagment_frontend.presentation.details_appointment_screen.DetailsAppointmentViewModel
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.example.fon_classroommanagment_frontend.presentation.login_screen.LoginViewModel
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
@@ -87,6 +89,12 @@ class ViewModelDI {
     @Singleton
     fun provideAdminRequestsViewModel(adminUseCases: AdminUseCases) : AdminRequestsViewModel =
         AdminRequestsViewModel(adminUseCases)
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @Provides
+    @Singleton
+    fun provideAppointmentDetailsViewModel(appointmentDetailsUseCase: AppointmentDetailsUseCase) : DetailsAppointmentViewModel =
+        DetailsAppointmentViewModel(appointmentDetailsUseCase)
 
 
 }

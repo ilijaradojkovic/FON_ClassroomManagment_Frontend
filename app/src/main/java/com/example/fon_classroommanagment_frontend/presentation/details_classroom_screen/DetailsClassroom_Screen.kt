@@ -208,7 +208,7 @@ fun CategoryChip_Outlined(
             Text(
                 text = category,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(8.dp)
             )
         }

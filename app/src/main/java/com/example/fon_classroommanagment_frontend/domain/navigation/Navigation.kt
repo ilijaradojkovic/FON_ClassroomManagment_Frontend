@@ -18,9 +18,11 @@ import com.example.fon_classroommanagment_frontend.data.remote.dto.ClassroomChip
 import com.example.fon_classroommanagment_frontend.data.remote.dto.ReserveDTO
 import com.example.fon_classroommanagment_frontend.data.remote.dto.UserRegistrationDTO
 import com.example.fon_classroommanagment_frontend.domain.navigation.ReservationDTONav
+import com.example.fon_classroommanagment_frontend.presentation.details_appointment_screen.DetailsAppointment_Screen
 import com.example.fon_classroommanagment_frontend.presentation.details_classroom_screen.DetailsClassromViewModel
 import com.example.fon_classroommanagment_frontend.presentation.my_appointments_screen.MyAppointmentsViewModel
 import com.example.fon_classroommanagment_frontend.screens.Appointment_Insertion_Screen
+import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -122,6 +124,26 @@ fun Navigation() {
 //           // Log.i("cao",saved.toString())
 
             My_Appointments_Screen(navController,requestViewMode)
+        }
+
+        composable(route= Screen.DetailsAppointmentScreen.route+"?id={id}",
+            arguments = listOf(navArgument("id"){
+                type= NavType.StringType
+                defaultValue=""
+            }
+
+            )){
+//            BackHandler(true) {
+//            navController.navigate(Screen.BottomBarScreens.ReservationScreen.route)
+//            }
+
+//            val registerObject= navController.previousBackStackEntry?.arguments?.getParcelable<RequestReservastion>("RequestReservastion")
+//            val saved=navController.previousBackStackEntry?.arguments?.getBoolean("saved")
+//           // Log.i("cao",saved.toString())
+            val id=it.arguments?.getString("id")
+
+
+           DetailsAppointment_Screen(navController,UUID.fromString(id))
         }
 
 

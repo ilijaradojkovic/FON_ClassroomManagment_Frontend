@@ -30,6 +30,7 @@ object Routes {
     const val APPOINTMENT_AVAILABILITY="${APPOINTMENT_PREFIX}/available"
     const val APPOINTMENT_DATE = "${APPOINTMENT_PREFIX}/{date}"
     const val APPOINTMENT_UPDATE = APPOINTMENT_PREFIX
+    const val APPOINTMENT_DETAILS = "${APPOINTMENT_PREFIX}/details"
 
 
     //user

@@ -11,16 +11,15 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
 
     private val myAppointments= mutableSetOf<ReserveDTO>()
 
-    override suspend fun getSelectedAppointment(id:UUID): ReserveDTO
-    {
-        return myAppointments.first{x->x.id==id}
+    override suspend fun getSelectedAppointment(id: UUID): ReserveDTO {
+        return myAppointments.first() { x -> x.id == id }
     }
 
     override suspend fun saveAppointment(reserveDTO: ReserveDTO) {
         myAppointments.add(reserveDTO)
     }
 
-    override suspend fun updateAppointment(reserveDTO: ReserveDTO) {
+    override suspend fun updateLocalAppointment(reserveDTO: ReserveDTO) {
         myAppointments.map { x ->
             if (x.id == reserveDTO.id) {
                 x.classroomId=reserveDTO.classroomId
@@ -45,6 +44,14 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
 
     override suspend fun deleteAppointmentLocal(id: UUID) {
         myAppointments.removeIf{x->x.id==id}
+    }
+
+    override suspend fun getAppointmentDetails(id: UUID): AppointmentDetailsDTO {
+        return api.getAppointmentDetails(id)
+    }
+
+    override suspend fun updateAppointment(updateAppointmentDTO: UpdateAppointmentDTO) {
+        return api.updateAppointment(updateAppointmentDTO)
     }
 
     override suspend fun getReservationsForDate(

@@ -144,6 +144,7 @@ init {
 
                     _appointmentsForUser.clear()
                     _networkState.value= UIRequestResponse(success = true)
+
                     result.data?.let { _appointmentsForUser.addAll(it) }
 
                 }

@@ -32,7 +32,8 @@ fun ClassroomInputChip(
     errorText: String,
     selectedItems: SnapshotStateList<ClassroomChipDTO>,
     classroomNames: SnapshotStateList<ClassroomChipDTO>,
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit,
+    toUpdate: Boolean
 
 ){
 
@@ -49,6 +50,7 @@ fun ClassroomInputChip(
                 onTextChange(it)
             },
             suggestions = classroomNames,
+            toUpdate
 
         )
         Box(
@@ -81,6 +83,7 @@ fun CreateChipsInputFiled(
     selectedItems: SnapshotStateList<ClassroomChipDTO>,
     onTextChange: (String) -> Unit,
     suggestions: SnapshotStateList<ClassroomChipDTO>,
+    toUpdate:Boolean
 
 ){
 
@@ -94,7 +97,7 @@ fun CreateChipsInputFiled(
             onTextChange(updatedAddress)
 
 
-            //Todo: call the view model method to update addressPlaceItemPredictions
+
         },
         predictions = suggestions.filter {x->x.name.startsWith(text.trim())  }     ,
         onDoneActionClick = {
@@ -102,13 +105,14 @@ fun CreateChipsInputFiled(
                            val chip= suggestions.filter { x-> x.name == it }.firstOrNull()
             chip?.let {
                 if(selectedItems.filter { x->x.name==chip.name }.firstOrNull()==null)
+                    if(toUpdate) selectedItems.clear()
                     selectedItems.add(chip)
             }
 
         },
         onItemClick = {
 
-            //Todo: call the view model method to update the UI with the selection
+
                       onTextChange(it.name)
 
         },

@@ -117,7 +117,7 @@ fun Appointment_Insertion_Screen(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ClassroomInputChip(appointmentCreationViewModel.classroomsError,appointmentCreationViewModel.classrooms,appointmentCreationViewModel.classroomNames,onTextChange={appointmentCreationViewModel.getAllClassroomNamesSearched(it)})
+                    ClassroomInputChip(appointmentCreationViewModel.classroomsError,appointmentCreationViewModel.classrooms,appointmentCreationViewModel.classroomNames,onTextChange={appointmentCreationViewModel.getAllClassroomNamesSearched(it)},false)
 
 
                 }

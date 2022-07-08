@@ -8,6 +8,9 @@ import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_ca
 import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.components.ConfirmAppointmentsUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.components.DeclineAppointmentUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.admin_page_cases.components.RetriveUserDetailsDataUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_details_page_cases.AppointmentDetailsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_details_page_cases.components.GetAppointmentDetailsUseCase
+import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_details_page_cases.components.UpdateAppointmentUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.AppointmentInsertionUseCase
 import com.example.fon_classroommanagment_frontend.domain.use_case.appointment_insertion_page_cases.components.*
 import com.example.fon_classroommanagment_frontend.domain.use_case.appointments_page_cases.AppointmentsUseCase
@@ -156,16 +159,16 @@ class UseCaseDI {
         DeclineAppointmentUseCase(appointmentRepository)
     @Provides
     @Singleton
-    fun ProvideGetAppointmentDataUseCase(appointmentRepository: AppointmentRepository):GetAppointmentDataUseCase =
-        GetAppointmentDataUseCase(appointmentRepository)
+    fun ProvideGetAppointmentDataUseCase(appointmentRepository: AppointmentRepository):GetLocalAppointmentDataUseCase =
+        GetLocalAppointmentDataUseCase(appointmentRepository)
     @Provides
     @Singleton
     fun ProvideSaveAppointmentDataUseCase(appointmentRepository: AppointmentRepository): SaveAppointmentDataUseCase =
         SaveAppointmentDataUseCase(appointmentRepository)
     @Provides
     @Singleton
-    fun ProvideUpdateAppointmentDataUseCase(appointmentRepository: AppointmentRepository): UpdateAppointmentDataUseCase =
-        UpdateAppointmentDataUseCase(appointmentRepository)
+    fun ProvideUpdateAppointmentDataUseCase(appointmentRepository: AppointmentRepository): UpdateLocalAppointmentDataUseCase =
+        UpdateLocalAppointmentDataUseCase(appointmentRepository)
     @Provides
     @Singleton
     fun ProvideGetAllAppointmentsUseCase(appointmentRepository: AppointmentRepository): GetAllAppointmentsUseCase =
@@ -249,11 +252,11 @@ class UseCaseDI {
     fun ProvideAppointmentInsertionUseCaseUseCase(
         getAllReservationTypesUseCase: GetAllReservationTypesUseCase,
         getAllClassroomsChipUseCase: GetAllClassroomsMainInformationUseCase,
-        getAppointmentDataUseCase: GetAppointmentDataUseCase,
+        getAppointmentDataUseCase: GetLocalAppointmentDataUseCase,
         sharedPreferences: SharedPreferences,
         saveAppointmentDataUseCase: SaveAppointmentDataUseCase,
-        updateAppointmentDataUseCase: UpdateAppointmentDataUseCase
-    , validateInsertionAppointmentUseCase: ValidateInsertionAppointmentUseCase
+        updateAppointmentDataUseCase: UpdateLocalAppointmentDataUseCase
+        , validateInsertionAppointmentUseCase: ValidateInsertionAppointmentUseCase
   ): AppointmentInsertionUseCase =
         AppointmentInsertionUseCase(getAllReservationTypesUseCase,
             getAllClassroomsChipUseCase,
@@ -311,8 +314,30 @@ class UseCaseDI {
 
     @Provides
     @Singleton
-    fun ProvideVGetUserRolesUseCase(commonDataRepository: CommonDataRepository):GetUserRolesUseCase= GetUserRolesUseCase(commonDataRepository)
+    fun ProvideGetUserRolesUseCase(commonDataRepository: CommonDataRepository):GetUserRolesUseCase= GetUserRolesUseCase(commonDataRepository)
 
+
+    @Provides
+    @Singleton
+    fun ProvideAppointmentDetailsUseCase(
+        getAppointmentDetailsUseCase: GetAppointmentDetailsUseCase,
+        getAllReservationTypesUseCase: GetAllReservationTypesUseCase,
+        getAllClassroomsChipUseCase: GetAllClassroomsMainInformationUseCase,
+        updateAppointmentDataUseCase: UpdateAppointmentUseCase,
+        validateInsertionAppointmentUseCase: ValidateInsertionAppointmentUseCase
+    ):AppointmentDetailsUseCase= AppointmentDetailsUseCase(getAppointmentDetailsUseCase,getAllReservationTypesUseCase,getAllClassroomsChipUseCase,updateAppointmentDataUseCase,validateInsertionAppointmentUseCase)
+
+    @Provides
+    @Singleton
+    fun ProvideGetAppointmentDetailsUseCaseUseCase(
+appointmentRepository: AppointmentRepository
+    ):GetAppointmentDetailsUseCase= GetAppointmentDetailsUseCase(appointmentRepository)
+
+    @Provides
+    @Singleton
+    fun ProvideUpdateAppointmentUseCaseUseCaseUseCase(
+appointmentRepository: AppointmentRepository
+    ):UpdateAppointmentUseCase= UpdateAppointmentUseCase(appointmentRepository)
 
 
     @Provides

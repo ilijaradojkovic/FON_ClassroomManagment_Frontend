@@ -8,10 +8,10 @@ import javax.inject.Inject
 class AppointmentInsertionUseCase @Inject  constructor(
     val getAllReservationTypesUseCase: GetAllReservationTypesUseCase,
     val getAllClassroomsChipUseCase: GetAllClassroomsMainInformationUseCase,
-    val getAppointmentDataUseCase: GetAppointmentDataUseCase,
+    val getAppointmentDataUseCase: GetLocalAppointmentDataUseCase,
     val sharedPreferences: SharedPreferences,
     val saveAppointmentDataUseCase: SaveAppointmentDataUseCase,
-    val updateAppointmentDataUseCase: UpdateAppointmentDataUseCase,
+    val updateAppointmentDataUseCase: UpdateLocalAppointmentDataUseCase,
     val validateInsertionAppointmentUseCase: ValidateInsertionAppointmentUseCase
 ){
 }

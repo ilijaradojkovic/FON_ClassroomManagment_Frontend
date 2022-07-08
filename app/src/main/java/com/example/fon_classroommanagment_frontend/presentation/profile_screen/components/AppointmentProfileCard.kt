@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment_frontend.presentation.common.bars.Com
 import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.ExperimentalMaterialApi
@@ -25,17 +26,21 @@ import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.data.remote.dto.AppointmentsForUserDTO
 import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatus
 import java.text.SimpleDateFormat
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun AppointmentProfileCard(
+    onClick:(UUID)->Unit,
     state:AppointmentStatus,
     appointmentsForUserDTO: AppointmentsForUserDTO,
 
 
     ) {
 
-        Card(modifier = Modifier.fillMaxWidth()) {
+        Card(modifier = Modifier.fillMaxWidth().clickable {
+            onClick(appointmentsForUserDTO.id)
+        }) {
 
 
             Row(modifier = Modifier.height(100.dp)) {

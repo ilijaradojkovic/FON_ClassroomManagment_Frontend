@@ -314,6 +314,7 @@ if(dialog)
 
                         }
                         AppointmentListDissmisable(
+                            navHostController,
                             profileViewModel,
                             animateheightMyRequests.value,
                             animatepaddingMyRequests.value
@@ -482,7 +483,7 @@ fun optionsField(
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheightMyRequests: Dp, animatepaddingMyRequests: Dp) {
+fun AppointmentListDissmisable(navHostController: NavHostController,profileViewModel: ProfileViewModel, animateheightMyRequests: Dp, animatepaddingMyRequests: Dp) {
     Box(modifier=Modifier.height(animateheightMyRequests)) {
         LazyColumn(userScrollEnabled = false) {
             items(profileViewModel.appointmentsForUser, key = { it -> it.id }) {
@@ -541,6 +542,9 @@ fun AppointmentListDissmisable(profileViewModel: ProfileViewModel, animateheight
 
 
                         AppointmentProfileCard(
+                            {
+                                navHostController.navigate(Screen.DetailsAppointmentScreen.route+"?id=${it}")
+                            },
 
                             when (it.state) {
                                 Constants.APPROVED_KEY -> AppointmentStatus.Accepted(isSystemInDarkTheme())

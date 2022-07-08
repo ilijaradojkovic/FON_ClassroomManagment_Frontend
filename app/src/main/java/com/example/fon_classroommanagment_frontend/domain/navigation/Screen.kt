@@ -15,6 +15,7 @@ sealed class Screen(val route:String) {
 //    object TypeEMPEducationEMPScreen: Screen("TypeEMP_EducationEMP_Screen")
     object MyClassroomRequestsScreen: Screen("My_ClassroomRequests_Screen")
     object AdminRequestsScreen: Screen("Admin_Requets_Screen")
+    object DetailsAppointmentScreen: Screen("Details_Appointment_Screen")
 
 
 

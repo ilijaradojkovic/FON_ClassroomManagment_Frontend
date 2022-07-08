@@ -16,9 +16,11 @@ interface AppointmentRepository {
     suspend  fun confirmAllAppointments(toList: List<AppointmentRequestedUserDTO>)
     suspend fun getSelectedAppointment(id:UUID):ReserveDTO
     suspend fun saveAppointment(reserveDTO: ReserveDTO)
-    suspend fun updateAppointment(reserveDTO: ReserveDTO)
+    suspend fun updateLocalAppointment(reserveDTO: ReserveDTO)
     suspend fun getAllAppointments(): List<ReserveDTO>
     suspend fun deleteAppointmentLocal(id: UUID)
+    suspend fun getAppointmentDetails(id: UUID):AppointmentDetailsDTO
+    suspend fun updateAppointment(updateAppointmentDTO: UpdateAppointmentDTO)
 
 
 }

@@ -10,6 +10,8 @@ import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_AVA
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_CONFIRM
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_CONFIRM_ALL
 import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_DECLINE
+import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_DETAILS
+import com.example.fon_classroommanagment_frontend.common.Routes.APPOINTMENT_UPDATE
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_PARTIAL_INFO
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_DETAILS
 import com.example.fon_classroommanagment_frontend.common.Routes.CLASSROOM_FILTER
@@ -134,6 +136,12 @@ interface API {
 
  @POST(USER_ROLE_CHANGE)
  suspend fun updateRole(@Body updateRoleDTO:UpdateRoleDTO):Unit
+
+ @GET(APPOINTMENT_DETAILS)
+ suspend fun getAppointmentDetails(@Query("id") id: UUID): AppointmentDetailsDTO
+
+  @PATCH(APPOINTMENT_UPDATE)
+    suspend fun updateAppointment(@Body updateAppointmentDTO: UpdateAppointmentDTO)
 
 
 }
