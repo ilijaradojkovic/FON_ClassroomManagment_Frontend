@@ -62,8 +62,10 @@ val appointmentDetailsUseCase: AppointmentDetailsUseCase
     var startTimeErrorExplained by   mutableStateOf("")
     var endTimeErrorExplained by  mutableStateOf("")
 
-   private var _uiResponse = mutableStateOf(UIRequestResponse())
-    val uiResponse = _uiResponse
+   private var _uiResponseSave = mutableStateOf(UIRequestResponse())
+    val uiResponseSave = _uiResponseSave
+    private var _uiResponseDetails = mutableStateOf(UIRequestResponse())
+    val uiResponseDetails = _uiResponseDetails
     private var _appointmentTypes = mutableStateListOf<AppointmentType>()
     val appointmentTypes = _appointmentTypes
 
@@ -72,22 +74,22 @@ val appointmentDetailsUseCase: AppointmentDetailsUseCase
             appointmentDetailsUseCase.updateAppointmentDataUseCase(createUpdateDTO()).onEach { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _uiResponse.value=UIRequestResponse(isLoading = true)
+                        _uiResponseSave.value=UIRequestResponse(isLoading = true)
 
                     }
                     is Response.Error -> {
-                        _uiResponse.value=UIRequestResponse(isError = true)
+                        _uiResponseSave.value=UIRequestResponse(isError = true)
 
                     }
                     is Response.Success -> {
-                        _uiResponse.value=UIRequestResponse(success = true)
+                        _uiResponseSave.value=UIRequestResponse(success = true)
                     }
                 }
             }.launchIn(viewModelScope)
         }
     }
     fun restart(){
-        _uiResponse.value=UIRequestResponse()
+        _uiResponseSave.value=UIRequestResponse()
     }
 
     private fun validate(): Boolean {
@@ -185,18 +187,22 @@ val appointmentDetailsUseCase: AppointmentDetailsUseCase
         }.launchIn(viewModelScope)
     }
     fun getAppointmentData(id:UUID){
-
+        Log.i("cao","zovem"+id)
         appointmentDetailsUseCase.getAppointmentDetailsUseCase(id).onEach {
             result->
             when(result){
                 is Response.Success->{
               if(result.data!=null)
                     setData(result.data)
+                    _uiResponseDetails.value= UIRequestResponse(success = true)
                 }
                 is Response.Error->{
-                Log.i("cao",result.message.toString())
+                Log.i("cao","details"+result.message.toString())
+                    _uiResponseDetails.value=UIRequestResponse(isError = true)
+
                 }
                 is Response.Loading->{
+                    _uiResponseDetails.value=UIRequestResponse(isLoading = true)
 
                 }
             }
@@ -210,6 +216,7 @@ val appointmentDetailsUseCase: AppointmentDetailsUseCase
          numAttendeesText =data.number_of_attendies.toString()
          descriptionText =data.decription
             typeClass= data.type?.id ?:-1
+        classrooms.clear()
          classrooms.add(ClassroomChipDTO(data.classroomId,data.classroomName) )
          startTime =data.start_timeInHours.toString()
          endTime =data.end_timeInHours.toString()

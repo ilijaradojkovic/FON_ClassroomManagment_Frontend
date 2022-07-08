@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment_frontend.presentation.details_appointment_screen
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,11 +18,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.CallendarPicker
+import com.example.fon_classroommanagment_frontend.No_Internet_Screen
 import com.example.fon_classroommanagment_frontend.R
 import com.example.fon_classroommanagment_frontend.common.Constants
 import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.presentation.appointment_insetion_screen.components.ClassroomInputChip
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.TextIconButton
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmentInput
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.input.AppointmentMultyLineInput
@@ -45,7 +47,7 @@ fun DetailsAppointment_Screen(
 val dialog = remember {
     mutableStateOf(false)
 }
-    val uiResponse by detailsAppointmentViewModel.uiResponse
+    val uiResponse by detailsAppointmentViewModel.uiResponseSave
     LaunchedEffect(key1 = uiResponse){
         if(uiResponse.isLoading || uiResponse.isError||uiResponse.success)
             dialog.value=true
@@ -59,6 +61,7 @@ val dialog = remember {
         typeName=detailsAppointmentViewModel.getTextSelected
 
     }
+    val detailsReponse by detailsAppointmentViewModel.uiResponseDetails
     if(dialog.value){
 
             if (uiResponse.success) {
@@ -132,6 +135,7 @@ val dialog = remember {
         }
 
 
+    if(detailsReponse.success){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -263,5 +267,13 @@ val dialog = remember {
 
         }
 
+    }
+    }else if(detailsReponse.isError){
+        No_Internet_Screen {
+            navController.navigate(Screen.MainScreen.route)
+        }
+    }
+    else {
+        LottieAnimation(lottieAnim = R.raw.loading_dialog, iterations = LottieConstants.IterateForever)
     }
 }
