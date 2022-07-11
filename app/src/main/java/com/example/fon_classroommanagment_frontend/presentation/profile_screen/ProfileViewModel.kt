@@ -281,6 +281,11 @@ init {
         restartEmailState()
         restartLogoutState()
         restartDeleteState()
+        restartUpdateRoleState()
+    }
+
+    private fun restartUpdateRoleState() {
+        _updateRoleState.value=UIRequestResponse()
     }
 
     private fun restartDeleteState() {
