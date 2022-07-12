@@ -19,6 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,30 +43,33 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
     }
 
     private fun checkAppointmentsAvailability() {
+        if (validateAppointments()) {
+            viewModelScope.launch {
+                _reservations.forEachIndexed { index, x ->
 
-        viewModelScope.launch {
-            _reservations.forEachIndexed { index, x ->
-                Log.i("cao",x.toString())
-                myAppointmentUseCase.checkAvailabilityClassroomForDateUseCase(CreateRequestAvailabilityClassroomDTO(x.reserveDTO)).onEach { result ->
-                    when (result) {
-                        is Response.Success -> {
-                            if (!result.data!!) _reservations[index] =
-                                x.copy(uiRequestResponse = UIRequestResponse(isError = true))
-                            else _reservations[index] =
-                                x.copy(uiRequestResponse = UIRequestResponse(success = true))
-                        }
-                        is Response.Error -> {
-                            _reservations[index] =
-                                x.copy(uiRequestResponse = UIRequestResponse(isError = true))
+                    myAppointmentUseCase.checkAvailabilityClassroomForDateUseCase(
+                        CreateRequestAvailabilityClassroomDTO(x.reserveDTO)
+                    ).onEach { result ->
+                        when (result) {
+                            is Response.Success -> {
+                                if (!result.data!!) _reservations[index] =
+                                    x.copy(uiRequestResponse = UIRequestResponse(isError = true))
+                                else _reservations[index] =
+                                    x.copy(uiRequestResponse = UIRequestResponse(success = true))
+                            }
+                            is Response.Error -> {
+                                _reservations[index] =
+                                    x.copy(uiRequestResponse = UIRequestResponse(isError = true))
+
+                            }
+                            is Response.Loading -> {
+                                _reservations[index] =
+                                    x.copy(uiRequestResponse = UIRequestResponse(isLoading = true))
+                            }
 
                         }
-                        is Response.Loading -> {
-                            _reservations[index] =
-                                x.copy(uiRequestResponse = UIRequestResponse(isLoading = true))
-                        }
-
-                    }
-                }.launchIn(viewModelScope)
+                    }.launchIn(viewModelScope)
+                }
             }
         }
     }
@@ -133,7 +137,7 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
                     is Response.Success -> {
                         _reservantionState.value= UIRequestResponse(success = true)
                         _reservations.clear()
-                        Log.i("cao","success ${result.data}")
+
 
                     }
                     is Response.Error -> {
@@ -145,7 +149,7 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
                     is Response.Loading -> {
                         _reservantionState.value=UIRequestResponse(isLoading = true)
 
-                        Log.i("cao","loading")
+
                     }
 
                 }
@@ -162,7 +166,29 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
 
 
     private fun validateAppointments(): Boolean
-     =   _reservations.all { x-> x.uiRequestResponse.success } && _reservations.isNotEmpty()
+    {
+       // _reservations.all { x-> x.uiRequestResponse.success } && _reservations.isNotEmpty()
+        val resultList= LinkedList<ReserveDTO>()
+       _reservations.forEach {
+           Log.i("cao",it.toString())
+           if(
+
+               resultList.any { ele->
+                   it.reserveDTO.classroomId==ele.classroomId &&
+                   it.reserveDTO.date==ele.date &&
+                           ((it.reserveDTO.start_timeInHours<=ele.start_timeInHours  && it.reserveDTO.end_timeInHours>= ele.start_timeInHours && it.reserveDTO.end_timeInHours<=ele.end_timeInHours) ||
+                           (it.reserveDTO.start_timeInHours>=ele.start_timeInHours && it.reserveDTO.start_timeInHours<ele.end_timeInHours && it.reserveDTO.end_timeInHours <= ele.end_timeInHours)||
+                           (it.reserveDTO.start_timeInHours>=ele.start_timeInHours && it.reserveDTO.start_timeInHours<= ele.end_timeInHours && ele.end_timeInHours<=it.reserveDTO.end_timeInHours))
+               }
+           ){
+               it.uiRequestResponse=UIRequestResponse(isError = true)
+           }else{
+               it.uiRequestResponse=UIRequestResponse(success = true)
+               resultList.add(it.reserveDTO)
+           }
+       }
+        return _reservations.size==resultList.size
+    }
 
     fun restart() {
         _reservantionState.value=UIRequestResponse()

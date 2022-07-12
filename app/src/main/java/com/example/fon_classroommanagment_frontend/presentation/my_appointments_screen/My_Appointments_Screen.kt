@@ -43,9 +43,8 @@ import java.util.*
 @Composable
 fun My_Appointments_Screen(
     navController: NavHostController,
-  //  requestReservation: RequestReservastion?,
     requestViewMode: MyAppointmentsViewModel,
-   // saved:Boolean?
+
 
 ) {
 val scaffoldState = rememberScaffoldState()
@@ -57,10 +56,8 @@ val scaffoldState = rememberScaffoldState()
     val reservationState=requestViewMode.reservationState
 
     Scaffold(scaffoldState=scaffoldState, modifier = Modifier.fillMaxSize()) {
-
         Box(Modifier
-          .fillMaxSize()
-            ,
+          .fillMaxSize(),
             Alignment.Center) {
 
            if( reservationState.value.isError || reservationState.value.success) {
