@@ -176,9 +176,9 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
                resultList.any { ele->
                    it.reserveDTO.classroomId==ele.classroomId &&
                    it.reserveDTO.date==ele.date &&
-                           ((it.reserveDTO.start_timeInHours<=ele.start_timeInHours  && it.reserveDTO.end_timeInHours>= ele.start_timeInHours && it.reserveDTO.end_timeInHours<=ele.end_timeInHours) ||
+                           ((it.reserveDTO.start_timeInHours<=ele.start_timeInHours  && it.reserveDTO.end_timeInHours> ele.start_timeInHours && it.reserveDTO.end_timeInHours<=ele.end_timeInHours) ||
                            (it.reserveDTO.start_timeInHours>=ele.start_timeInHours && it.reserveDTO.start_timeInHours<ele.end_timeInHours && it.reserveDTO.end_timeInHours <= ele.end_timeInHours)||
-                           (it.reserveDTO.start_timeInHours>=ele.start_timeInHours && it.reserveDTO.start_timeInHours<= ele.end_timeInHours && ele.end_timeInHours<=it.reserveDTO.end_timeInHours))
+                           (it.reserveDTO.start_timeInHours>=ele.start_timeInHours && it.reserveDTO.start_timeInHours< ele.end_timeInHours && ele.end_timeInHours<=it.reserveDTO.end_timeInHours))
                }
            ){
                it.uiRequestResponse=UIRequestResponse(isError = true)
