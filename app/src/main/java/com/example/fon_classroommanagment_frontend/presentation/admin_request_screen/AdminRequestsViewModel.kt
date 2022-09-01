@@ -107,7 +107,6 @@ private val adminUseCases: AdminUseCases
             when(result){
                 is Response.Loading->{
 
-                    Log.i("cao","loading confirm appointemnt")
                     _uiStateActionPefromed.value=UIRequestResponse(isLoading = true)
 
                 }
@@ -130,6 +129,7 @@ private val adminUseCases: AdminUseCases
     fun confirmAppointment(appointmentId:UUID) {
         adminUseCases.confirmAppointmentUseCase(appointmentId).onEach {
             result->
+            Log.i("cao",result.toString())
                 when(result){
                     is Response.Loading->{
                         _uiStateActionPefromed.value=UIRequestResponse(isLoading = true)
@@ -150,6 +150,9 @@ private val adminUseCases: AdminUseCases
 
 
         }.launchIn(viewModelScope)
+    }
+    fun  restart(){
+        _uiStateActionPefromed.value=UIRequestResponse()
     }
 
 

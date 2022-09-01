@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.*
@@ -17,7 +16,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -29,13 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -46,11 +42,7 @@ import com.example.fon_classroommanagment_frontend.domain.model.AppointmentStatu
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.cards.AppointmentProfileCard
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 import com.example.fon_classroommanagment_frontend.presentation.profile_screen.ProfileViewModel
-import com.github.skgmn.composetooltip.AnchorEdge
-import com.github.skgmn.composetooltip.Tooltip
-import com.github.skgmn.composetooltip.rememberTooltipStyle
 import kotlinx.coroutines.launch
-import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -202,7 +194,7 @@ if(dialog)
                 ) {
                      if(userDetails.image==null)
                     Image(
-                        painter = painterResource(id = R.drawable.avatar),
+                        painter = if(!isSystemInDarkTheme())painterResource(id = R.drawable.user_default_dark) else painterResource(id = R.drawable.user_default_light),
                         contentDescription = "Profile_Image",
                         modifier = Modifier
                             .clip(CircleShape)
@@ -214,7 +206,8 @@ if(dialog)
                                  contentDescription = "Profile_Image",
                                  modifier = Modifier
                                      .clip(CircleShape)
-                                     .border(2.dp, Color.White, shape = CircleShape).size(200.dp), contentScale = ContentScale.Crop)
+                                     .border(2.dp, Color.White, shape = CircleShape)
+                                     .size(200.dp), contentScale = ContentScale.Crop)
                          }
 
                 }
@@ -241,7 +234,7 @@ if(dialog)
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                                 Box(modifier = Modifier.padding(10.dp, 0.dp)) {
                                     Item(
-                                        R.drawable.avatar,
+                                        R.drawable.user_default_light,
                                         "Employees",
                                         false,
                                         //profileViewModel.appointmentsRequested.size,

@@ -102,7 +102,7 @@ import com.example.fon_classroommanagment_frontend.presentation.login_screen.com
                 horizontalArrangement = Arrangement.Center
             ) {
 
-                IconRoundBorder(R.drawable.avatar)
+                IconRoundBorder(R.drawable.user_default_light)
 
 
             }

@@ -22,12 +22,14 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.fon_classroommanagment_frontend.domain.navigation.Screen
 import com.example.fon_classroommanagment_frontend.presentation.admin_request_screen.AdminRequestsViewModel
 import com.example.fon_classroommanagment_frontend.presentation.common.bars.Components.LottieAnimation
+import com.example.fon_classroommanagment_frontend.presentation.common.bars.SuccessRegistrationDialog
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -43,7 +45,7 @@ fun AdminsRequestScreen(
     val scaffoldState = rememberScaffoldState()
     val uiActionState by adminRequestsViewModel.uiStateActionPefromed
     LaunchedEffect(key1 = true){
-        
+        adminRequestsViewModel.restart()
         adminRequestsViewModel.getUserDetails(id)
         adminRequestsViewModel.getRequests(id)
     }
@@ -57,7 +59,8 @@ fun AdminsRequestScreen(
         }
     }
 
-    if(adminRequestsViewModel.uiStateRequests.value.isError){
+    
+     if(adminRequestsViewModel.uiStateRequests.value.isError){
         No_Internet_Screen {
             navHostController.navigate(Screen.BottomBarScreens.UserProfileScreen.route)
         }
@@ -65,7 +68,33 @@ fun AdminsRequestScreen(
     else
         androidx.compose.material.Scaffold(scaffoldState=scaffoldState) {
 
+            if(uiActionState.isLoading){
+                SuccessRegistrationDialog(
+                    isLoading = true,
+                    toNavigate = {},
+                    title = "",
+                    body = "",
+                    dismissButton = {
+                        Row(
+                            modifier = Modifier.padding(all = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
 
+                                }
+                            ) {
+                                Text(
+                                    "Sure!",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+                    })
+            }
+        }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -91,7 +120,7 @@ fun AdminsRequestScreen(
 
                             if (userDetails.image == null)
                                 Image(
-                                    painter = painterResource(id = R.drawable.avatar),
+                                    painter = painterResource(id = R.drawable.user_default_light),
                                     contentDescription = "Profile_Image",
                                     modifier = Modifier
                                         .size(200.dp)
@@ -189,4 +218,4 @@ fun AdminsRequestScreen(
 
             }
         }
-}
+

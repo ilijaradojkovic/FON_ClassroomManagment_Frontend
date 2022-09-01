@@ -52,10 +52,13 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
                     ).onEach { result ->
                         when (result) {
                             is Response.Success -> {
+
                                 if (!result.data!!) _reservations[index] =
                                     x.copy(uiRequestResponse = UIRequestResponse(isError = true))
-                                else _reservations[index] =
-                                    x.copy(uiRequestResponse = UIRequestResponse(success = true))
+                                else {
+                                    _reservations[index] =
+                                        x.copy(uiRequestResponse = UIRequestResponse(success = true))
+                                }
                             }
                             is Response.Error -> {
                                 _reservations[index] =
@@ -135,6 +138,7 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
         result->
                 when(result){
                     is Response.Success -> {
+
                         _reservantionState.value= UIRequestResponse(success = true)
                         _reservations.clear()
 
@@ -164,13 +168,13 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
     private fun createList(): List<ReserveDTO>
     =_reservations.map { it.reserveDTO }.toList()
 
-
+//ovde nes
     private fun validateAppointments(): Boolean
     {
        // _reservations.all { x-> x.uiRequestResponse.success } && _reservations.isNotEmpty()
         val resultList= LinkedList<ReserveDTO>()
        _reservations.forEach {
-           Log.i("cao",it.toString())
+
            if(
 
                resultList.any { ele->
@@ -183,7 +187,9 @@ private val myAppointmentUseCase: MyAppointmentsUseCase
            ){
                it.uiRequestResponse=UIRequestResponse(isError = true)
            }else{
-               it.uiRequestResponse=UIRequestResponse(success = true)
+
+
+               //it.uiRequestResponse=UIRequestResponse(success = true)
                resultList.add(it.reserveDTO)
            }
        }

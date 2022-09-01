@@ -81,11 +81,11 @@ class AppointmentRepositoryImpl @Inject constructor(private val api: API) :Appoi
     }
 
     override suspend fun confirmAppointment(appointmentId: UUID) {
-        api.confirmAppointment(appointmentId)
+        api.confirmAppointment(AppointmentAcceptDTO(appointmentId.toString()))
     }
 
     override suspend fun declineAppointment(appointmentId: UUID) {
-       api.declineAppointment(appointmentId)
+       api.declineAppointment(AppointmentDeclineDTO(appointmentId.toString()))
     }
 
     override suspend fun confirmAllAppointments(toList: List<AppointmentRequestedUserDTO>) {

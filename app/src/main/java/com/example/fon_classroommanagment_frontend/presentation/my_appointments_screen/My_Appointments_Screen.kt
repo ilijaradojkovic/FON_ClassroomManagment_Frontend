@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment_frontend
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -50,6 +51,7 @@ fun My_Appointments_Screen(
 val scaffoldState = rememberScaffoldState()
     var appointmentLoading by remember{ mutableStateOf(false)}
     LaunchedEffect(key1 = true) {
+
         requestViewMode.getAllAppointments()
 
     }

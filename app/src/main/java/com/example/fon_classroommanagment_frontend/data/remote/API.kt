@@ -113,9 +113,9 @@ interface API {
 
 
     @POST(APPOINTMENT_CONFIRM)
-    suspend fun confirmAppointment(@Query("id") appointmentId: UUID)
+    suspend fun confirmAppointment(@Body appointmentId: AppointmentAcceptDTO)
     @POST(APPOINTMENT_DECLINE)
-    suspend fun declineAppointment(@Query("id") appointmentId: UUID)
+    suspend fun declineAppointment(@Body appointmentId: AppointmentDeclineDTO)
     @POST(APPOINTMENT_CONFIRM_ALL)
     suspend  fun confirmAllAppointments(@Body toList: List<UUID>)
 

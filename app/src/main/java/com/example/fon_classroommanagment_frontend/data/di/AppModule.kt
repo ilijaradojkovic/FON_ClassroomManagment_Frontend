@@ -17,6 +17,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -37,10 +38,13 @@ class AppModule {
 
           val newRequest  = it.request().newBuilder()
                 .addHeader("Authorization", sharedPreferences.getString(Constants.VALIDATION_TOKEN_KEY,"")?:"")
+
                 .build()
              it.proceed(newRequest)
         }
-    ).build()
+    )  .readTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(60, TimeUnit.SECONDS).
+    build()
 
     @Singleton
     @Provides

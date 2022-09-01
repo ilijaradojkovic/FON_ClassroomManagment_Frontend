@@ -10,6 +10,7 @@ import com.example.fon_classroommanagment_frontend.common.Validation
 class ValidateAttendees {
     operator  fun invoke(numAttendeesText:String):Validation{
         var validation:Validation=Validation.Success()
+
         if(numAttendeesText.isEmpty()) {
             validation=Validation.Error(attendees_error, attendees_error_empty)
        return  validation
@@ -18,11 +19,14 @@ class ValidateAttendees {
             validation=Validation.Error(attendees_error, attendees_error_not_valid_number)
             return  validation
         }
+
         if(numAttendeesText.toInt()> Constants.MAX_CAPACITY){
             validation=Validation.Error(attendees_error, attendees_error_max_capacity)
 
             return validation
         }
+
+
         return validation
     }
 }

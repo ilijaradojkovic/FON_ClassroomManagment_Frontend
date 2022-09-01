@@ -25,6 +25,6 @@ sealed class Screen(val route:String) {
         object ReservationScreen:
             BottomBarScreens("Reservation_Screen",R.drawable.callendar,R.drawable.calendar_filled ,"Reservations")
         object  UserProfileScreen:
-            BottomBarScreens("UserProfile_Screen",R.drawable.avatar,R.drawable.avatar_filled,"Profile")
+            BottomBarScreens("UserProfile_Screen",R.drawable.user_default_light,R.drawable.avatar_filled,"Profile")
     }
 }

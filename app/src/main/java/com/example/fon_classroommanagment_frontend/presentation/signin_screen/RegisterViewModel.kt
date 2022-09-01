@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.onEach
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 import android.R.attr.bitmap
-
-
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 
 @HiltViewModel
@@ -57,39 +57,43 @@ init {
     _canNavigate.value=false
 }
     fun Register(){
-
         _state.value= UIRequestResponse(isLoading = true)
         if(Validate(emailText.value,passwordText.value,passwordRepeatText.value,fullNameText.value)){
-            UserRegistrationDTO.value=CreateUserRegisterDTO()
-            restartCoreData()
-            registerUseCase(UserRegistrationDTO.value).onEach {
-                result->
-                when(result){
-                    is Response.Loading->{
-                        _dialog.value=true
 
 
-                        Log.i("cao","loading")
 
-                    }
-                    is Response.Error->{
-                        _dialog.value=true
+               UserRegistrationDTO.value=CreateUserRegisterDTO()
+               restartCoreData()
+               registerUseCase(UserRegistrationDTO.value).onEach {
+                       result->
+                   when(result){
+                       is Response.Loading->{
+                           _dialog.value=true
 
-                        _state.value=UIRequestResponse(isError = true)
 
-                        Log.i("cao","error ${result.message}")
+                           Log.i("cao","loading")
 
-                    }
-                    is Response.Success->{
-                        _dialog.value=true
+                       }
+                       is Response.Error->{
+                           _dialog.value=true
 
-                        _state.value=UIRequestResponse(success = true)
+                           _state.value=UIRequestResponse(isError = true)
 
-                        Log.i("cao","success regster")
-                    }
-                }
-            }.launchIn(viewModelScope)
-        }
+                           Log.i("cao","error ${result.message}")
+
+                       }
+                       is Response.Success->{
+                           _dialog.value=true
+
+                           _state.value=UIRequestResponse(success = true)
+
+                           Log.i("cao","success regster")
+                       }
+                   }
+               }.launchIn(viewModelScope)
+           }
+
+
 
 
 
@@ -115,6 +119,7 @@ init {
         return null
     }
     fun bytesToBase64(bytes: ByteArray?): String? {
+        if(bytes==null) return null
         return Base64.encodeToString(bytes, Base64.DEFAULT)
     }
 

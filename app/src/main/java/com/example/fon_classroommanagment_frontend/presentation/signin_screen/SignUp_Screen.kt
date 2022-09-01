@@ -104,7 +104,9 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                     }
                 })
 
-        } else if (registerState.isLoading) {
+        }
+        else if (registerState.isLoading) {
+
             SuccessRegistrationDialog(
                 registerState.isLoading,
                 toNavigate = {},
@@ -194,7 +196,7 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                 horizontalArrangement = Arrangement.Center
             ) {
 
-             IconRoundBorder(icon = R.drawable.avatar)
+             IconRoundBorder(icon = R.drawable.user_default_light)
             }
             Column(
                     modifier = Modifier
@@ -217,7 +219,7 @@ import com.example.fon_classroommanagment_frontend.presentation.signin_screen.Re
                         Text_Field(emailText,{emailText=it},R.drawable.email,hint="Email", errorMessage = registerViewModel.errorMessageEmail)
                         Password_Text_Field(passwordText,{passwordText=it},leadingIcon = R.drawable.padlock, trailingIcon = R.drawable.hide_password, trailingIconToggle = R.drawable.show_password,hint="Password", errorMessage = registerViewModel.errorMessagePassword)
                         Password_Text_Field(passwordRepeatText,{passwordRepeatText=it},leadingIcon = R.drawable.padlock,trailingIcon = R.drawable.hide_password,trailingIconToggle=R.drawable.show_password,hint="Password Repeat", errorMessage = registerViewModel.errorMessagePassword)
-                        Text_Field(fullNameText,{fullNameText=it},leadingIcon = R.drawable.avatar,hint="Full Name", errorMessage = registerViewModel.errorFullName)
+                        Text_Field(fullNameText,{fullNameText=it},leadingIcon = R.drawable.user_default_light,hint="Full Name", errorMessage = registerViewModel.errorFullName)
                         Box(
                             Modifier
                                 //.fillMaxWidth(0.7f)
