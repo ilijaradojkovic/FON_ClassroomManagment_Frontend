@@ -1,5 +1,6 @@
 # NoteNinja
 
+For back-end code go to repository https://github.com/ilijaradojkovic/NoteNinja-Backend
 
 This is note managment application that can do basic CRUD opertaions on notes.User can alse add notes to its favorites
 and then see them.Application has user managment done on backend project,we authenticate using usertname and password and then 
